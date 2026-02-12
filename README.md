@@ -1,9 +1,9 @@
-# YUWAM ITI UMARIA - Modified Website
+# YUWAM PVT ITI UMARIA - Modified Website
 
 ## Changes Made
 
 ✅ **RED Header Background** - Removed and replaced with dark gray gradient
-✅ **Pink/Purple Hero Background** - Removed and replaced with light gray gradient  
+✅ **Pink/Purple Hero Background**
 ✅ **Indian Flag (Tiranga)** - Removed from the first page
 
 ## Files Included
