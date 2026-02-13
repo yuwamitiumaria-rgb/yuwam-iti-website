@@ -2,473 +2,408 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>YUWAM ITI UMARIA - Industrial Training Institute</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YUWAM ITI - Student Fees Management System</title>
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; }
         .page-section { display: none; }
         .page-section.active { display: block; }
-        .fee-card { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 2rem; border-radius: 12px; margin-bottom: 2rem; border-left: 4px solid #1e40af; }
-        .fee-card.exam { background: linear-gradient(135deg, #fef3c7, #fde68a); border-left-color: #f59e0b; }
-        .fee-card.library { background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-left-color: #3b82f6; }
-        .pay-btn { width: 100%; padding: 0.75rem; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; color: white; }
-        .pay-btn.tuition { background: linear-gradient(135deg, #16a34a, #15803d); }
-        .pay-btn.tuition:hover { background: linear-gradient(135deg, #15803d, #166534); }
-        .pay-btn.exam { background: linear-gradient(135deg, #f59e0b, #d97706); }
-        .pay-btn.exam:hover { background: linear-gradient(135deg, #d97706, #b45309); }
-        .pay-btn.library { background: linear-gradient(135deg, #3b82f6, #1e40af); }
-        .pay-btn.library:hover { background: linear-gradient(135deg, #1e40af, #1e3a8a); }
-        .status-text { text-align: center; color: #666; margin-top: 0.5rem; font-size: 0.9rem; }
-        .paid { color: #16a34a; font-weight: 600; }
+        .navbar { background: linear-gradient(135deg, #1e40af, #1e3a8a); color: white; padding: 1rem 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .logo { display: flex; align-items: center; gap: 1rem; }
+        .logo h1 { font-size: 1.5rem; }
+        .nav-links { display: flex; list-style: none; gap: 1rem; flex-wrap: wrap; }
+        .nav-links a { color: #FFD700; font-weight: 700; font-size: 1.1rem; text-decoration: none; padding: 0.6rem 1rem; border-radius: 4px; transition: all 0.3s; }
+        .nav-links a:hover { background: rgba(255,215,0,0.2); color: #FFFF00; }
+        .nav-links a.active { background: rgba(255,215,0,0.3); color: #FFFF00; border-bottom: 3px solid #FFD700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: #1e40af; font-weight: 600; }
+        .form-group input, .form-group select { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; }
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+        .btn { padding: 0.75rem 1.5rem; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .btn-primary { background: linear-gradient(135deg, #1e40af, #1e3a8a); color: white; }
+        .btn-success { background: linear-gradient(135deg, #16a34a, #15803d); color: white; }
+        .btn-danger { background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; }
+        .btn-print { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+        .table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .table th { background: linear-gradient(135deg, #1e40af, #1e3a8a); color: white; padding: 1rem; text-align: left; }
+        .table td { padding: 1rem; border-bottom: 1px solid #eee; }
+        .table tr:hover { background: #f9fafb; }
+        .status-paid { color: #16a34a; font-weight: 600; }
+        .status-unpaid { color: #dc2626; font-weight: 600; }
+        .card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem; }
+        .receipt { background: white; padding: 2rem; border-radius: 8px; border: 2px solid #1e40af; margin-top: 2rem; }
+        .receipt-header { text-align: center; border-bottom: 2px solid #1e40af; padding-bottom: 1rem; margin-bottom: 1rem; }
+        .receipt-header h2 { color: #1e40af; margin-bottom: 0.5rem; }
+        .receipt-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #eee; }
+        .receipt-row.total { border-top: 2px solid #1e40af; border-bottom: 2px solid #1e40af; font-weight: 700; font-size: 1.2rem; color: #1e40af; }
+        .receipt-footer { text-align: center; margin-top: 1rem; font-size: 0.9rem; color: #666; }
+        .alert { padding: 1rem; border-radius: 6px; margin-bottom: 1rem; }
+        .alert-success { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+        .alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-card { background: white; padding: 1.5rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .stat-card h3 { color: #666; font-size: 0.9rem; margin-bottom: 0.5rem; }
+        .stat-card .number { font-size: 2rem; color: #1e40af; font-weight: 700; }
+        @media print { .navbar, .nav-links, .btn, .form-group { display: none !important; } .receipt { border: none; box-shadow: none; } }
     </style>
 </head>
 <body>
-    <div id="root">
-        <div class="app">
-            <nav class="navbar">
-                <div class="container">
-                    <div class="logo">
-                        <img alt="YUWAM ITI Logo" class="logo-img" src="logo.png">
-                        <div class="logo-text">
-                            <h1>YUWAM ITI UMARIA</h1>
-                        </div>
-                    </div>
-                    <ul class="nav-links">
-                        <li><a href="#" class="nav-btn active" data-page="home">Home</a></li>
-                        <li><a href="#" class="nav-btn" data-page="courses">Courses</a></li>
-                        <li><a href="#" class="nav-btn" data-page="fees">Fee Structure</a></li>
-                        <li><a href="#" class="nav-btn" data-page="exam">Exam Fees</a></li>
-                        <li><a href="#" class="nav-btn" data-page="facilities">Facilities</a></li>
-                        <li><a href="#" class="nav-btn" data-page="admission">Admission</a></li>
-                        <li><a href="#" class="nav-btn" data-page="gallery">Gallery</a></li>
-                        <li><a href="#" class="nav-btn" data-page="contact">Contact</a></li>
-                    </ul>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1>YUWAM ITI UMARIA</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" class="nav-btn active" data-page="home">Home</a></li>
+                <li><a href="#" class="nav-btn" data-page="add-student">Add Student</a></li>
+                <li><a href="#" class="nav-btn" data-page="fees-payment">Fees Payment</a></li>
+                <li><a href="#" class="nav-btn" data-page="students-list">Students List</a></li>
+                <li><a href="#" class="nav-btn" data-page="dashboard">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <section class="page-section active" id="home">
+        <div class="container">
+            <div class="card" style="text-align: center; background: linear-gradient(135deg, #1e40af, #1e3a8a); color: white;">
+                <h1 style="margin-bottom: 1rem;">Student Fees Management System</h1>
+                <p style="font-size: 1.1rem; margin-bottom: 2rem;">YUWAM Pvt ITI Umaria - Professional Fee Collection & Tracking</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <button class="btn btn-primary" onclick="showPage('add-student')">➕ Add New Student</button>
+                    <button class="btn btn-primary" onclick="showPage('fees-payment')">💳 Record Payment</button>
+                    <button class="btn btn-primary" onclick="showPage('students-list')">📋 View Students</button>
+                    <button class="btn btn-primary" onclick="showPage('dashboard')">📊 Dashboard</button>
                 </div>
-            </nav>
+            </div>
+        </div>
+    </section>
 
-            <!-- HOME PAGE -->
-            <section class="page-section active" id="home">
-                <div class="hero hero-gradient">
-                    <div class="hero-content">
-                        <h1>Welcome to YUWAM Pvt ITI Umaria</h1>
-                        <p>Quality Industrial Training Institute for Skilled Development</p>
-                        <button class="cta-btn" onclick="showPage('courses')">Explore Courses</button>
-                    </div>
-                </div>
-
-                <div class="container intro-section">
-                    <h2>About Us</h2>
-                    <p>YUWAM Pvt ITI Umaria is a leading industrial training institute located near RC School, Umaria, Madhya Pradesh. We are committed to providing quality education and practical training to develop skilled professionals in various technical trades.</p>
-
-                    <div class="staff-section">
-                        <h3>Our Leadership Team</h3>
-                        <div class="staff-grid">
-                            <div class="staff-card">
-                                <img alt="Director - Ankur Tiwari" class="staff-photo" src="director.jpg">
-                                <h4>Director</h4>
-                                <p>ANKUR TIWARI</p>
-                                <p style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;"><strong>B.E (EC), PGDCA</strong></p>
-                            </div>
-                            <div class="staff-card">
-                                <img alt="Principal - Aditya Tiwari" class="staff-photo" src="principal.jpg">
-                                <h4>Principal</h4>
-                                <p>ADITYA TIWARI</p>
-                            </div>
-                            <div class="staff-card">
-                                <h4>Electrician T.O</h4>
-                                <p>AVINASH KABEERPANTHI</p>
-                            </div>
-                            <div class="staff-card">
-                                <h4>Fitter T.O</h4>
-                                <p>RAJESH SAHU</p>
-                            </div>
-                            <div class="staff-card">
-                                <img alt="Library Incharge - Kuldeep Kori" class="staff-photo" src="library-incharge.jpg">
-                                <h4>Library Incharge</h4>
-                                <p>KULDEEP KORI</p>
-                            </div>
+    <!-- ADD STUDENT PAGE -->
+    <section class="page-section" id="add-student">
+        <div class="container">
+            <div class="card">
+                <h2 style="color: #1e40af; margin-bottom: 2rem;">➕ Add New Student</h2>
+                <form id="addStudentForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Student Name *</label>
+                            <input type="text" id="studentName" required placeholder="Enter full name">
+                        </div>
+                        <div class="form-group">
+                            <label>Roll Number *</label>
+                            <input type="text" id="rollNumber" required placeholder="e.g., 001">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" id="phone" placeholder="Enter phone number">
                         </div>
                     </div>
-
-                    <div class="highlights">
-                        <div class="highlight-card">
-                            <h3>2 Professional Trades</h3>
-                            <p>Electrician & Fitter</p>
-                        </div>
-                        <div class="highlight-card">
-                            <h3>2 Year Duration</h3>
-                            <p>Comprehensive Training</p>
-                        </div>
-                        <div class="highlight-card">
-                            <h3>Free Digital Classes</h3>
-                            <p>Computer & Digital Training</p>
-                        </div>
-                        <div class="highlight-card">
-                            <h3>Daily Practical Training</h3>
-                            <p>Hands-on Experience</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- COURSES PAGE -->
-            <section class="page-section" id="courses">
-                <div class="container" style="padding: 3rem 0;">
-                    <h2 style="text-align: center; color: #1e40af; margin-bottom: 2rem;">Our Courses</h2>
-                    <div class="course-grid">
-                        <div class="course-card">
-                            <div class="course-header electrician">
-                                <h3>Electrician</h3>
-                            </div>
-                            <div class="course-body">
-                                <h4>Course Duration</h4>
-                                <p>2 Years</p>
-                                <h4>Eligibility</h4>
-                                <p>10th Pass</p>
-                                <h4>Skills Covered</h4>
-                                <ul>
-                                    <li>Electrical Wiring</li>
-                                    <li>Circuit Installation</li>
-                                    <li>Maintenance & Repair</li>
-                                    <li>Safety Standards</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="course-card">
-                            <div class="course-header fitter">
-                                <h3>Fitter</h3>
-                            </div>
-                            <div class="course-body">
-                                <h4>Course Duration</h4>
-                                <p>2 Years</p>
-                                <h4>Eligibility</h4>
-                                <p>10th Pass</p>
-                                <h4>Skills Covered</h4>
-                                <ul>
-                                    <li>Machine Operation</li>
-                                    <li>Tool Handling</li>
-                                    <li>Assembly & Fitting</li>
-                                    <li>Quality Control</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- FEE STRUCTURE PAGE -->
-            <section class="page-section" id="fees">
-                <div class="container" style="padding: 3rem 0;">
-                    <h2 style="text-align: center; color: #1e40af; margin-bottom: 2rem;">Fee Structure</h2>
-                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;">
-                        <thead>
-                            <tr style="background: linear-gradient(135deg, #1e40af, #1e3a8a); color: white;">
-                                <th style="padding: 1rem; border: 1px solid #ddd; text-align: left;">Course</th>
-                                <th style="padding: 1rem; border: 1px solid #ddd; text-align: left;">Duration</th>
-                                <th style="padding: 1rem; border: 1px solid #ddd; text-align: left;">Total Fee</th>
-                                <th style="padding: 1rem; border: 1px solid #ddd; text-align: left;">Per Year</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="padding: 1rem; border: 1px solid #ddd;">Electrician</td>
-                                <td style="padding: 1rem; border: 1px solid #ddd;">2 Years</td>
-                                <td style="padding: 1rem; border: 1px solid #ddd;">₹33,000</td>
-                                <td style="padding: 1rem; border: 1px solid #ddd;">₹16,500</td>
-                            </tr>
-                            <tr style="background: #f5f5f5;">
-                                <td style="padding: 1rem; border: 1px solid #ddd;">Fitter</td>
-                                <td style="padding: 1rem; border: 1px solid #ddd;">2 Years</td>
-                                <td style="padding: 1rem; border: 1px solid #ddd;">₹30,000</td>
-                                <td style="padding: 1rem; border: 1px solid #ddd;">₹15,000</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 2rem; border-radius: 12px; border-left: 4px solid #1e40af;">
-                        <h3 style="color: #1e40af; margin-bottom: 1rem;">Fee Breakdown (Per Year)</h3>
-                        <div style="display: grid; gap: 1rem;">
-                            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #ddd;">
-                                <span>Tuition Fee</span>
-                                <span><strong>₹15,000</strong></span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #ddd;">
-                                <span>Lab & Practical</span>
-                                <span><strong>₹500</strong></span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #ddd;">
-                                <span>Exam Fee</span>
-                                <span><strong>₹500</strong></span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
-                                <span>Library Charge <em style="font-size: 0.8rem; color: #666;">(Optional)</em></span>
-                                <span><strong>₹1,000</strong></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- EXAM FEES PAGE -->
-            <section class="page-section" id="exam">
-                <div class="container" style="padding: 3rem 0;">
-                    <h2 style="text-align: center; color: #1e40af; margin-bottom: 2rem;">Exam & Fees Payment</h2>
-                    
-                    <div style="max-width: 900px; margin: 0 auto;">
-                        <!-- Tuition Fees Section -->
-                        <div class="fee-card">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                                <div>
-                                    <h3 style="color: #1e40af; margin: 0 0 0.5rem 0;">Tuition Fees</h3>
-                                    <p style="color: #666; margin: 0;">Annual tuition fee for the course</p>
-                                </div>
-                                <div style="text-align: right;">
-                                    <p style="font-size: 1.5rem; color: #1e40af; font-weight: 700; margin: 0;">₹15,000</p>
-                                </div>
-                            </div>
-                            <button onclick="markAsPaid(this, 'Tuition Fees')" class="pay-btn tuition">✓ Mark as Paid</button>
-                            <p id="tuition-status" class="status-text"></p>
-                        </div>
-
-                        <!-- Exam Fees Section -->
-                        <div class="fee-card exam">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                                <div>
-                                    <h3 style="color: #d97706; margin: 0 0 0.5rem 0;">Exam Fees</h3>
-                                    <p style="color: #666; margin: 0;">Annual examination fee (Per Year)</p>
-                                </div>
-                                <div style="text-align: right;">
-                                    <p style="font-size: 1.5rem; color: #d97706; font-weight: 700; margin: 0;">₹500</p>
-                                </div>
-                            </div>
-                            <button onclick="markAsPaid(this, 'Exam Fees')" class="pay-btn exam">✓ Mark as Paid</button>
-                            <p id="exam-status" class="status-text"></p>
-                        </div>
-
-                        <!-- Library Charge Section -->
-                        <div class="fee-card library">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                                <div>
-                                    <h3 style="color: #1e40af; margin: 0 0 0.5rem 0;">Library Charge (Optional)</h3>
-                                    <p style="color: #666; margin: 0;">Optional library membership fee</p>
-                                </div>
-                                <div style="text-align: right;">
-                                    <p style="font-size: 1.5rem; color: #1e40af; font-weight: 700; margin: 0;">₹1,000</p>
-                                </div>
-                            </div>
-                            <button onclick="markAsPaid(this, 'Library Charge')" class="pay-btn library">✓ Mark as Paid</button>
-                            <p id="library-status" class="status-text"></p>
-                        </div>
-
-                        <!-- Summary Section -->
-                        <div style="background: linear-gradient(135deg, #f3f4f6, #e5e7eb); padding: 2rem; border-radius: 12px; margin-top: 2rem; text-align: center;">
-                            <h3 style="color: #1e40af; margin-bottom: 1rem;">Total Fees Summary</h3>
-                            <p style="font-size: 1.2rem; color: #374151; margin: 0.5rem 0;">Tuition: <span id="tuition-amount" style="font-weight: 700;">₹15,000</span></p>
-                            <p style="font-size: 1.2rem; color: #374151; margin: 0.5rem 0;">Exam: <span id="exam-amount" style="font-weight: 700;">₹500</span></p>
-                            <p style="font-size: 1.2rem; color: #374151; margin: 0.5rem 0;">Library (Optional): <span id="library-amount" style="font-weight: 700;">₹0</span></p>
-                            <hr style="border: none; border-top: 2px solid #1e40af; margin: 1rem 0;">
-                            <p style="font-size: 1.5rem; color: #1e40af; font-weight: 700; margin: 0;">Total: <span id="total-amount">₹15,500</span></p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- FACILITIES PAGE -->
-            <section class="page-section" id="facilities">
-                <div class="container" style="padding: 3rem 0;">
-                    <h2 style="text-align: center; color: #1e40af; margin-bottom: 2rem;">Our Facilities</h2>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-                        <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 2rem; border-radius: 12px; text-align: center;">
-                            <h3 style="color: #1e40af; margin-bottom: 1rem;">Modern Workshop</h3>
-                            <p>Equipped with latest machinery and tools for practical training</p>
-                        </div>
-                        <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 2rem; border-radius: 12px; text-align: center;">
-                            <h3 style="color: #1e40af; margin-bottom: 1rem;">Computer Lab</h3>
-                            <p>Digital training and CAD software for technical drawings</p>
-                        </div>
-                        <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 2rem; border-radius: 12px; text-align: center;">
-                            <h3 style="color: #1e40af; margin-bottom: 1rem;">Library</h3>
-                            <p>Comprehensive collection of technical books and resources</p>
-                        </div>
-                        <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 2rem; border-radius: 12px; text-align: center;">
-                            <h3 style="color: #1e40af; margin-bottom: 1rem;">Classroom</h3>
-                            <p>Well-ventilated classrooms with modern teaching aids</p>
-                        </div>
-                        <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 2rem; border-radius: 12px; text-align: center;">
-                            <h3 style="color: #1e40af; margin-bottom: 1rem;">Canteen</h3>
-                            <p>Hygienic food and refreshment services for students</p>
-                        </div>
-                        <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 2rem; border-radius: 12px; text-align: center;">
-                            <h3 style="color: #1e40af; margin-bottom: 1rem;">Sports Ground</h3>
-                            <p>Open area for recreational activities and sports</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ADMISSION PAGE -->
-            <section class="page-section" id="admission">
-                <div class="container" style="padding: 3rem 0;">
-                    <h2 style="text-align: center; color: #1e40af; margin-bottom: 2rem;">Admission Form</h2>
-                    <form style="max-width: 600px; margin: 0 auto; background: #f9fafb; padding: 2rem; border-radius: 12px;">
-                        <div style="margin-bottom: 1.5rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; color: #1e40af; font-weight: 500;">Full Name *</label>
-                            <input type="text" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;">
-                        </div>
-
-                        <div style="margin-bottom: 1.5rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; color: #1e40af; font-weight: 500;">Email Address *</label>
-                            <input type="email" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;">
-                        </div>
-
-                        <div style="margin-bottom: 1.5rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; color: #1e40af; font-weight: 500;">Phone Number *</label>
-                            <input type="tel" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;">
-                        </div>
-
-                        <div style="margin-bottom: 1.5rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; color: #1e40af; font-weight: 500;">Date of Birth *</label>
-                            <input type="date" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;">
-                        </div>
-
-                        <div style="margin-bottom: 1.5rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; color: #1e40af; font-weight: 500;">10th Pass Certificate *</label>
-                            <input type="file" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;">
-                        </div>
-
-                        <div style="margin-bottom: 1.5rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; color: #1e40af; font-weight: 500;">Select Course *</label>
-                            <select required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;">
-                                <option value="">-- Select Course --</option>
-                                <option value="electrician">Electrician</option>
-                                <option value="fitter">Fitter</option>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Trade *</label>
+                            <select id="trade" required>
+                                <option value="">-- Select Trade --</option>
+                                <option value="Electrician">Electrician</option>
+                                <option value="Fitter">Fitter</option>
                             </select>
                         </div>
-
-                        <div style="margin-bottom: 1.5rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; color: #1e40af; font-weight: 500;">Address *</label>
-                            <textarea required rows="4" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;"></textarea>
+                        <div class="form-group">
+                            <label>Year *</label>
+                            <select id="year" required>
+                                <option value="">-- Select Year --</option>
+                                <option value="1st Year">1st Year</option>
+                                <option value="2nd Year">2nd Year</option>
+                            </select>
                         </div>
-
-                        <button type="submit" style="width: 100%; background: linear-gradient(135deg, #1e40af, #1e3a8a); color: white; padding: 0.75rem; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer;">Submit Application</button>
-                    </form>
-                </div>
-            </section>
-
-            <!-- GALLERY PAGE -->
-            <section class="page-section" id="gallery">
-                <div class="container" style="padding: 3rem 0;">
-                    <h2 style="text-align: center; color: #1e40af; margin-bottom: 2rem;">Gallery</h2>
-                    <div style="text-align: center; padding: 4rem 2rem; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-radius: 12px;">
-                        <p style="font-size: 1.3rem; color: #1e40af; margin-bottom: 1rem;">Gallery Coming Soon!</p>
-                        <p style="color: #666;">Photos and videos of our institute will be updated soon.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- CONTACT PAGE -->
-            <section class="page-section" id="contact">
-                <div class="container" style="padding: 3rem 0;">
-                    <h2 style="text-align: center; color: #1e40af; margin-bottom: 2rem;">Contact Us</h2>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-                        <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 2rem; border-radius: 12px; text-align: center; border-left: 4px solid #1e40af;">
-                            <h3 style="color: #1e40af; margin-bottom: 1rem;">📍 Location</h3>
-                            <p>Near RC School, Peelikothi Road</p>
-                            <p>Umaria, Madhya Pradesh</p>
-                        </div>
-                        <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 2rem; border-radius: 12px; text-align: center; border-left: 4px solid #1e40af;">
-                            <h3 style="color: #1e40af; margin-bottom: 1rem;">📞 Phone</h3>
-                            <p><a href="tel:+918319318007" style="color: #1e40af; text-decoration: none; font-weight: 500;">+91 8319318007</a></p>
-                            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">WhatsApp: <a href="https://wa.me/918871988777" style="color: #1e40af; text-decoration: none; font-weight: 500;">+91 8871988777</a></p>
-                        </div>
-                        <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 2rem; border-radius: 12px; text-align: center; border-left: 4px solid #1e40af;">
-                            <h3 style="color: #1e40af; margin-bottom: 1rem;">📧 Email</h3>
-                            <p><a href="mailto:yuwamitiumaria@gmail.com" style="color: #1e40af; text-decoration: none; font-weight: 500;">yuwamitiumaria@gmail.com</a></p>
-                        </div>
-                        <div style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 2rem; border-radius: 12px; text-align: center; border-left: 4px solid #1e40af;">
-                            <h3 style="color: #1e40af; margin-bottom: 1rem;">🕐 Hours</h3>
-                            <p>Monday - Friday: 9:00 AM - 5:00 PM</p>
-                            <p>Saturday: 9:00 AM - 2:00 PM</p>
+                        <div class="form-group">
+                            <label>Admission Date</label>
+                            <input type="date" id="admissionDate">
                         </div>
                     </div>
-                </div>
-            </section>
-
-            <footer class="footer">
-                <div class="container">
-                    <p>© 2025 YUWAM Pvt ITI Umaria. All rights reserved.</p>
-                    <p>Providing Quality Technical Education Since 2013</p>
-                </div>
-            </footer>
+                    <button type="submit" class="btn btn-success" style="width: 100%;">✓ Add Student</button>
+                </form>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- FEES PAYMENT PAGE -->
+    <section class="page-section" id="fees-payment">
+        <div class="container">
+            <div class="card">
+                <h2 style="color: #1e40af; margin-bottom: 2rem;">💳 Record Exam Fees Payment</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Select Student *</label>
+                        <select id="selectStudent" required>
+                            <option value="">-- Select Student --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Exam Fees Amount</label>
+                        <input type="number" id="examFees" value="500" readonly style="background: #f0f0f0;">
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Date</label>
+                        <input type="date" id="paymentDate">
+                    </div>
+                </div>
+                <button class="btn btn-success" onclick="recordPayment()" style="width: 100%;">✓ Mark as Paid</button>
+                <div id="paymentAlert"></div>
+            </div>
+
+            <!-- RECEIPT SECTION -->
+            <div id="receiptSection" style="display: none;">
+                <div class="receipt" id="receiptContent">
+                    <div class="receipt-header">
+                        <h2>YUWAM ITI UMARIA</h2>
+                        <p>Exam Fees Payment Receipt</p>
+                        <p style="font-size: 0.9rem; color: #666;">Near RC School, Peelikothi Road, Umaria</p>
+                    </div>
+                    <div id="receiptDetails"></div>
+                    <div class="receipt-footer">
+                        <p>Thank you for your payment!</p>
+                        <p>For queries: 8319318007 | WhatsApp: 8871988777</p>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <button class="btn btn-print" onclick="window.print()">🖨️ Print Receipt</button>
+                    <button class="btn btn-primary" onclick="resetPaymentForm()">➕ Another Payment</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STUDENTS LIST PAGE -->
+    <section class="page-section" id="students-list">
+        <div class="container">
+            <h2 style="color: #1e40af; margin-bottom: 2rem;">📋 All Students</h2>
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <input type="text" id="searchStudent" placeholder="🔍 Search by name or roll number..." style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px;">
+            </div>
+            <div class="card" style="overflow-x: auto;">
+                <table class="table" id="studentsTable">
+                    <thead>
+                        <tr>
+                            <th>Roll No</th>
+                            <th>Student Name</th>
+                            <th>Trade</th>
+                            <th>Year</th>
+                            <th>Phone</th>
+                            <th>Exam Fees Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTableBody">
+                        <tr><td colspan="7" style="text-align: center; color: #999;">No students added yet</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- DASHBOARD PAGE -->
+    <section class="page-section" id="dashboard">
+        <div class="container">
+            <h2 style="color: #1e40af; margin-bottom: 2rem;">📊 Dashboard</h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>Total Students</h3>
+                    <div class="number" id="totalStudents">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Fees Paid</h3>
+                    <div class="number" id="feesPaid">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Fees Pending</h3>
+                    <div class="number" id="feesPending">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Collection</h3>
+                    <div class="number" id="totalCollection">₹0</div>
+                </div>
+            </div>
+            <div class="card" style="overflow-x: auto;">
+                <h3 style="color: #1e40af; margin-bottom: 1rem;">Payment History</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Student Name</th>
+                            <th>Roll No</th>
+                            <th>Trade</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentHistoryBody">
+                        <tr><td colspan="6" style="text-align: center; color: #999;">No payments recorded yet</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 
     <script>
+        let students = JSON.parse(localStorage.getItem('students')) || [];
+        let payments = JSON.parse(localStorage.getItem('payments')) || [];
+
         function showPage(pageName) {
-            document.querySelectorAll('.page-section').forEach(page => {
-                page.classList.remove('active');
-            });
-            
+            document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
             document.getElementById(pageName).classList.add('active');
-            
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
             
-            window.scrollTo(0, 0);
+            if (pageName === 'students-list') loadStudentsList();
+            if (pageName === 'fees-payment') loadStudentDropdown();
+            if (pageName === 'dashboard') loadDashboard();
         }
 
-        function markAsPaid(button, feeType) {
-            let statusId = '';
-            let amountId = '';
+        document.getElementById('addStudentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const student = {
+                id: Date.now(),
+                name: document.getElementById('studentName').value,
+                rollNumber: document.getElementById('rollNumber').value,
+                phone: document.getElementById('phone').value,
+                trade: document.getElementById('trade').value,
+                year: document.getElementById('year').value,
+                admissionDate: document.getElementById('admissionDate').value,
+                feePaid: false
+            };
+            students.push(student);
+            localStorage.setItem('students', JSON.stringify(students));
+            alert('✓ Student added successfully!');
+            this.reset();
+            showPage('students-list');
+        });
+
+        function loadStudentsList() {
+            const tbody = document.getElementById('studentsTableBody');
+            const searchTerm = document.getElementById('searchStudent').value.toLowerCase();
             
-            if (feeType === 'Tuition Fees') {
-                statusId = 'tuition-status';
-                amountId = 'tuition-amount';
-            } else if (feeType === 'Exam Fees') {
-                statusId = 'exam-status';
-                amountId = 'exam-amount';
-            } else if (feeType === 'Library Charge') {
-                statusId = 'library-status';
-                amountId = 'library-amount';
+            const filtered = students.filter(s => 
+                s.name.toLowerCase().includes(searchTerm) || 
+                s.rollNumber.toLowerCase().includes(searchTerm)
+            );
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #999;">No students found</td></tr>';
+                return;
             }
+
+            tbody.innerHTML = filtered.map(student => `
+                <tr>
+                    <td>${student.rollNumber}</td>
+                    <td>${student.name}</td>
+                    <td>${student.trade}</td>
+                    <td>${student.year}</td>
+                    <td>${student.phone}</td>
+                    <td><span class="${student.feePaid ? 'status-paid' : 'status-unpaid'}">${student.feePaid ? '✓ Paid' : '✗ Unpaid'}</span></td>
+                    <td>
+                        <button class="btn btn-danger" onclick="deleteStudent(${student.id})" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function loadStudentDropdown() {
+            const select = document.getElementById('selectStudent');
+            select.innerHTML = '<option value="">-- Select Student --</option>';
+            students.forEach(student => {
+                const status = student.feePaid ? ' (✓ Paid)' : ' (✗ Unpaid)';
+                select.innerHTML += `<option value="${student.id}">${student.name} - ${student.rollNumber}${status}</option>`;
+            });
+        }
+
+        function recordPayment() {
+            const studentId = parseInt(document.getElementById('selectStudent').value);
+            const paymentDate = document.getElementById('paymentDate').value || new Date().toISOString().split('T')[0];
             
-            const statusEl = document.getElementById(statusId);
-            const amountEl = document.getElementById(amountId);
-            
-            if (button.textContent.includes('✓')) {
-                statusEl.innerHTML = '<span class="paid">✓ Paid</span>';
-                button.textContent = '✓ Paid';
-                button.style.opacity = '0.7';
-                button.disabled = true;
-                updateTotal();
+            if (!studentId) {
+                document.getElementById('paymentAlert').innerHTML = '<div class="alert alert-error">Please select a student</div>';
+                return;
+            }
+
+            const student = students.find(s => s.id === studentId);
+            if (!student) return;
+
+            student.feePaid = true;
+            const payment = {
+                date: paymentDate,
+                studentId: studentId,
+                studentName: student.name,
+                rollNumber: student.rollNumber,
+                trade: student.trade,
+                amount: 500
+            };
+            payments.push(payment);
+            localStorage.setItem('students', JSON.stringify(students));
+            localStorage.setItem('payments', JSON.stringify(payments));
+
+            const receiptHTML = `
+                <div class="receipt-row"><span>Student Name:</span><strong>${student.name}</strong></div>
+                <div class="receipt-row"><span>Roll Number:</span><strong>${student.rollNumber}</strong></div>
+                <div class="receipt-row"><span>Trade:</span><strong>${student.trade}</strong></div>
+                <div class="receipt-row"><span>Year:</span><strong>${student.year}</strong></div>
+                <div class="receipt-row"><span>Payment Date:</span><strong>${paymentDate}</strong></div>
+                <div class="receipt-row total"><span>Exam Fees Paid:</span><strong>₹500</strong></div>
+                <div class="receipt-row"><span>Receipt Number:</span><strong>#${payment.date.replace(/-/g, '')}${student.rollNumber}</strong></div>
+            `;
+            document.getElementById('receiptDetails').innerHTML = receiptHTML;
+            document.getElementById('receiptSection').style.display = 'block';
+            document.getElementById('paymentAlert').innerHTML = '<div class="alert alert-success">✓ Payment recorded successfully!</div>';
+        }
+
+        function resetPaymentForm() {
+            document.getElementById('selectStudent').value = '';
+            document.getElementById('paymentDate').value = '';
+            document.getElementById('paymentAlert').innerHTML = '';
+            document.getElementById('receiptSection').style.display = 'none';
+            loadStudentDropdown();
+        }
+
+        function deleteStudent(id) {
+            if (confirm('Are you sure you want to delete this student?')) {
+                students = students.filter(s => s.id !== id);
+                localStorage.setItem('students', JSON.stringify(students));
+                loadStudentsList();
             }
         }
 
-        function updateTotal() {
-            let total = 0;
-            let tuitionAmount = 0;
-            let examAmount = 0;
-            let libraryAmount = 0;
-            
-            if (document.getElementById('tuition-status').textContent.includes('Paid')) {
-                tuitionAmount = 15000;
+        function loadDashboard() {
+            const totalStudents = students.length;
+            const feesPaid = students.filter(s => s.feePaid).length;
+            const feesPending = totalStudents - feesPaid;
+            const totalCollection = feesPaid * 500;
+
+            document.getElementById('totalStudents').textContent = totalStudents;
+            document.getElementById('feesPaid').textContent = feesPaid;
+            document.getElementById('feesPending').textContent = feesPending;
+            document.getElementById('totalCollection').textContent = '₹' + totalCollection.toLocaleString();
+
+            const historyBody = document.getElementById('paymentHistoryBody');
+            if (payments.length === 0) {
+                historyBody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #999;">No payments recorded yet</td></tr>';
+            } else {
+                historyBody.innerHTML = payments.map(p => `
+                    <tr>
+                        <td>${p.date}</td>
+                        <td>${p.studentName}</td>
+                        <td>${p.rollNumber}</td>
+                        <td>${p.trade}</td>
+                        <td>₹${p.amount}</td>
+                        <td><span class="status-paid">✓ Paid</span></td>
+                    </tr>
+                `).join('');
             }
-            if (document.getElementById('exam-status').textContent.includes('Paid')) {
-                examAmount = 500;
-            }
-            if (document.getElementById('library-status').textContent.includes('Paid')) {
-                libraryAmount = 1000;
-            }
-            
-            total = tuitionAmount + examAmount + libraryAmount;
-            
-            document.getElementById('tuition-amount').textContent = '₹' + tuitionAmount.toLocaleString();
-            document.getElementById('exam-amount').textContent = '₹' + examAmount.toLocaleString();
-            document.getElementById('library-amount').textContent = '₹' + libraryAmount.toLocaleString();
-            document.getElementById('total-amount').textContent = '₹' + total.toLocaleString();
         }
+
+        document.getElementById('searchStudent')?.addEventListener('keyup', loadStudentsList);
 
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -477,16 +412,9 @@
             });
         });
 
-        document.querySelector('form')?.addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for your application! We will contact you soon.');
-            this.reset();
-        });
-
-        document.querySelector('.cta-btn')?.addEventListener('click', function(e) {
-            e.preventDefault();
-            showPage('courses');
-        });
+        const today = new Date().toISOString().split('T')[0];
+        if (document.getElementById('admissionDate')) document.getElementById('admissionDate').value = today;
+        if (document.getElementById('paymentDate')) document.getElementById('paymentDate').value = today;
     </script>
 </body>
 </html>
