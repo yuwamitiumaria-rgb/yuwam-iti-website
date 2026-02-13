@@ -8,6 +8,18 @@
     <style>
         .page-section { display: none; }
         .page-section.active { display: block; }
+        .fee-card { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); padding: 2rem; border-radius: 12px; margin-bottom: 2rem; border-left: 4px solid #1e40af; }
+        .fee-card.exam { background: linear-gradient(135deg, #fef3c7, #fde68a); border-left-color: #f59e0b; }
+        .fee-card.library { background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-left-color: #3b82f6; }
+        .pay-btn { width: 100%; padding: 0.75rem; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; color: white; }
+        .pay-btn.tuition { background: linear-gradient(135deg, #16a34a, #15803d); }
+        .pay-btn.tuition:hover { background: linear-gradient(135deg, #15803d, #166534); }
+        .pay-btn.exam { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .pay-btn.exam:hover { background: linear-gradient(135deg, #d97706, #b45309); }
+        .pay-btn.library { background: linear-gradient(135deg, #3b82f6, #1e40af); }
+        .pay-btn.library:hover { background: linear-gradient(135deg, #1e40af, #1e3a8a); }
+        .status-text { text-align: center; color: #666; margin-top: 0.5rem; font-size: 0.9rem; }
+        .paid { color: #16a34a; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -25,6 +37,7 @@
                         <li><a href="#" class="nav-btn active" data-page="home">Home</a></li>
                         <li><a href="#" class="nav-btn" data-page="courses">Courses</a></li>
                         <li><a href="#" class="nav-btn" data-page="fees">Fee Structure</a></li>
+                        <li><a href="#" class="nav-btn" data-page="exam">Exam Fees</a></li>
                         <li><a href="#" class="nav-btn" data-page="facilities">Facilities</a></li>
                         <li><a href="#" class="nav-btn" data-page="admission">Admission</a></li>
                         <li><a href="#" class="nav-btn" data-page="gallery">Gallery</a></li>
@@ -196,6 +209,70 @@
                 </div>
             </section>
 
+            <!-- EXAM FEES PAGE -->
+            <section class="page-section" id="exam">
+                <div class="container" style="padding: 3rem 0;">
+                    <h2 style="text-align: center; color: #1e40af; margin-bottom: 2rem;">Exam & Fees Payment</h2>
+                    
+                    <div style="max-width: 900px; margin: 0 auto;">
+                        <!-- Tuition Fees Section -->
+                        <div class="fee-card">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <div>
+                                    <h3 style="color: #1e40af; margin: 0 0 0.5rem 0;">Tuition Fees</h3>
+                                    <p style="color: #666; margin: 0;">Annual tuition fee for the course</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <p style="font-size: 1.5rem; color: #1e40af; font-weight: 700; margin: 0;">₹15,000</p>
+                                </div>
+                            </div>
+                            <button onclick="markAsPaid(this, 'Tuition Fees')" class="pay-btn tuition">✓ Mark as Paid</button>
+                            <p id="tuition-status" class="status-text"></p>
+                        </div>
+
+                        <!-- Exam Fees Section -->
+                        <div class="fee-card exam">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <div>
+                                    <h3 style="color: #d97706; margin: 0 0 0.5rem 0;">Exam Fees</h3>
+                                    <p style="color: #666; margin: 0;">Annual examination fee (Per Year)</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <p style="font-size: 1.5rem; color: #d97706; font-weight: 700; margin: 0;">₹500</p>
+                                </div>
+                            </div>
+                            <button onclick="markAsPaid(this, 'Exam Fees')" class="pay-btn exam">✓ Mark as Paid</button>
+                            <p id="exam-status" class="status-text"></p>
+                        </div>
+
+                        <!-- Library Charge Section -->
+                        <div class="fee-card library">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <div>
+                                    <h3 style="color: #1e40af; margin: 0 0 0.5rem 0;">Library Charge (Optional)</h3>
+                                    <p style="color: #666; margin: 0;">Optional library membership fee</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <p style="font-size: 1.5rem; color: #1e40af; font-weight: 700; margin: 0;">₹1,000</p>
+                                </div>
+                            </div>
+                            <button onclick="markAsPaid(this, 'Library Charge')" class="pay-btn library">✓ Mark as Paid</button>
+                            <p id="library-status" class="status-text"></p>
+                        </div>
+
+                        <!-- Summary Section -->
+                        <div style="background: linear-gradient(135deg, #f3f4f6, #e5e7eb); padding: 2rem; border-radius: 12px; margin-top: 2rem; text-align: center;">
+                            <h3 style="color: #1e40af; margin-bottom: 1rem;">Total Fees Summary</h3>
+                            <p style="font-size: 1.2rem; color: #374151; margin: 0.5rem 0;">Tuition: <span id="tuition-amount" style="font-weight: 700;">₹15,000</span></p>
+                            <p style="font-size: 1.2rem; color: #374151; margin: 0.5rem 0;">Exam: <span id="exam-amount" style="font-weight: 700;">₹500</span></p>
+                            <p style="font-size: 1.2rem; color: #374151; margin: 0.5rem 0;">Library (Optional): <span id="library-amount" style="font-weight: 700;">₹0</span></p>
+                            <hr style="border: none; border-top: 2px solid #1e40af; margin: 1rem 0;">
+                            <p style="font-size: 1.5rem; color: #1e40af; font-weight: 700; margin: 0;">Total: <span id="total-amount">₹15,500</span></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- FACILITIES PAGE -->
             <section class="page-section" id="facilities">
                 <div class="container" style="padding: 3rem 0;">
@@ -328,25 +405,71 @@
 
     <script>
         function showPage(pageName) {
-            // Hide all pages
             document.querySelectorAll('.page-section').forEach(page => {
                 page.classList.remove('active');
             });
             
-            // Show selected page
             document.getElementById(pageName).classList.add('active');
             
-            // Update active nav link
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
             
-            // Scroll to top
             window.scrollTo(0, 0);
         }
 
-        // Add click handlers to nav links
+        function markAsPaid(button, feeType) {
+            let statusId = '';
+            let amountId = '';
+            
+            if (feeType === 'Tuition Fees') {
+                statusId = 'tuition-status';
+                amountId = 'tuition-amount';
+            } else if (feeType === 'Exam Fees') {
+                statusId = 'exam-status';
+                amountId = 'exam-amount';
+            } else if (feeType === 'Library Charge') {
+                statusId = 'library-status';
+                amountId = 'library-amount';
+            }
+            
+            const statusEl = document.getElementById(statusId);
+            const amountEl = document.getElementById(amountId);
+            
+            if (button.textContent.includes('✓')) {
+                statusEl.innerHTML = '<span class="paid">✓ Paid</span>';
+                button.textContent = '✓ Paid';
+                button.style.opacity = '0.7';
+                button.disabled = true;
+                updateTotal();
+            }
+        }
+
+        function updateTotal() {
+            let total = 0;
+            let tuitionAmount = 0;
+            let examAmount = 0;
+            let libraryAmount = 0;
+            
+            if (document.getElementById('tuition-status').textContent.includes('Paid')) {
+                tuitionAmount = 15000;
+            }
+            if (document.getElementById('exam-status').textContent.includes('Paid')) {
+                examAmount = 500;
+            }
+            if (document.getElementById('library-status').textContent.includes('Paid')) {
+                libraryAmount = 1000;
+            }
+            
+            total = tuitionAmount + examAmount + libraryAmount;
+            
+            document.getElementById('tuition-amount').textContent = '₹' + tuitionAmount.toLocaleString();
+            document.getElementById('exam-amount').textContent = '₹' + examAmount.toLocaleString();
+            document.getElementById('library-amount').textContent = '₹' + libraryAmount.toLocaleString();
+            document.getElementById('total-amount').textContent = '₹' + total.toLocaleString();
+        }
+
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -354,14 +477,12 @@
             });
         });
 
-        // Handle form submission
         document.querySelector('form')?.addEventListener('submit', function(e) {
             e.preventDefault();
             alert('Thank you for your application! We will contact you soon.');
             this.reset();
         });
 
-        // Handle Explore Courses button
         document.querySelector('.cta-btn')?.addEventListener('click', function(e) {
             e.preventDefault();
             showPage('courses');
