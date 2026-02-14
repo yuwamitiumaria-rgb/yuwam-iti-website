@@ -360,6 +360,21 @@
     <!-- STUDENT MANAGEMENT PAGE -->
     <section class="page-section" id="student-mgmt">
         <div class="container">
+            <!-- Password Protection -->
+            <div id="passwordPrompt" style="display: none;">
+                <div class="card" style="max-width: 400px; margin: 3rem auto; text-align: center;">
+                    <h2 style="color: #1e40af; margin-bottom: 1.5rem;">🔐 Student Management</h2>
+                    <p style="color: #666; margin-bottom: 1.5rem;">Enter password to access Student Management System</p>
+                    <div class="form-group">
+                        <input type="password" id="passwordInput" placeholder="Enter password" style="font-size: 1.1rem;">
+                    </div>
+                    <button class="btn btn-primary" onclick="checkPassword()" style="width: 100%; margin-bottom: 0.5rem;">🔓 Unlock</button>
+                    <button class="btn btn-danger" onclick="showPage('home')" style="width: 100%;">✕ Cancel</button>
+                </div>
+            </div>
+
+            <!-- Main Content (Hidden until password is entered) -->
+            <div id="studentMgmtContent" style="display: none;">
             <h2 style="color: #1e40af; margin-bottom: 2rem;">👤 Student Fees Management</h2>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
                 <button class="btn btn-primary" onclick="showStudentPage('add-student')" style="width: 100%;">➕ Add Student</button>
@@ -514,6 +529,7 @@
                     </table>
                 </div>
             </div>
+            </div>
         </div>
     </section>
 
@@ -595,7 +611,36 @@
             document.getElementById(pageName).classList.add('active');
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
+            
+            if (pageName === 'student-mgmt') {
+                const isUnlocked = sessionStorage.getItem('studentMgmtUnlocked');
+                if (isUnlocked === 'true') {
+                    document.getElementById('passwordPrompt').style.display = 'none';
+                    document.getElementById('studentMgmtContent').style.display = 'block';
+                } else {
+                    document.getElementById('passwordPrompt').style.display = 'block';
+                    document.getElementById('studentMgmtContent').style.display = 'none';
+                    document.getElementById('passwordInput').value = '';
+                    document.getElementById('passwordInput').focus();
+                }
+            }
             window.scrollTo(0, 0);
+        }
+
+        function checkPassword() {
+            const password = document.getElementById('passwordInput').value;
+            const correctPassword = 'Yuwam@007';
+            
+            if (password === correctPassword) {
+                sessionStorage.setItem('studentMgmtUnlocked', 'true');
+                document.getElementById('passwordPrompt').style.display = 'none';
+                document.getElementById('studentMgmtContent').style.display = 'block';
+                showStudentPage('add-student');
+            } else {
+                alert('Incorrect password! Please try again.');
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
         }
 
         function showStudentPage(pageName) {
