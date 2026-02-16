@@ -574,60 +574,89 @@
         <div class="container">
             <h2 style="color: #1e40af; text-align: center; margin-bottom: 2rem;">📝 Mock Test</h2>
             
-            <!-- Test Selection -->
             <div id="testSelection" style="display: block;">
-                <div class="card">
-                    <h3 style="color: #1e40af; margin-bottom: 2rem; text-align: center;">Select Trade & Year</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Select Trade *</label>
-                            <select id="mockTrade" required>
+                <div style="background: #f5f7fa; padding: 2rem; border-radius: 8px; margin-bottom: 2rem;">
+                    <h3 style="color: #1e40af; margin-bottom: 1.5rem;">Select Trade and Year</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #1e40af;">Trade:</label>
+                            <select id="tradeSelect" style="width: 100%; padding: 0.8rem; border: 2px solid #1e40af; border-radius: 4px; font-size: 1rem;">
                                 <option value="">-- Select Trade --</option>
-                                <option value="Electrician">Electrician</option>
-                                <option value="Fitter">Fitter</option>
+                                <option value="electrician">⚡ Electrician</option>
+                                <option value="fitter">🔧 Fitter</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>Select Year *</label>
-                            <select id="mockYear" required>
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #1e40af;">Year:</label>
+                            <select id="yearSelect" style="width: 100%; padding: 0.8rem; border: 2px solid #1e40af; border-radius: 4px; font-size: 1rem;">
                                 <option value="">-- Select Year --</option>
-                                <option value="1st Year">1st Year</option>
-                                <option value="2nd Year">2nd Year</option>
+                                <option value="1st">1st Year</option>
+                                <option value="2nd">2nd Year</option>
                             </select>
                         </div>
                     </div>
-                    <button class="btn btn-primary" onclick="startMockTest()" style="width: 100%; margin-top: 1rem;">▶️ Start Test</button>
+                    <button class="btn btn-primary" onclick="selectSubject()" style="width: 100%; padding: 1rem; font-size: 1.1rem;">Next: Select Subject</button>
                 </div>
             </div>
 
-            <!-- Test Questions -->
-            <div id="testQuestions" style="display: none;">
-                <div class="card">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                        <h3 style="color: #1e40af;">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></h3>
-                        <button class="btn btn-danger" onclick="endTest()">Exit Test</button>
+            <div id="subjectSelection" style="display: none;">
+                <div style="background: #f5f7fa; padding: 2rem; border-radius: 8px; margin-bottom: 2rem;">
+                    <h3 style="color: #1e40af; margin-bottom: 1.5rem;">Select Subject for <span id="tradeYearDisplay"></span></h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <button class="btn btn-primary" onclick="startTest('trade-theory')" style="padding: 1.5rem; font-size: 1rem; text-align: left;">
+                            <div style="font-weight: bold; font-size: 1.1rem;">📚 Trade Theory</div>
+                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Basic concepts and principles</div>
+                        </button>
+                        <button class="btn btn-primary" onclick="startTest('workshop-calculation')" style="padding: 1.5rem; font-size: 1rem; text-align: left;">
+                            <div style="font-weight: bold; font-size: 1.1rem;">🧮 Workshop Calculation</div>
+                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Mathematics and calculations</div>
+                        </button>
+                        <button class="btn btn-primary" onclick="startTest('engineering-drawing')" style="padding: 1.5rem; font-size: 1rem; text-align: left;">
+                            <div style="font-weight: bold; font-size: 1.1rem;">📐 Engineering Drawing</div>
+                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Technical drawings and diagrams</div>
+                        </button>
+                        <button class="btn btn-primary" onclick="startTest('employability-skill')" style="padding: 1.5rem; font-size: 1rem; text-align: left;">
+                            <div style="font-weight: bold; font-size: 1.1rem;">💼 Employability Skill</div>
+                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Professional and soft skills</div>
+                        </button>
+                    </div>
+                    <button class="btn btn-danger" onclick="backToTradeSelection()" style="width: 100%; padding: 1rem;">← Back</button>
+                </div>
+            </div>
+
+            <div id="testContent" style="display: none;">
+                <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3 id="testTitle" style="color: #1e40af; margin: 0;"></h3>
+                        <div style="background: #1e40af; color: white; padding: 0.5rem 1rem; border-radius: 4px;">
+                            Question <span id="currentQuestion">1</span> of <span id="totalQuestions">10</span>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f5f7fa; padding: 1.5rem; border-radius: 4px; margin-bottom: 1.5rem;">
+                        <p id="questionText" style="font-size: 1.1rem; color: #333; margin: 0;"></p>
                     </div>
 
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
-                    </div>
+                    <div id="optionsContainer" style="display: grid; gap: 1rem; margin-bottom: 2rem;"></div>
 
-                    <div id="questionContainer"></div>
-
-                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                        <button class="btn btn-primary" onclick="previousQuestion()" id="prevBtn" style="flex: 1;">← Previous</button>
+                    <div style="display: flex; gap: 1rem; justify-content: space-between;">
+                        <button class="btn btn-secondary" onclick="previousQuestion()" id="prevBtn" style="flex: 1;">← Previous</button>
                         <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="flex: 1;">Next →</button>
+                        <button class="btn btn-success" onclick="submitTest()" id="submitBtn" style="flex: 1; display: none;">Submit Test</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Test Results -->
-            <div id="testResults" style="display: none;">
-                <div class="card" style="text-align: center; background: linear-gradient(135deg, #1e40af, #1e3a8a); color: white;">
-                    <h2 style="margin-bottom: 1rem;">Test Completed!</h2>
-                    <div style="font-size: 3rem; font-weight: 700; margin: 1rem 0;" id="scoreDisplay">0/5</div>
-                    <p style="font-size: 1.2rem; margin-bottom: 2rem;" id="scorePercentage">0%</p>
-                    <button class="btn btn-primary" onclick="retakeMockTest()" style="background: white; color: #1e40af; font-weight: 700;">🔄 Retake Test</button>
+            <div id="resultContent" style="display: none;">
+                <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
+                    <h2 style="color: #1e40af; margin-bottom: 1rem;">Test Completed!</h2>
+                    <div style="background: #f5f7fa; padding: 2rem; border-radius: 4px; margin-bottom: 2rem;">
+                        <p style="font-size: 1.2rem; color: #666; margin-bottom: 0.5rem;">Your Score</p>
+                        <h1 id="scoreDisplay" style="color: #f59e0b; font-size: 3rem; margin: 0;"></h1>
+                        <p id="scorePercentage" style="font-size: 1.1rem; color: #666; margin-top: 0.5rem;"></p>
+                    </div>
+                    <button class="btn btn-primary" onclick="retakeTest()" style="width: 100%; padding: 1rem; font-size: 1.1rem;">Retake Test</button>
+                    <button class="btn btn-secondary" onclick="backToTradeSelection()" style="width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem;">Choose Different Subject</button>
                 </div>
             </div>
         </div>
@@ -846,48 +875,120 @@
         let currentQuestionIndex = 0;
         let userAnswers = [];
 
-        function startMockTest() {
-            const trade = document.getElementById('mockTrade').value;
-            const year = document.getElementById('mockYear').value;
-            if (!trade || !year) {
+        // Mock Test Questions Database
+        const testQuestions = {
+            "electrician": {
+                "1st": {
+                    "trade-theory": [
+                        {question: "What is smothering in extinguishing of fire?", options: ["Adding fuel", "Removing fuel", "Using water", "Isolating from oxygen"], correct: 3},
+                        {question: "Which is the correct sequence for fire extinguisher?", options: ["Pull, Aim, Squeeze, Sweep", "Pull, Aim, Sweep, Squeeze", "Push, Arrange, Squeeze, Sweep", "Push, Arrange, Sweep"], correct: 0},
+                        {question: "Which hazard causes infection?", options: ["Electrical", "Biological", "Physiological", "Chemical"], correct: 1},
+                        {question: "Use of mortise chisel?", options: ["General work", "Rectangular holes", "Paring joints", "Cleaning corners"], correct: 1},
+                        {question: "Cold chisel for squaring corners?", options: ["Web chisel", "Cross cut", "Half round", "Diamond point"], correct: 3},
+                        {question: "Caliper for parallel lines?", options: ["Inside", "Jenny", "Outside", "Spring joint"], correct: 2},
+                        {question: "Timber defect from improper seasoning?", options: ["Knot", "Twisting", "Cracking", "Cupping"], correct: 2},
+                        {question: "Current capacity of 32A cable with fuse?", options: ["13A", "16A", "26A", "39A"], correct: 2},
+                        {question: "Full form of XLPE Cable?", options: ["Cross Line Poly", "X ess Line Phase", "Cross Linked Poly", "Excess Length Paper"], correct: 2},
+                        {question: "Purpose of serving layers in underground cable?", options: ["Moisture protection", "Mechanical injury", "Corrosion protection", "Atmospheric protection"], correct: 2}
+                    ],
+                    "workshop-calculation": [
+                        {question: "Energy consumed by 500W lamp for 5 hours?", options: ["0.5 unit", "1.0 unit", "1.5 unit", "2.5 unit"], correct: 3},
+                        {question: "Change in resistance when diameter is doubled?", options: ["Increases 2x", "Decreases 4x", "Decreases half", "No change"], correct: 2},
+                        {question: "Electrons in valence shell of copper?", options: ["1", "2", "8", "18"], correct: 0},
+                        {question: "Electrons in third cell of copper?", options: ["8", "13", "18", "29"], correct: 0},
+                        {question: "Capacitance for 0.5C at 35V?", options: ["0.014F", "0.025F", "0.14F", "0.25F"], correct: 2},
+                        {question: "3-phase reactive power (4kw, 5KVA)?", options: ["1 KVAR", "2 KVAR", "3 KVAR", "4 KVAR"], correct: 2},
+                        {question: "Line current vs phase current in delta?", options: ["IL=IP", "IL=3IP", "IL=√3IP", "IL=IP/√3"], correct: 2},
+                        {question: "Power factor (R=15Ω, X=20Ω, 240V)?", options: ["0.5", "0.6", "0.8", "0.9"], correct: 1},
+                        {question: "Quantities in Ohm's law?", options: ["Current, resistance, power", "Current, voltage, resistivity", "Current, voltage, resistance", "Voltage, resistance, density"], correct: 2},
+                        {question: "Decrease capacitance?", options: ["Increase plate area", "Increase resistance", "Increase plate distance", "High dielectric"], correct: 2}
+                    ],
+                    "engineering-drawing": [
+                        {question: "Purpose of dimension lines?", options: ["Show outline", "Indicate measurements", "Show hidden edges", "Fill colors"], correct: 1},
+                        {question: "Line for hidden edges?", options: ["Solid", "Dashed", "Dotted", "Wavy"], correct: 1},
+                        {question: "Standard scale in drawings?", options: ["1:1", "1:2", "1:5", "All above"], correct: 3},
+                        {question: "Angle for isometric projection?", options: ["30°", "45°", "60°", "90°"], correct: 0},
+                        {question: "Purpose of orthographic projection?", options: ["3D view", "2D multi-angle", "Perspective", "Artistic"], correct: 1},
+                        {question: "Symbol for center line?", options: ["Solid", "Dash-dot", "Dashed", "Dotted"], correct: 1},
+                        {question: "Purpose of sectional views?", options: ["External features", "Internal features", "Dimensions", "Materials"], correct: 1},
+                        {question: "Projection for architectural?", options: ["Isometric", "Orthographic", "Perspective", "Oblique"], correct: 2},
+                        {question: "Standard paper size?", options: ["A4", "A3", "A2", "All above"], correct: 3},
+                        {question: "Tool for parallel lines?", options: ["Compass", "Set square", "Protractor", "T-square"], correct: 3}
+                    ],
+                    "employability-skill": [
+                        {question: "Importance of communication?", options: ["Impress colleagues", "Convey ideas", "Waste time", "Avoid work"], correct: 1},
+                        {question: "Key component of teamwork?", options: ["Working alone", "Cooperation", "Competition", "Ignore others"], correct: 1},
+                        {question: "What is time management?", options: ["Waste time", "Plan efficiently", "Do nothing", "Sleep at work"], correct: 1},
+                        {question: "Handle difficult customer?", options: ["Ignore", "Listen patiently", "Argue", "Be rude"], correct: 1},
+                        {question: "Importance of punctuality?", options: ["Not important", "Shows professionalism", "Waste time", "Confuse others"], correct: 1},
+                        {question: "Skill for solving problems?", options: ["Ignore", "Critical thinking", "Complain", "Avoid"], correct: 1},
+                        {question: "Role of team leader?", options: ["Blame others", "Guide team", "Do all work", "Create conflict"], correct: 1},
+                        {question: "Respond to feedback?", options: ["Get angry", "Accept and improve", "Ignore", "Blame"], correct: 1},
+                        {question: "Professional ethics?", options: ["Break rules", "Follow principles", "Cheat", "Dishonest"], correct: 1},
+                        {question: "Career development?", options: ["Stay stagnant", "Continuous learning", "Avoid challenges", "Procrastinate"], correct: 1}
+                    ]
+                }
+            }
+        };
+
+        let currentTrade, currentYear, currentSubject, currentQuestionIndex = 0, selectedAnswers = {};
+
+        function selectSubject() {
+            currentTrade = document.getElementById('tradeSelect').value;
+            currentYear = document.getElementById('yearSelect').value;
+            if (!currentTrade || !currentYear) {
                 alert('Please select both Trade and Year');
                 return;
             }
-            currentTestData = mockTestQuestions[trade][year];
-            currentQuestionIndex = 0;
-            userAnswers = new Array(currentTestData.length).fill(-1);
             document.getElementById('testSelection').style.display = 'none';
-            document.getElementById('testQuestions').style.display = 'block';
-            document.getElementById('testResults').style.display = 'none';
-            document.getElementById('totalQuestions').textContent = currentTestData.length;
+            document.getElementById('subjectSelection').style.display = 'block';
+            document.getElementById('tradeYearDisplay').textContent = currentTrade.charAt(0).toUpperCase() + currentTrade.slice(1) + ' - ' + currentYear;
+        }
+
+        function startTest(subject) {
+            currentSubject = subject;
+            currentQuestionIndex = 0;
+            selectedAnswers = {};
+            const questions = testQuestions[currentTrade][currentYear][subject];
+            if (!questions) {
+                alert('Questions not available');
+                return;
+            }
+            document.getElementById('subjectSelection').style.display = 'none';
+            document.getElementById('testContent').style.display = 'block';
+            document.getElementById('totalQuestions').textContent = questions.length;
             displayQuestion();
         }
 
         function displayQuestion() {
-            const question = currentTestData[currentQuestionIndex];
+            const questions = testQuestions[currentTrade][currentYear][currentSubject];
+            const question = questions[currentQuestionIndex];
             document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
-            let html = `<div class="question-card"><h4>${question.q}</h4><div>`;
+            document.getElementById('testTitle').textContent = currentSubject.replace(/-/g, ' ').toUpperCase();
+            document.getElementById('questionText').textContent = question.question;
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
             question.options.forEach((option, index) => {
-                const isSelected = userAnswers[currentQuestionIndex] === index;
-                const selectedClass = isSelected ? 'selected' : '';
-                html += `<label class="option ${selectedClass}"><input type="radio" name="answer" value="${index}" ${isSelected ? 'checked' : ''} onchange="selectAnswer(${index})"> ${option}</label>`;
+                const isSelected = selectedAnswers[currentQuestionIndex] === index;
+                const optionDiv = document.createElement('div');
+                optionDiv.style.cssText = `padding: 1rem; border: 2px solid ${isSelected ? '#1e40af' : '#ddd'}; border-radius: 4px; cursor: pointer; background: ${isSelected ? '#e0f2fe' : 'white'}; transition: all 0.3s;`;
+                optionDiv.innerHTML = `<input type="radio" name="option" value="${index}" ${isSelected ? 'checked' : ''} style="margin-right: 0.5rem;"><label style="cursor: pointer; margin: 0;">${String.fromCharCode(65 + index)}) ${option}</label>`;
+                optionDiv.onclick = () => selectOption(index);
+                optionsContainer.appendChild(optionDiv);
             });
-            html += `</div></div>`;
-            document.getElementById('questionContainer').innerHTML = html;
-            const progress = ((currentQuestionIndex + 1) / currentTestData.length) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
-            document.getElementById('nextBtn').textContent = currentQuestionIndex === currentTestData.length - 1 ? 'Submit Test' : 'Next →';
+            document.getElementById('prevBtn').style.display = currentQuestionIndex > 0 ? 'block' : 'none';
+            document.getElementById('nextBtn').style.display = currentQuestionIndex < questions.length - 1 ? 'block' : 'none';
+            document.getElementById('submitBtn').style.display = currentQuestionIndex === questions.length - 1 ? 'block' : 'none';
         }
 
-        function selectAnswer(index) {
-            userAnswers[currentQuestionIndex] = index;
+        function selectOption(index) {
+            selectedAnswers[currentQuestionIndex] = index;
+            displayQuestion();
         }
 
         function nextQuestion() {
-            if (currentQuestionIndex === currentTestData.length - 1) {
-                submitTest();
-            } else {
+            const questions = testQuestions[currentTrade][currentYear][currentSubject];
+            if (currentQuestionIndex < questions.length - 1) {
                 currentQuestionIndex++;
                 displayQuestion();
             }
@@ -901,32 +1002,31 @@
         }
 
         function submitTest() {
+            const questions = testQuestions[currentTrade][currentYear][currentSubject];
             let score = 0;
-            currentTestData.forEach((question, index) => {
-                if (userAnswers[index] === question.correct) score++;
-            });
-            const percentage = (score / currentTestData.length) * 100;
-            document.getElementById('testQuestions').style.display = 'none';
-            document.getElementById('testResults').style.display = 'block';
-            document.getElementById('scoreDisplay').textContent = `${score}/${currentTestData.length}`;
-            document.getElementById('scorePercentage').textContent = `${percentage.toFixed(1)}%`;
-        }
-
-        function endTest() {
-            if (confirm('Are you sure you want to exit the test?')) {
-                document.getElementById('testSelection').style.display = 'block';
-                document.getElementById('testQuestions').style.display = 'none';
-                document.getElementById('testResults').style.display = 'none';
-                document.getElementById('mockTrade').value = '';
-                document.getElementById('mockYear').value = '';
+            for (let i = 0; i < questions.length; i++) {
+                if (selectedAnswers[i] === questions[i].correct) score++;
             }
+            const percentage = Math.round((score / questions.length) * 100);
+            document.getElementById('testContent').style.display = 'none';
+            document.getElementById('resultContent').style.display = 'block';
+            document.getElementById('scoreDisplay').textContent = score + ' / ' + questions.length;
+            document.getElementById('scorePercentage').textContent = percentage + '% Score';
         }
 
-        function retakeMockTest() {
+        function retakeTest() {
+            startTest(currentSubject);
+            document.getElementById('resultContent').style.display = 'none';
+            document.getElementById('testContent').style.display = 'block';
+        }
+
+        function backToTradeSelection() {
+            document.getElementById('subjectSelection').style.display = 'none';
+            document.getElementById('testContent').style.display = 'none';
+            document.getElementById('resultContent').style.display = 'none';
             document.getElementById('testSelection').style.display = 'block';
-            document.getElementById('testResults').style.display = 'none';
-            document.getElementById('mockTrade').value = '';
-            document.getElementById('mockYear').value = '';
+            document.getElementById('tradeSelect').value = '';
+            document.getElementById('yearSelect').value = '';
         }
     </script>
 </body>
