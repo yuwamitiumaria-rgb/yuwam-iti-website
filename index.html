@@ -835,43 +835,7 @@
         const today = new Date().toISOString().split('T')[0];
         if (document.getElementById('paymentDate')) document.getElementById('paymentDate').value = today;
 
-        // Mock Test Questions Database
-        const mockTestQuestions = {
-            'Electrician': {
-                '1st Year': [
-                    { q: 'What is the SI unit of electric current?', options: ['Ampere', 'Volt', 'Ohm', 'Watt'], correct: 0 },
-                    { q: 'Which wire is used for earthing?', options: ['Red', 'Black', 'Green/Yellow', 'Blue'], correct: 2 },
-                    { q: 'What is the frequency of AC supply in India?', options: ['50 Hz', '60 Hz', '100 Hz', '200 Hz'], correct: 0 },
-                    { q: 'What does MCB stand for?', options: ['Main Circuit Breaker', 'Miniature Circuit Breaker', 'Motor Control Box', 'Maximum Current Box'], correct: 1 },
-                    { q: 'What is the safe voltage for hand tools?', options: ['230V', '110V', '24V', '12V'], correct: 2 }
-                ],
-                '2nd Year': [
-                    { q: 'What is the power factor?', options: ['Ratio of real to apparent power', 'Ratio of voltage to current', 'Ratio of resistance to impedance', 'None'], correct: 0 },
-                    { q: 'What is the function of a transformer?', options: ['Convert AC to DC', 'Change voltage level', 'Increase current', 'Reduce resistance'], correct: 1 },
-                    { q: 'What is the purpose of a fuse?', options: ['Reduce voltage', 'Protect circuit from overload', 'Increase current', 'Store energy'], correct: 1 },
-                    { q: 'What is the color code for 470 ohm resistor?', options: ['Yellow-Violet-Brown', 'Yellow-Purple-Brown', 'Green-Violet-Brown', 'Brown-Black-Brown'], correct: 0 },
-                    { q: 'What is the efficiency of a transformer?', options: ['70%', '80%', '90%', '95%'], correct: 3 }
-                ]
-            },
-            'Fitter': {
-                '1st Year': [
-                    { q: 'What is the purpose of a file?', options: ['Cutting', 'Smoothing surfaces', 'Drilling', 'Measuring'], correct: 1 },
-                    { q: 'Which tool is used for measuring angles?', options: ['Vernier Caliper', 'Protractor', 'Micrometer', 'Depth Gauge'], correct: 1 },
-                    { q: 'What is the least count of a Vernier Caliper?', options: ['0.1 mm', '0.01 mm', '0.001 mm', '1 mm'], correct: 1 },
-                    { q: 'What is the purpose of a hacksaw?', options: ['Drilling', 'Cutting metal', 'Smoothing', 'Measuring'], correct: 1 },
-                    { q: 'What is the standard size of a hammer head?', options: ['100g', '500g', '1kg', '2kg'], correct: 1 }
-                ],
-                '2nd Year': [
-                    { q: 'What is the purpose of a lathe machine?', options: ['Cutting', 'Shaping cylindrical objects', 'Welding', 'Drilling'], correct: 1 },
-                    { q: 'What is the least count of a Micrometer?', options: ['0.1 mm', '0.01 mm', '0.001 mm', '1 mm'], correct: 2 },
-                    { q: 'What is the purpose of a milling machine?', options: ['Cutting threads', 'Producing flat surfaces', 'Drilling holes', 'Shaping cylinders'], correct: 1 },
-                    { q: 'What is the standard angle for a drill bit?', options: ['45°', '90°', '118°', '135°'], correct: 2 },
-                    { q: 'What is the purpose of a grinding machine?', options: ['Cutting', 'Sharpening tools', 'Measuring', 'Welding'], correct: 1 }
-                ]
-            }
-        };
 
-        let currentTestData = [];
         let currentQuestionIndex = 0;
         let userAnswers = [];
 
