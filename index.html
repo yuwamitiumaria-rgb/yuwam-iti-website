@@ -6,671 +6,585 @@
     <title>YUWAM ITI UMARIA - Industrial Training Institute</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; }
+        
+        .navbar { background: linear-gradient(90deg, #1e40af, #1e3a8a); padding: 1rem 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .navbar-content { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+        .logo-section { display: flex; align-items: center; gap: 1rem; }
+        .logo-section h1 { color: white; font-size: 1.8rem; font-weight: 800; }
+        
+        .nav-menu { display: flex; list-style: none; gap: 0; background: linear-gradient(90deg, #f59e0b, #d97706); }
+        .nav-menu li { flex: 1; }
+        .nav-menu a { display: block; padding: 0.8rem 1.2rem; color: white; text-decoration: none; font-weight: bold; font-size: 1rem; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .nav-menu a:hover { background: rgba(255,255,255,0.2); transform: scale(1.05); }
+        .nav-menu a.active { background: rgba(0,0,0,0.2); }
+        
+        .hero { background: linear-gradient(135deg, #ec4899, #9333ea); color: white; padding: 3rem 2rem; text-align: center; }
+        .hero h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; }
+        .btn { padding: 0.8rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: all 0.3s; }
+        .btn-primary { background: #f59e0b; color: white; }
+        .btn-primary:hover { background: #d97706; transform: scale(1.05); }
+        .btn-secondary { background: #6b7280; color: white; }
+        .btn-success { background: #10b981; color: white; }
+        .btn-danger { background: #ef4444; color: white; }
+        
+        .notice-box { background: #fef3c7; border: 3px solid #f59e0b; border-radius: 8px; padding: 1.5rem; margin: 2rem auto; max-width: 1000px; }
+        .notice-box h3 { color: #f59e0b; margin-bottom: 1rem; }
+        .notice-box p { color: #333; font-size: 1rem; line-height: 1.6; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
         .page-section { display: none; }
         .page-section.active { display: block; }
-        .navbar { background: linear-gradient(135deg, #1e40af, #1e3a8a); color: white; padding: 1.5rem 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .navbar .container { display: flex; justify-content: center; align-items: center; max-width: 100%; margin: 0 auto; padding: 0 20px; flex-wrap: wrap; }
-        .logo { display: flex; align-items: center; gap: 1rem; text-align: center; width: 100%; justify-content: center; margin-bottom: 1.5rem; }
-        .logo h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: 1px; }
-        .nav-links { display: flex; list-style: none; gap: 1rem; flex-wrap: wrap; justify-content: center; width: 100%; background: linear-gradient(135deg, #f59e0b, #d97706); padding: 1.2rem; border-radius: 8px; }
-        .nav-links a { color: white; font-weight: 700; font-size: 1.05rem; text-decoration: none; padding: 0.7rem 1.2rem; border-radius: 6px; transition: all 0.3s; background: rgba(255,255,255,0.1); }
-        .nav-links a:hover { background: rgba(255,255,255,0.3); color: white; transform: scale(1.05); }
-        .nav-links a.active { background: rgba(255,255,255,0.5); color: white; }
-        .container { width: 100%; margin: 0 auto; padding: 20px; }
-        .hero { background: linear-gradient(135deg, #ec4899, #9333ea); color: white; padding: 4rem 2rem; text-align: center; border-radius: 8px; margin-bottom: 2rem; }
-        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
-        .hero p { font-size: 1.2rem; margin-bottom: 2rem; }
-        .cta-btn { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 0.75rem 2rem; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+        
+        .section-title { color: #1e40af; font-size: 2rem; text-align: center; margin-bottom: 2rem; }
+        
+        .card { background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 1.5rem; margin-bottom: 1.5rem; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        
         .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; color: #1e40af; font-weight: 600; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; }
-        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
-        .btn { padding: 0.75rem 1.5rem; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; }
-        .btn-primary { background: linear-gradient(135deg, #1e40af, #1e3a8a); color: white; }
-        .btn-success { background: linear-gradient(135deg, #16a34a, #15803d); color: white; }
-        .btn-danger { background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; }
-        .btn-print { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
-        .table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .table th { background: linear-gradient(135deg, #1e40af, #1e3a8a); color: white; padding: 1rem; text-align: left; }
-        .table td { padding: 1rem; border-bottom: 1px solid #eee; }
-        .table tr:hover { background: #f9fafb; }
-        .status-paid { color: #16a34a; font-weight: 600; }
-        .status-unpaid { color: #dc2626; font-weight: 600; }
-        .card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 2rem; }
-        .receipt { background: white; padding: 2rem; border-radius: 8px; border: 2px solid #1e40af; margin-top: 2rem; }
-        .receipt-header { text-align: center; border-bottom: 2px solid #1e40af; padding-bottom: 1rem; margin-bottom: 1rem; }
-        .receipt-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #eee; }
-        .receipt-row.total { border-top: 2px solid #1e40af; border-bottom: 2px solid #1e40af; font-weight: 700; font-size: 1.2rem; color: #1e40af; }
-        .alert { padding: 1rem; border-radius: 6px; margin-bottom: 1rem; }
-        .alert-success { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
-        .alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-        .stat-card { background: white; padding: 1.5rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .stat-card h3 { color: #666; font-size: 0.9rem; margin-bottom: 0.5rem; }
-        .stat-card .number { font-size: 2rem; color: #1e40af; font-weight: 700; }
-        .course-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-        .course-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .course-header { padding: 1.5rem; color: white; }
-        .course-header.electrician { background: linear-gradient(135deg, #3b82f6, #1e40af); }
-        .course-header.fitter { background: linear-gradient(135deg, #f59e0b, #d97706); }
-        .course-body { padding: 1.5rem; }
-        .course-body h4 { color: #1e40af; margin-top: 1rem; margin-bottom: 0.5rem; }
-        .course-body ul { margin-left: 1.5rem; }
-        .staff-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
-        .staff-card { background: white; padding: 1.5rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .staff-photo { width: 100%; height: 150px; object-fit: cover; border-radius: 6px; margin-bottom: 1rem; }
-        .staff-card h4 { color: #1e40af; margin-bottom: 0.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; color: #1e40af; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.8rem; border: 2px solid #ddd; border-radius: 4px; font-size: 1rem; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #1e40af; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        table th { background: #1e40af; color: white; padding: 1rem; text-align: left; }
+        table td { padding: 1rem; border-bottom: 1px solid #ddd; }
+        table tr:hover { background: #f5f7fa; }
+        
         .footer { background: #1e40af; color: white; text-align: center; padding: 2rem; margin-top: 3rem; }
-        .question-card { background: white; padding: 2rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid #1e40af; }
-        .question-card h4 { color: #1e40af; margin-bottom: 1rem; font-size: 1.1rem; }
-        .option { display: flex; align-items: center; padding: 1rem; margin: 0.5rem 0; background: #f9fafb; border-radius: 6px; cursor: pointer; transition: all 0.3s; }
-        .option:hover { background: #e0f2fe; }
-        .option input[type="radio"] { margin-right: 1rem; }
-        .option.selected { background: #dcfce7; border-left: 4px solid #16a34a; }
-        .progress-bar { width: 100%; height: 10px; background: #e5e7eb; border-radius: 6px; margin-bottom: 1rem; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, #1e40af, #1e3a8a); transition: width 0.3s; }
-        @media print { .navbar, .nav-links, .btn, .form-group { display: none !important; } }
+        
+        .question-option { padding: 1rem; border: 2px solid #ddd; border-radius: 4px; margin-bottom: 1rem; cursor: pointer; transition: all 0.3s; }
+        .question-option:hover { border-color: #1e40af; background: #f0f9ff; }
+        .question-option.selected { border-color: #1e40af; background: #e0f2fe; }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">
-            <h1>YUWAM ITI UMARIA</h1>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <div class="navbar-content">
+            <div class="logo-section">
+                <h1>🏢 YUWAM ITI UMARIA</h1>
+            </div>
         </div>
-        <ul class="nav-links">
-            <li><a href="#" class="nav-btn active" data-page="home">Home</a></li>
-            <li><a href="#" class="nav-btn" data-page="courses">Courses</a></li>
-            <li><a href="#" class="nav-btn" data-page="fees">Fees</a></li>
-            <li><a href="#" class="nav-btn" data-page="facilities">Facilities</a></li>
-            <li><a href="#" class="nav-btn" data-page="admission">Admission</a></li>
-            <li><a href="#" class="nav-btn" data-page="gallery">Gallery</a></li>
-            <li><a href="#" class="nav-btn" data-page="contact">Contact</a></li>
-            <li ><a href="#" class="nav-btn" data-page="student-mgmt">👤 Student Mgmt</a></li>
-            <li><a href="#" class="nav-btn" data-page="mock-test">📝 Mock Test</a></li>
-        </ul>
-    </nav>
-
+    </div>
+    
+    <!-- NAVIGATION MENU -->
+    <ul class="nav-menu">
+        <li><a class="nav-btn active" data-page="home">Home</a></li>
+        <li><a class="nav-btn" data-page="courses">Courses</a></li>
+        <li><a class="nav-btn" data-page="fees">Fees</a></li>
+        <li><a class="nav-btn" data-page="facilities">Facilities</a></li>
+        <li><a class="nav-btn" data-page="admission">Admission</a></li>
+        <li><a class="nav-btn" data-page="gallery">Gallery</a></li>
+        <li><a class="nav-btn" data-page="contact">Contact</a></li>
+        <li><a class="nav-btn" data-page="student-mgmt">👤 Student Mgmt</a></li>
+        <li><a class="nav-btn" data-page="mock-test">📝 Mock Test</a></li>
+    </ul>
+    
     <!-- HOME PAGE -->
     <section class="page-section active" id="home">
+        <div class="hero">
+            <h2>Welcome to YUWAM Pvt ITI Umaria</h2>
+            <p>Quality Industrial Training Institute for Skilled Development</p>
+            <button class="btn btn-primary" onclick="showPage('courses')">Explore Courses</button>
+        </div>
+        
         <div class="container">
-
-            <div class="hero">
-                <h1>Welcome to YUWAM Pvt ITI Umaria</h1>
-                <p>Quality Industrial Training Institute for Skilled Development</p>
-                <button class="cta-btn" onclick="showPage('courses')">Explore Courses</button>
+            <div class="notice-box">
+                <h3>📢 NOTICE</h3>
+                <p><strong>1.</strong> सभी छात्रों के छात्रवरत्ती फॉर्म schollarship फॉर्म भरना प्रारम्भ हो चुके.... सभी छात्र अपने सभी दास्तांवेज की 2 प्रति फोटो कॉपी लेकर आए औऱ फॉर्म भरवां ले.....</p>
+                <p style="margin-top: 1rem;"><strong>2.</strong> सभी छात्रों क़ो सूचित किया जाता है की आपके रोल नंबर जनरेट होने तथा आपके आधार वेरिफिकेशन की प्रोसेस प्रारम्भ है,यह प्रोसेस आपके exam के लिए अनिवार्य है.रोल नंबर ना आने पर आपका फॉर्म नहीं भर पाएग</p>
             </div>
-
-            <!-- SCROLLING NOTICES -->
-            <div style="background: linear-gradient(135deg, #fef3c7, #fde68a); border: 3px solid #f59e0b; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; overflow: hidden;">
-                <div style="display: flex; align-items: center; gap: 2rem;">
-                    <span style="background: #f59e0b; color: white; padding: 1rem 1.5rem; border-radius: 6px; font-weight: 700; white-space: nowrap; font-size: 1.3rem;">📢 NOTICE</span>
-                    <div style="overflow: hidden; flex: 1; height: 100px;">
-                        <div id="noticeScroller" style="animation: scroll 15s linear infinite;">
-                            <p style="margin: 1.2rem 0; font-size: 1.15rem; color: #92400e; line-height: 1.8; font-weight: 500;"><strong>1.</strong> सभी छात्रों के छात्रवरत्ती फॉर्म schollarship फॉर्म भरना प्रारम्भ हो चुके.... सभी छात्र अपने सभी दास्तांवेज की 2 प्रति फोटो कॉपी लेकर आए औऱ फॉर्म भरवां ले.....</p>
-                            <p style="margin: 1.2rem 0; font-size: 1.15rem; color: #92400e; line-height: 1.8; font-weight: 500;"><strong>2.</strong> सभी छात्रों क़ो सूचित किया जाता है की आपके रोल नंबर जनरेट होने तथा आपके आधार वेरिफिकेशन की प्रोसेस प्रारम्भ है,यह प्रोसेस आपके exam के लिए अनिवार्य है.रोल नंबर ना आने पर आपका फॉर्म नहीं भर पाएग</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <style>
-                @keyframes scroll {
-                    0% { transform: translateY(0); }
-                    100% { transform: translateY(-100%); }
-                }
-            </style>
-
+            
+            <h2 class="section-title">About Us</h2>
             <div class="card">
-                <h2 style="color: #1e40af; margin-bottom: 1rem;">About Us</h2>
                 <p>YUWAM Pvt ITI Umaria is a leading industrial training institute located near RC School, Umaria, Madhya Pradesh. We are committed to providing quality education and practical training to develop skilled professionals in various technical trades.</p>
             </div>
-
-            <div class="card">
-                <h3 style="color: #1e40af; margin-bottom: 1rem;">Our Leadership Team</h3>
-                <div class="staff-grid">
-                    <div class="staff-card">
-                        <img alt="Director" class="staff-photo" src="director.jpg">
-                        <h4>Director</h4>
-                        <p>ANKUR TIWARI</p>
-                        <p style="font-size: 0.85rem; color: #666;"><strong>B.E (EC), PGDCA</strong></p>
-                    </div>
-                    <div class="staff-card">
-                        <h4>Principal</h4>
-                        <p>ADITYA TIWARI</p>
-                    </div>
-                    <div class="staff-card">
-                        <h4>Electrician T.O</h4>
-                        <p>AVINASH KABEERPANTHI</p>
-                    </div>
-                    <div class="staff-card">
-                        <h4>Fitter T.O</h4>
-                        <p>RAJESH SAHU</p>
-                    </div>
+            
+            <h2 class="section-title">Our Leadership Team</h2>
+            <div class="grid">
+                <div class="card" style="text-align: center;">
+                    <img src="logo.png" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem;">
+                    <h3 style="color: #1e40af;">DIRECTOR</h3>
+                    <p style="font-weight: bold;">ANKUR TIWARI</p>
+                    <p style="color: #666;">B.E (EC), PGDCA</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: #1e40af;">PRINCIPAL</h3>
+                    <p style="font-weight: bold;">ADITYA TIWARI</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: #1e40af;">ELECTRICIAN T.O</h3>
+                    <p style="font-weight: bold;">AVINASH KABEERPANTHI</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: #1e40af;">FITTER T.O</h3>
+                    <p style="font-weight: bold;">RAJESH SAHU</p>
                 </div>
             </div>
-
-            <div class="stats">
-                <div class="stat-card">
-                    <h3>2 Professional Trades</h3>
+            
+            <h2 class="section-title" style="margin-top: 3rem;">Why Choose YUWAM?</h2>
+            <div class="grid">
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: #f59e0b;">2 Professional Trades</h3>
                     <p>Electrician & Fitter</p>
                 </div>
-                <div class="stat-card">
-                    <h3>2 Year Duration</h3>
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: #f59e0b;">2 Year Duration</h3>
                     <p>Comprehensive Training</p>
                 </div>
-                <div class="stat-card">
-                    <h3>Free Digital Classes</h3>
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: #f59e0b;">Free Digital Classes</h3>
                     <p>Computer & Digital Training</p>
                 </div>
-                <div class="stat-card">
-                    <h3>Daily Practical Training</h3>
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: #f59e0b;">Daily Practical Training</h3>
                     <p>Hands-on Experience</p>
                 </div>
             </div>
         </div>
     </section>
-
+    
     <!-- COURSES PAGE -->
     <section class="page-section" id="courses">
         <div class="container">
-            <h2 style="color: #1e40af; text-align: center; margin-bottom: 2rem;">Our Courses</h2>
-            <div class="course-grid">
-                <div class="course-card">
-                    <div class="course-header electrician">
-                        <h3>Electrician</h3>
-                    </div>
-                    <div class="course-body">
-                        <h4>Course Duration</h4>
-                        <p>2 Years</p>
-                        <h4>Eligibility</h4>
-                        <p>10th Pass</p>
-                        <h4>Skills Covered</h4>
-                        <ul>
-                            <li>Electrical Wiring</li>
-                            <li>Circuit Installation</li>
-                            <li>Maintenance & Repair</li>
-                            <li>Safety Standards</li>
-                        </ul>
-                    </div>
+            <h2 class="section-title">Our Courses</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3 style="color: #1e40af;">⚡ Electrician</h3>
+                    <p><strong>Duration:</strong> 2 Years</p>
+                    <p><strong>Fee per Year:</strong> ₹16,500</p>
+                    <p><strong>Subjects:</strong></p>
+                    <ul style="margin-left: 1.5rem;">
+                        <li>Trade Theory</li>
+                        <li>Workshop Calculation</li>
+                        <li>Engineering Drawing</li>
+                        <li>Employability Skill</li>
+                    </ul>
                 </div>
-                <div class="course-card">
-                    <div class="course-header fitter">
-                        <h3>Fitter</h3>
-                    </div>
-                    <div class="course-body">
-                        <h4>Course Duration</h4>
-                        <p>2 Years</p>
-                        <h4>Eligibility</h4>
-                        <p>10th Pass</p>
-                        <h4>Skills Covered</h4>
-                        <ul>
-                            <li>Machine Operation</li>
-                            <li>Tool Handling</li>
-                            <li>Assembly & Fitting</li>
-                            <li>Quality Control</li>
-                        </ul>
-                    </div>
+                <div class="card">
+                    <h3 style="color: #1e40af;">🔧 Fitter</h3>
+                    <p><strong>Duration:</strong> 2 Years</p>
+                    <p><strong>Fee per Year:</strong> ₹15,000</p>
+                    <p><strong>Subjects:</strong></p>
+                    <ul style="margin-left: 1.5rem;">
+                        <li>Trade Theory</li>
+                        <li>Workshop Calculation</li>
+                        <li>Engineering Drawing</li>
+                        <li>Employability Skill</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
-
+    
     <!-- FEES PAGE -->
     <section class="page-section" id="fees">
         <div class="container">
-            <h2 style="color: #1e40af; text-align: center; margin-bottom: 2rem;">Fee Structure</h2>
-            <div style="margin-bottom: 2rem;">
-                <h3 style="color: white; background: #1e40af; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">⚡ ELECTRICIAN - Per Year: ₹16,500</h3>
-                <table class="table" style="width: 100%; border-collapse: collapse;">
-                    <tr style="background: #f5f7fa;">
-                        <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Tuition Fees</strong></td>
-                        <td style="padding: 1rem; text-align: right; border: 1px solid #ddd; font-weight: bold;">₹10,000</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Practical Fees</strong></td>
-                        <td style="padding: 1rem; text-align: right; border: 1px solid #ddd; font-weight: bold;">₹6,000</td>
-                    </tr>
-                    <tr style="background: #f5f7fa;">
-                        <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Exam Fees</strong></td>
-                        <td style="padding: 1rem; text-align: right; border: 1px solid #ddd; font-weight: bold;">₹500</td>
-                    </tr>
-                    <tr style="background: #1e40af; color: white;">
-                        <td style="padding: 1rem; border: 1px solid #ddd;"><strong>TOTAL PER YEAR</strong></td>
-                        <td style="padding: 1rem; text-align: right; border: 1px solid #ddd; font-weight: bold; font-size: 1.1rem;">₹16,500</td>
-                    </tr>
-                    <tr style="background: #e0f2fe;">
-                        <td style="padding: 1rem; border: 1px solid #ddd;"><strong>TOTAL (2 YEARS)</strong></td>
-                        <td style="padding: 1rem; text-align: right; border: 1px solid #ddd; font-weight: bold; font-size: 1.1rem;">₹33,000</td>
-                    </tr>
-                </table>
-            </div>
-
-            <div style="margin-bottom: 2rem;">
-                <h3 style="color: white; background: #1e40af; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">🔧 FITTER - Per Year: ₹15,000</h3>
-                <table class="table" style="width: 100%; border-collapse: collapse;">
-                    <tr style="background: #f5f7fa;">
-                        <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Tuition Fees</strong></td>
-                        <td style="padding: 1rem; text-align: right; border: 1px solid #ddd; font-weight: bold;">₹10,000</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Practical Fees</strong></td>
-                        <td style="padding: 1rem; text-align: right; border: 1px solid #ddd; font-weight: bold;">₹5,000</td>
-                    </tr>
-                    <tr style="background: #f5f7fa;">
-                        <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Exam Fees</strong></td>
-                        <td style="padding: 1rem; text-align: right; border: 1px solid #ddd; font-weight: bold;">₹500</td>
-                    </tr>
-                    <tr style="background: #1e40af; color: white;">
-                        <td style="padding: 1rem; border: 1px solid #ddd;"><strong>TOTAL PER YEAR</strong></td>
-                        <td style="padding: 1rem; text-align: right; border: 1px solid #ddd; font-weight: bold; font-size: 1.1rem;">₹15,000</td>
-                    </tr>
-                    <tr style="background: #e0f2fe;">
-                        <td style="padding: 1rem; border: 1px solid #ddd;"><strong>TOTAL (2 YEARS)</strong></td>
-                        <td style="padding: 1rem; text-align: right; border: 1px solid #ddd; font-weight: bold; font-size: 1.1rem;">₹30,000</td>
-                    </tr>
-                </table>
-            </div>
-
+            <h2 class="section-title">Fee Structure</h2>
             <div class="card">
-                <div style="background: #fef3c7; padding: 1.2rem; border-left: 4px solid #f59e0b; border-radius: 4px;">
-                    <p style="margin: 0; color: #92400e; font-weight: bold;">📌 Additional Information:</p>
-                    <p style="margin: 0.5rem 0 0 0; color: #92400e;">• Library Charge: ₹1,000 (Optional)</p>
-                    <p style="margin: 0.5rem 0 0 0; color: #92400e;">• Payment can be made in installments</p>
-                    <p style="margin: 0.5rem 0 0 0; color: #92400e;">• Contact office for scholarship information</p>
-                </div>
+                <h3 style="color: #1e40af; margin-bottom: 1.5rem;">💰 ELECTRICIAN</h3>
+                <table>
+                    <tr>
+                        <th>Item</th>
+                        <th>Per Year</th>
+                        <th>2 Years</th>
+                    </tr>
+                    <tr>
+                        <td>Tuition Fees</td>
+                        <td>₹10,000</td>
+                        <td>₹20,000</td>
+                    </tr>
+                    <tr>
+                        <td>Practical Fees</td>
+                        <td>₹6,000</td>
+                        <td>₹12,000</td>
+                    </tr>
+                    <tr>
+                        <td>Exam Fees</td>
+                        <td>₹500</td>
+                        <td>₹1,000</td>
+                    </tr>
+                    <tr style="background: #e0f2fe; font-weight: bold;">
+                        <td>TOTAL</td>
+                        <td>₹16,500</td>
+                        <td>₹33,000</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h3 style="color: #1e40af; margin-bottom: 1.5rem;">💰 FITTER</h3>
+                <table>
+                    <tr>
+                        <th>Item</th>
+                        <th>Per Year</th>
+                        <th>2 Years</th>
+                    </tr>
+                    <tr>
+                        <td>Tuition Fees</td>
+                        <td>₹10,000</td>
+                        <td>₹20,000</td>
+                    </tr>
+                    <tr>
+                        <td>Practical Fees</td>
+                        <td>₹5,000</td>
+                        <td>₹10,000</td>
+                    </tr>
+                    <tr>
+                        <td>Exam Fees</td>
+                        <td>₹500</td>
+                        <td>₹1,000</td>
+                    </tr>
+                    <tr style="background: #e0f2fe; font-weight: bold;">
+                        <td>TOTAL</td>
+                        <td>₹15,500</td>
+                        <td>₹31,000</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h3 style="color: #1e40af;">📌 Additional Information</h3>
+                <p><strong>Library Charge:</strong> ₹1,000 (Optional)</p>
+                <p><strong>Payment:</strong> Can be paid in installments</p>
+                <p><strong>Scholarship:</strong> Available for eligible students</p>
             </div>
         </div>
     </section>
-
+    
     <!-- FACILITIES PAGE -->
     <section class="page-section" id="facilities">
         <div class="container">
-            <h2 style="color: #1e40af; text-align: center; margin-bottom: 2rem;">Our Facilities</h2>
-            <div class="stats">
-                <div class="stat-card">
-                    <h3>Modern Workshop</h3>
-                    <p>Latest machinery and tools</p>
+            <h2 class="section-title">Our Facilities</h2>
+            <div class="grid">
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: #1e40af;">🏭 Modern Workshop</h3>
+                    <p>Fully equipped with latest machinery and tools</p>
                 </div>
-                <div class="stat-card">
-                    <h3>Computer Lab</h3>
-                    <p>Digital training & CAD software</p>
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: #1e40af;">💻 Computer Lab</h3>
+                    <p>Digital training and online resources</p>
                 </div>
-                <div class="stat-card">
-                    <h3>Library</h3>
-                    <p>Technical books & resources</p>
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: #1e40af;">📚 Library</h3>
+                    <p>Comprehensive collection of technical books</p>
                 </div>
-                <div class="stat-card">
-                    <h3>Classroom</h3>
-                    <p>Modern teaching aids</p>
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: #1e40af;">🏠 Hostel</h3>
+                    <p>Comfortable accommodation for students</p>
                 </div>
-                <div class="stat-card">
-                    <h3>Canteen</h3>
-                    <p>Hygienic food services</p>
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: #1e40af;">🍽️ Canteen</h3>
+                    <p>Hygienic food and refreshments</p>
                 </div>
-                <div class="stat-card">
-                    <h3>Sports Ground</h3>
-                    <p>Recreational activities</p>
+                <div class="card" style="text-align: center;">
+                    <h3 style="color: #1e40af;">🏥 Medical</h3>
+                    <p>First aid and health support</p>
                 </div>
             </div>
         </div>
     </section>
-
+    
     <!-- ADMISSION PAGE -->
     <section class="page-section" id="admission">
         <div class="container">
-            <h2 style="color: #1e40af; text-align: center; margin-bottom: 2rem;">Admission Form</h2>
+            <h2 class="section-title">Admission Form</h2>
             <div class="card" style="max-width: 600px; margin: 0 auto;">
                 <form id="admissionForm">
                     <div class="form-group">
                         <label>Full Name *</label>
-                        <input type="text" required placeholder="Enter full name">
+                        <input type="text" required>
                     </div>
                     <div class="form-group">
-                        <label>Email Address *</label>
-                        <input type="email" required placeholder="Enter email">
+                        <label>Email *</label>
+                        <input type="email" required>
                     </div>
                     <div class="form-group">
                         <label>Phone Number *</label>
-                        <input type="tel" required placeholder="Enter phone number">
+                        <input type="tel" required>
                     </div>
                     <div class="form-group">
                         <label>Date of Birth *</label>
                         <input type="date" required>
                     </div>
                     <div class="form-group">
-                        <label>Select Course *</label>
+                        <label>Select Trade *</label>
                         <select required>
-                            <option value="">-- Select Course --</option>
-                            <option value="Electrician">Electrician</option>
-                            <option value="Fitter">Fitter</option>
+                            <option value="">-- Select --</option>
+                            <option value="electrician">Electrician</option>
+                            <option value="fitter">Fitter</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Address *</label>
-                        <textarea required rows="4" placeholder="Enter your address"></textarea>
+                        <textarea rows="3" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-success" style="width: 100%;">✓ Submit Application</button>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Application</button>
                 </form>
             </div>
         </div>
     </section>
-
+    
     <!-- GALLERY PAGE -->
     <section class="page-section" id="gallery">
         <div class="container">
-            <h2 style="color: #1e40af; text-align: center; margin-bottom: 2rem;">Gallery</h2>
-            <div class="card" style="text-align: center;">
-                <p style="font-size: 1.3rem; color: #1e40af; margin-bottom: 1rem;">Gallery Coming Soon!</p>
-                <p style="color: #666;">Photos and videos of our institute will be updated soon.</p>
+            <h2 class="section-title">Gallery</h2>
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <h3 style="color: #999;">Coming Soon...</h3>
+                <p style="color: #999;">Photos and videos will be updated soon</p>
             </div>
         </div>
     </section>
-
+    
     <!-- CONTACT PAGE -->
     <section class="page-section" id="contact">
         <div class="container">
-            <h2 style="color: #1e40af; text-align: center; margin-bottom: 2rem;">Contact Us</h2>
-            <div class="stats">
-                <div class="stat-card">
-                    <h3>📍 Location</h3>
-                    <p>Near RC School, Peelikothi Road, Umaria</p>
+            <h2 class="section-title">Contact Us</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3 style="color: #1e40af;">📞 Phone</h3>
+                    <p><strong>8319318007</strong></p>
                 </div>
-                <div class="stat-card">
-                    <h3>📞 Phone</h3>
-                    <p><a href="tel:+918319318007" style="color: #1e40af; text-decoration: none;">+91 8319318007</a></p>
-                    <p style="font-size: 0.9rem;">WhatsApp: <a href="https://wa.me/918871988777" style="color: #1e40af; text-decoration: none;">+91 8871988777</a></p>
+                <div class="card">
+                    <h3 style="color: #1e40af;">💬 WhatsApp</h3>
+                    <p><strong>8871988777</strong></p>
                 </div>
-                <div class="stat-card">
-                    <h3>📧 Email</h3>
-                    <p><a href="mailto:yuwamitiumaria@gmail.com" style="color: #1e40af; text-decoration: none;">yuwamitiumaria@gmail.com</a></p>
+                <div class="card">
+                    <h3 style="color: #1e40af;">📧 Email</h3>
+                    <p><strong>yuwamitiumaria@gmail.com</strong></p>
                 </div>
-                <div class="stat-card">
-                    <h3>🕐 Hours</h3>
-                    <p>Monday - Friday: 9:00 AM - 5:00 PM</p>
-                    <p>Saturday: 9:00 AM - 2:00 PM</p>
+                <div class="card">
+                    <h3 style="color: #1e40af;">📍 Location</h3>
+                    <p><strong>Near RC School, Peelikothi Road, Umaria, MP</strong></p>
                 </div>
             </div>
         </div>
     </section>
-
+    
     <!-- STUDENT MANAGEMENT PAGE -->
     <section class="page-section" id="student-mgmt">
         <div class="container">
-            <!-- Password Protection -->
-            <div id="passwordPrompt" style="display: none;">
-                <div class="card" style="max-width: 400px; margin: 3rem auto; text-align: center;">
-                    <h2 style="color: #1e40af; margin-bottom: 1.5rem;">🔐 Student Management</h2>
-                    <p style="color: #666; margin-bottom: 1.5rem;">Enter password to access Student Management System</p>
-                    <div class="form-group">
-                        <input type="password" id="passwordInput" placeholder="Enter password" style="font-size: 1.1rem;">
-                    </div>
-                    <button class="btn btn-primary" onclick="checkPassword()" style="width: 100%; margin-bottom: 0.5rem;">🔓 Unlock</button>
-                    <button class="btn btn-danger" onclick="showPage('home')" style="width: 100%;">✕ Cancel</button>
+            <h2 class="section-title">👤 Student Management</h2>
+            <div id="passwordPrompt" class="card" style="max-width: 400px; margin: 2rem auto; text-align: center;">
+                <h3 style="color: #1e40af; margin-bottom: 1.5rem;">🔐 Enter Password</h3>
+                <div class="form-group">
+                    <input type="password" id="passwordInput" placeholder="Password" style="font-size: 1.1rem;">
                 </div>
+                <button class="btn btn-primary" onclick="checkPassword()" style="width: 100%;">🔓 Unlock</button>
             </div>
-
-            <!-- Main Content (Hidden until password is entered) -->
+            
             <div id="studentMgmtContent" style="display: none;">
-            <h2 style="color: #1e40af; margin-bottom: 2rem;">👤 Student Fees Management</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-                <button class="btn btn-primary" onclick="showStudentPage('add-student')" style="width: 100%;">➕ Add Student</button>
-                <button class="btn btn-primary" onclick="showStudentPage('fees-payment')" style="width: 100%;">💳 Record Payment</button>
-                <button class="btn btn-primary" onclick="showStudentPage('students-list')" style="width: 100%;">📋 View Students</button>
-                <button class="btn btn-primary" onclick="showStudentPage('dashboard')" style="width: 100%;">📊 Dashboard</button>
-            </div>
-
-            <!-- Add Student -->
-            <div id="add-student" class="student-page" style="display: none;">
-                <div class="card">
-                    <h3 style="color: #1e40af; margin-bottom: 1rem;">➕ Add New Student</h3>
-                    <form id="addStudentForm">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Student Name *</label>
-                                <input type="text" id="studentName" required placeholder="Enter full name">
-                            </div>
-                            <div class="form-group">
-                                <label>Roll Number *</label>
-                                <input type="text" id="rollNumber" required placeholder="e.g., 001">
-                            </div>
-                            <div class="form-group">
-                                <label>Phone Number</label>
-                                <input type="tel" id="phone" placeholder="Enter phone number">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Trade *</label>
-                                <select id="trade" required>
-                                    <option value="">-- Select Trade --</option>
-                                    <option value="Electrician">Electrician</option>
-                                    <option value="Fitter">Fitter</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Year *</label>
-                                <select id="year" required>
-                                    <option value="">-- Select Year --</option>
-                                    <option value="1st Year">1st Year</option>
-                                    <option value="2nd Year">2nd Year</option>
-                                </select>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-success" style="width: 100%;">✓ Add Student</button>
-                    </form>
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="showStudentPage('add-student')">➕ Add Student</button>
+                    <button class="btn btn-primary" onclick="showStudentPage('record-payment')">💳 Record Payment</button>
+                    <button class="btn btn-primary" onclick="showStudentPage('view-students')">📋 View Students</button>
+                    <button class="btn btn-primary" onclick="showStudentPage('dashboard')">📊 Dashboard</button>
                 </div>
-            </div>
-
-            <!-- Fees Payment -->
-            <div id="fees-payment" class="student-page" style="display: none;">
-                <div class="card">
-                    <h3 style="color: #1e40af; margin-bottom: 1rem;">💳 Record Exam Fees Payment</h3>
-                    <div class="form-row">
+                
+                <div id="addStudentPage" style="display: none;">
+                    <div class="card" style="max-width: 600px;">
+                        <h3 style="color: #1e40af; margin-bottom: 1.5rem;">Add New Student</h3>
+                        <div class="form-group">
+                            <label>Student Name *</label>
+                            <input type="text" id="studentName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Roll Number *</label>
+                            <input type="text" id="rollNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone *</label>
+                            <input type="tel" id="studentPhone" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Trade *</label>
+                            <select id="studentTrade" required>
+                                <option value="">-- Select --</option>
+                                <option value="Electrician">Electrician</option>
+                                <option value="Fitter">Fitter</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Year *</label>
+                            <select id="studentYear" required>
+                                <option value="">-- Select --</option>
+                                <option value="1st Year">1st Year</option>
+                                <option value="2nd Year">2nd Year</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" onclick="addStudent()" style="width: 100%;">✓ Add Student</button>
+                    </div>
+                </div>
+                
+                <div id="recordPaymentPage" style="display: none;">
+                    <div class="card" style="max-width: 600px;">
+                        <h3 style="color: #1e40af; margin-bottom: 1.5rem;">Record Payment</h3>
                         <div class="form-group">
                             <label>Select Student *</label>
-                            <select id="selectStudent" required>
+                            <select id="paymentStudent" required>
                                 <option value="">-- Select Student --</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Exam Fees Amount</label>
-                            <input type="number" id="examFees" value="500" readonly style="background: #f0f0f0;">
+                            <label>Exam Fees: ₹500</label>
+                            <button class="btn btn-success" onclick="markExamFeesPaid()" style="width: 100%;">✓ Mark as Paid</button>
                         </div>
                         <div class="form-group">
                             <label>Payment Date</label>
                             <input type="date" id="paymentDate">
                         </div>
-                    </div>
-                    <button class="btn btn-success" onclick="recordPayment()" style="width: 100%;">✓ Mark as Paid</button>
-                    <div id="paymentAlert"></div>
-
-                    <div id="receiptSection" style="display: none; margin-top: 2rem;">
-                        <div class="receipt" id="receiptContent">
-                            <div class="receipt-header">
-                                <h2>YUWAM ITI UMARIA</h2>
-                                <p>Exam Fees Payment Receipt</p>
-                            </div>
-                            <div id="receiptDetails"></div>
-                        </div>
-                        <div style="text-align: center; margin-top: 1rem;">
-                            <button class="btn btn-print" onclick="window.print()">🖨️ Print Receipt</button>
-                            <button class="btn btn-primary" onclick="resetPaymentForm()">➕ Another Payment</button>
-                        </div>
+                        <button class="btn btn-primary" onclick="recordPayment()" style="width: 100%;">💳 Record Payment</button>
                     </div>
                 </div>
-            </div>
-
-            <!-- Students List -->
-            <div id="students-list" class="student-page" style="display: none;">
-                <div class="card">
-                    <h3 style="color: #1e40af; margin-bottom: 1rem;">📋 All Students</h3>
-                    <div class="form-group" style="margin-bottom: 1rem;">
-                        <input type="text" id="searchStudent" placeholder="🔍 Search by name or roll number..." style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px;">
-                    </div>
-                    <div style="overflow-x: auto;">
-                        <table class="table" id="studentsTable">
-                            <thead>
-                                <tr>
-                                    <th>Roll No</th>
-                                    <th>Name</th>
-                                    <th>Trade</th>
-                                    <th>Year</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="studentsTableBody">
-                                <tr><td colspan="6" style="text-align: center; color: #999;">No students added yet</td></tr>
-                            </tbody>
+                
+                <div id="viewStudentsPage" style="display: none;">
+                    <div class="card">
+                        <h3 style="color: #1e40af; margin-bottom: 1.5rem;">All Students</h3>
+                        <table id="studentsTable">
+                            <tr>
+                                <th>Name</th>
+                                <th>Roll No</th>
+                                <th>Trade</th>
+                                <th>Year</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
                         </table>
                     </div>
                 </div>
-            </div>
-
-            <!-- Dashboard -->
-            <div id="dashboard" class="student-page" style="display: none;">
-                <div class="stats">
-                    <div class="stat-card">
-                        <h3>Total Students</h3>
-                        <div class="number" id="totalStudents">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h3>Fees Paid</h3>
-                        <div class="number" id="feesPaid">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h3>Fees Pending</h3>
-                        <div class="number" id="feesPending">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <h3>Total Collection</h3>
-                        <div class="number" id="totalCollection">₹0</div>
+                
+                <div id="dashboardPage" style="display: none;">
+                    <div class="grid">
+                        <div class="card" style="text-align: center;">
+                            <h3 style="color: #1e40af;">Total Students</h3>
+                            <p style="font-size: 2rem; color: #f59e0b; font-weight: bold;" id="totalStudents">0</p>
+                        </div>
+                        <div class="card" style="text-align: center;">
+                            <h3 style="color: #1e40af;">Fees Paid</h3>
+                            <p style="font-size: 2rem; color: #10b981; font-weight: bold;" id="feesPaid">0</p>
+                        </div>
+                        <div class="card" style="text-align: center;">
+                            <h3 style="color: #1e40af;">Fees Pending</h3>
+                            <p style="font-size: 2rem; color: #ef4444; font-weight: bold;" id="feesPending">0</p>
+                        </div>
+                        <div class="card" style="text-align: center;">
+                            <h3 style="color: #1e40af;">Total Collection</h3>
+                            <p style="font-size: 2rem; color: #1e40af; font-weight: bold;" id="totalCollection">₹0</p>
+                        </div>
                     </div>
                 </div>
-                <div class="card" style="overflow-x: auto;">
-                    <h3 style="color: #1e40af; margin-bottom: 1rem;">Payment History</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Student Name</th>
-                                <th>Roll No</th>
-                                <th>Trade</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody id="paymentHistoryBody">
-                            <tr><td colspan="5" style="text-align: center; color: #999;">No payments recorded yet</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
             </div>
         </div>
     </section>
-
+    
     <!-- MOCK TEST PAGE -->
     <section class="page-section" id="mock-test">
         <div class="container">
-            <h2 style="color: #1e40af; text-align: center; margin-bottom: 2rem;">📝 Mock Test</h2>
+            <h2 class="section-title">📝 Mock Test</h2>
             
             <div id="testSelection" style="display: block;">
-                <div style="background: #f5f7fa; padding: 2rem; border-radius: 8px; margin-bottom: 2rem;">
-                    <h3 style="color: #1e40af; margin-bottom: 1.5rem;">Select Trade and Year</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #1e40af;">Trade:</label>
-                            <select id="tradeSelect" style="width: 100%; padding: 0.8rem; border: 2px solid #1e40af; border-radius: 4px; font-size: 1rem;">
-                                <option value="">-- Select Trade --</option>
-                                <option value="electrician">⚡ Electrician</option>
-                                <option value="fitter">🔧 Fitter</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #1e40af;">Year:</label>
-                            <select id="yearSelect" style="width: 100%; padding: 0.8rem; border: 2px solid #1e40af; border-radius: 4px; font-size: 1rem;">
-                                <option value="">-- Select Year --</option>
-                                <option value="1st">1st Year</option>
-                                <option value="2nd">2nd Year</option>
-                            </select>
-                        </div>
+                <div class="card" style="max-width: 600px; margin: 0 auto;">
+                    <h3 style="color: #1e40af; margin-bottom: 1.5rem;">Select Trade & Year</h3>
+                    <div class="form-group">
+                        <label>Trade *</label>
+                        <select id="tradeSelect" required>
+                            <option value="">-- Select Trade --</option>
+                            <option value="electrician">⚡ Electrician</option>
+                            <option value="fitter">🔧 Fitter</option>
+                        </select>
                     </div>
-                    <button class="btn btn-primary" onclick="selectSubject()" style="width: 100%; padding: 1rem; font-size: 1.1rem;">Next: Select Subject</button>
+                    <div class="form-group">
+                        <label>Year *</label>
+                        <select id="yearSelect" required>
+                            <option value="">-- Select Year --</option>
+                            <option value="1st">1st Year</option>
+                            <option value="2nd">2nd Year</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="selectSubject()" style="width: 100%;">Next: Select Subject</button>
                 </div>
             </div>
-
+            
             <div id="subjectSelection" style="display: none;">
-                <div style="background: #f5f7fa; padding: 2rem; border-radius: 8px; margin-bottom: 2rem;">
+                <div class="card" style="max-width: 800px; margin: 0 auto;">
                     <h3 style="color: #1e40af; margin-bottom: 1.5rem;">Select Subject for <span id="tradeYearDisplay"></span></h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                        <button class="btn btn-primary" onclick="startTest('trade-theory')" style="padding: 1.5rem; font-size: 1rem; text-align: left;">
+                    <div class="grid">
+                        <button class="btn btn-primary" onclick="startTest('trade-theory')" style="padding: 1.5rem; text-align: left; height: auto;">
                             <div style="font-weight: bold; font-size: 1.1rem;">📚 Trade Theory</div>
                             <div style="font-size: 0.9rem; margin-top: 0.5rem;">Basic concepts and principles</div>
                         </button>
-                        <button class="btn btn-primary" onclick="startTest('workshop-calculation')" style="padding: 1.5rem; font-size: 1rem; text-align: left;">
+                        <button class="btn btn-primary" onclick="startTest('workshop-calculation')" style="padding: 1.5rem; text-align: left; height: auto;">
                             <div style="font-weight: bold; font-size: 1.1rem;">🧮 Workshop Calculation</div>
                             <div style="font-size: 0.9rem; margin-top: 0.5rem;">Mathematics and calculations</div>
                         </button>
-                        <button class="btn btn-primary" onclick="startTest('engineering-drawing')" style="padding: 1.5rem; font-size: 1rem; text-align: left;">
+                        <button class="btn btn-primary" onclick="startTest('engineering-drawing')" style="padding: 1.5rem; text-align: left; height: auto;">
                             <div style="font-weight: bold; font-size: 1.1rem;">📐 Engineering Drawing</div>
-                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Technical drawings and diagrams</div>
+                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Technical drawings</div>
                         </button>
-                        <button class="btn btn-primary" onclick="startTest('employability-skill')" style="padding: 1.5rem; font-size: 1rem; text-align: left;">
+                        <button class="btn btn-primary" onclick="startTest('employability-skill')" style="padding: 1.5rem; text-align: left; height: auto;">
                             <div style="font-weight: bold; font-size: 1.1rem;">💼 Employability Skill</div>
-                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Professional and soft skills</div>
+                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Professional skills</div>
                         </button>
                     </div>
-                    <button class="btn btn-danger" onclick="backToTradeSelection()" style="width: 100%; padding: 1rem;">← Back</button>
+                    <button class="btn btn-danger" onclick="backToTradeSelection()" style="width: 100%; margin-top: 1rem;">← Back</button>
                 </div>
             </div>
-
+            
             <div id="testContent" style="display: none;">
-                <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <div class="card" style="max-width: 800px; margin: 0 auto;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                         <h3 id="testTitle" style="color: #1e40af; margin: 0;"></h3>
                         <div style="background: #1e40af; color: white; padding: 0.5rem 1rem; border-radius: 4px;">
-                            Question <span id="currentQuestion">1</span> of <span id="totalQuestions">10</span>
+                            Q <span id="currentQuestion">1</span> / <span id="totalQuestions">10</span>
                         </div>
                     </div>
                     
                     <div style="background: #f5f7fa; padding: 1.5rem; border-radius: 4px; margin-bottom: 1.5rem;">
                         <p id="questionText" style="font-size: 1.1rem; color: #333; margin: 0;"></p>
                     </div>
-
-                    <div id="optionsContainer" style="display: grid; gap: 1rem; margin-bottom: 2rem;"></div>
-
-                    <div style="display: flex; gap: 1rem; justify-content: space-between;">
-                        <button class="btn btn-secondary" onclick="previousQuestion()" id="prevBtn" style="flex: 1;">← Previous</button>
+                    
+                    <div id="optionsContainer" style="margin-bottom: 2rem;"></div>
+                    
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn btn-secondary" onclick="previousQuestion()" id="prevBtn" style="flex: 1; display: none;">← Previous</button>
                         <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="flex: 1;">Next →</button>
                         <button class="btn btn-success" onclick="submitTest()" id="submitBtn" style="flex: 1; display: none;">Submit Test</button>
                     </div>
                 </div>
             </div>
-
+            
             <div id="resultContent" style="display: none;">
-                <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
+                <div class="card" style="max-width: 600px; margin: 0 auto; text-align: center;">
                     <h2 style="color: #1e40af; margin-bottom: 1rem;">Test Completed!</h2>
                     <div style="background: #f5f7fa; padding: 2rem; border-radius: 4px; margin-bottom: 2rem;">
                         <p style="font-size: 1.2rem; color: #666; margin-bottom: 0.5rem;">Your Score</p>
                         <h1 id="scoreDisplay" style="color: #f59e0b; font-size: 3rem; margin: 0;"></h1>
                         <p id="scorePercentage" style="font-size: 1.1rem; color: #666; margin-top: 0.5rem;"></p>
                     </div>
-                    <button class="btn btn-primary" onclick="retakeTest()" style="width: 100%; padding: 1rem; font-size: 1.1rem;">Retake Test</button>
-                    <button class="btn btn-secondary" onclick="backToTradeSelection()" style="width: 100%; padding: 1rem; font-size: 1.1rem; margin-top: 1rem;">Choose Different Subject</button>
+                    <button class="btn btn-primary" onclick="retakeTest()" style="width: 100%; padding: 1rem; margin-bottom: 1rem;">Retake Test</button>
+                    <button class="btn btn-secondary" onclick="backToTradeSelection()" style="width: 100%; padding: 1rem;">Choose Different Subject</button>
                 </div>
             </div>
         </div>
     </section>
-
+    
     <footer class="footer">
         <p>© 2025 YUWAM Pvt ITI Umaria. All rights reserved.</p>
         <p>Providing Quality Technical Education Since 2013</p>
     </footer>
-
+    
     <script>
-        let students = JSON.parse(localStorage.getItem('students')) || [];
-        let payments = JSON.parse(localStorage.getItem('payments')) || [];
-
+        // Navigation
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage(btn.getAttribute('data-page'));
+            });
+        });
+        
         function showPage(pageName) {
             document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
             document.getElementById(pageName).classList.add('active');
@@ -679,173 +593,102 @@
             
             if (pageName === 'student-mgmt') {
                 const isUnlocked = sessionStorage.getItem('studentMgmtUnlocked');
-                if (isUnlocked === 'true') {
-                    document.getElementById('passwordPrompt').style.display = 'none';
-                    document.getElementById('studentMgmtContent').style.display = 'block';
-                } else {
+                if (isUnlocked !== 'true') {
                     document.getElementById('passwordPrompt').style.display = 'block';
                     document.getElementById('studentMgmtContent').style.display = 'none';
-                    document.getElementById('passwordInput').value = '';
-                    document.getElementById('passwordInput').focus();
+                } else {
+                    document.getElementById('passwordPrompt').style.display = 'none';
+                    document.getElementById('studentMgmtContent').style.display = 'block';
                 }
             }
             window.scrollTo(0, 0);
         }
-
+        
         function checkPassword() {
             const password = document.getElementById('passwordInput').value;
-            const correctPassword = 'Yuwam@007';
-            
-            if (password === correctPassword) {
+            if (password === 'Yuwam@007') {
                 sessionStorage.setItem('studentMgmtUnlocked', 'true');
                 document.getElementById('passwordPrompt').style.display = 'none';
                 document.getElementById('studentMgmtContent').style.display = 'block';
                 showStudentPage('add-student');
             } else {
-                alert('Incorrect password! Please try again.');
-                document.getElementById('passwordInput').value = '';
-                document.getElementById('passwordInput').focus();
+                alert('Incorrect password!');
             }
         }
-
-        function showStudentPage(pageName) {
-            document.querySelectorAll('.student-page').forEach(page => page.style.display = 'none');
-            document.getElementById(pageName).style.display = 'block';
-            if (pageName === 'students-list') loadStudentsList();
-            if (pageName === 'fees-payment') loadStudentDropdown();
-            if (pageName === 'dashboard') loadDashboard();
+        
+        function showStudentPage(page) {
+            document.getElementById('addStudentPage').style.display = page === 'add-student' ? 'block' : 'none';
+            document.getElementById('recordPaymentPage').style.display = page === 'record-payment' ? 'block' : 'none';
+            document.getElementById('viewStudentsPage').style.display = page === 'view-students' ? 'block' : 'none';
+            document.getElementById('dashboardPage').style.display = page === 'dashboard' ? 'block' : 'none';
+            if (page === 'view-students') loadStudents();
+            if (page === 'dashboard') loadDashboard();
         }
-
-        document.getElementById('addStudentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        
+        let students = JSON.parse(localStorage.getItem('students')) || [];
+        
+        function addStudent() {
             const student = {
                 id: Date.now(),
                 name: document.getElementById('studentName').value,
-                rollNumber: document.getElementById('rollNumber').value,
-                phone: document.getElementById('phone').value,
-                trade: document.getElementById('trade').value,
-                year: document.getElementById('year').value,
+                roll: document.getElementById('rollNumber').value,
+                phone: document.getElementById('studentPhone').value,
+                trade: document.getElementById('studentTrade').value,
+                year: document.getElementById('studentYear').value,
                 feePaid: false
             };
             students.push(student);
             localStorage.setItem('students', JSON.stringify(students));
-            alert('✓ Student added successfully!');
-            this.reset();
-            showStudentPage('students-list');
-        });
-
-        function loadStudentsList() {
-            const tbody = document.getElementById('studentsTableBody');
-            const searchTerm = document.getElementById('searchStudent').value.toLowerCase();
-            const filtered = students.filter(s => s.name.toLowerCase().includes(searchTerm) || s.rollNumber.toLowerCase().includes(searchTerm));
-            tbody.innerHTML = filtered.length === 0 ? '<tr><td colspan="6" style="text-align: center; color: #999;">No students found</td></tr>' : filtered.map(s => `
-                <tr>
-                    <td>${s.rollNumber}</td>
-                    <td>${s.name}</td>
-                    <td>${s.trade}</td>
-                    <td>${s.year}</td>
-                    <td><span class="${s.feePaid ? 'status-paid' : 'status-unpaid'}">${s.feePaid ? '✓ Paid' : '✗ Unpaid'}</span></td>
-                    <td><button class="btn btn-danger" onclick="deleteStudent(${s.id})" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Delete</button></td>
-                </tr>
-            `).join('');
+            alert('Student added successfully!');
+            document.getElementById('studentName').value = '';
+            document.getElementById('rollNumber').value = '';
+            document.getElementById('studentPhone').value = '';
         }
-
-        function loadStudentDropdown() {
-            const select = document.getElementById('selectStudent');
-            select.innerHTML = '<option value="">-- Select Student --</option>';
+        
+        function loadStudents() {
+            const table = document.getElementById('studentsTable');
+            table.innerHTML = '<tr><th>Name</th><th>Roll No</th><th>Trade</th><th>Year</th><th>Status</th><th>Action</th></tr>';
             students.forEach(s => {
-                const status = s.feePaid ? ' (✓ Paid)' : ' (✗ Unpaid)';
-                select.innerHTML += `<option value="${s.id}">${s.name} - ${s.rollNumber}${status}</option>`;
+                const row = table.insertRow();
+                row.innerHTML = `<td>${s.name}</td><td>${s.roll}</td><td>${s.trade}</td><td>${s.year}</td><td>${s.feePaid ? '✓ Paid' : '✗ Pending'}</td><td><button class="btn btn-danger" onclick="deleteStudent(${s.id})">Delete</button></td>`;
             });
         }
-
-        function recordPayment() {
-            const studentId = parseInt(document.getElementById('selectStudent').value);
-            const paymentDate = document.getElementById('paymentDate').value || new Date().toISOString().split('T')[0];
-            if (!studentId) {
-                document.getElementById('paymentAlert').innerHTML = '<div class="alert alert-error">Please select a student</div>';
-                return;
-            }
-            const student = students.find(s => s.id === studentId);
-            if (!student) return;
-            student.feePaid = true;
-            payments.push({ date: paymentDate, studentId, studentName: student.name, rollNumber: student.rollNumber, trade: student.trade, amount: 500 });
-            localStorage.setItem('students', JSON.stringify(students));
-            localStorage.setItem('payments', JSON.stringify(payments));
-            document.getElementById('receiptDetails').innerHTML = `
-                <div class="receipt-row"><span>Student Name:</span><strong>${student.name}</strong></div>
-                <div class="receipt-row"><span>Roll Number:</span><strong>${student.rollNumber}</strong></div>
-                <div class="receipt-row"><span>Trade:</span><strong>${student.trade}</strong></div>
-                <div class="receipt-row"><span>Year:</span><strong>${student.year}</strong></div>
-                <div class="receipt-row"><span>Payment Date:</span><strong>${paymentDate}</strong></div>
-                <div class="receipt-row total"><span>Exam Fees Paid:</span><strong>₹500</strong></div>
-            `;
-            document.getElementById('receiptSection').style.display = 'block';
-            document.getElementById('paymentAlert').innerHTML = '<div class="alert alert-success">✓ Payment recorded successfully!</div>';
-        }
-
-        function resetPaymentForm() {
-            document.getElementById('selectStudent').value = '';
-            document.getElementById('paymentDate').value = '';
-            document.getElementById('paymentAlert').innerHTML = '';
-            document.getElementById('receiptSection').style.display = 'none';
-        }
-
+        
         function deleteStudent(id) {
-            if (confirm('Delete this student?')) {
-                students = students.filter(s => s.id !== id);
+            students = students.filter(s => s.id !== id);
+            localStorage.setItem('students', JSON.stringify(students));
+            loadStudents();
+        }
+        
+        function loadDashboard() {
+            document.getElementById('totalStudents').textContent = students.length;
+            const paid = students.filter(s => s.feePaid).length;
+            document.getElementById('feesPaid').textContent = paid;
+            document.getElementById('feesPending').textContent = students.length - paid;
+            document.getElementById('totalCollection').textContent = '₹' + (paid * 500);
+        }
+        
+        function markExamFeesPaid() {
+            const studentId = document.getElementById('paymentStudent').value;
+            const student = students.find(s => s.id == studentId);
+            if (student) {
+                student.feePaid = true;
                 localStorage.setItem('students', JSON.stringify(students));
-                loadStudentsList();
+                alert('Exam fees marked as paid!');
             }
         }
-
-        function loadDashboard() {
-            const totalStudents = students.length;
-            const feesPaid = students.filter(s => s.feePaid).length;
-            document.getElementById('totalStudents').textContent = totalStudents;
-            document.getElementById('feesPaid').textContent = feesPaid;
-            document.getElementById('feesPending').textContent = totalStudents - feesPaid;
-            document.getElementById('totalCollection').textContent = '₹' + (feesPaid * 500).toLocaleString();
-            const historyBody = document.getElementById('paymentHistoryBody');
-            historyBody.innerHTML = payments.length === 0 ? '<tr><td colspan="5" style="text-align: center; color: #999;">No payments recorded yet</td></tr>' : payments.map(p => `
-                <tr>
-                    <td>${p.date}</td>
-                    <td>${p.studentName}</td>
-                    <td>${p.rollNumber}</td>
-                    <td>${p.trade}</td>
-                    <td>₹${p.amount}</td>
-                </tr>
-            `).join('');
+        
+        function recordPayment() {
+            markExamFeesPaid();
         }
-
-        document.getElementById('searchStudent')?.addEventListener('keyup', loadStudentsList);
-        document.getElementById('admissionForm')?.addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for your application! We will contact you soon.');
-            this.reset();
-        });
-
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                showPage(btn.getAttribute('data-page'));
-            });
-        });
-
-        const today = new Date().toISOString().split('T')[0];
-        if (document.getElementById('paymentDate')) document.getElementById('paymentDate').value = today;
-
-
-        let currentQuestionIndex = 0;
-        let userAnswers = [];
-
-        // Mock Test Questions Database
+        
+        // Mock Test
         const testQuestions = {
             "electrician": {
                 "1st": {
                     "trade-theory": [
-                        {question: "What is smothering in extinguishing of fire?", options: ["Adding fuel", "Removing fuel", "Using water", "Isolating from oxygen"], correct: 3},
-                        {question: "Which is the correct sequence for fire extinguisher?", options: ["Pull, Aim, Squeeze, Sweep", "Pull, Aim, Sweep, Squeeze", "Push, Arrange, Squeeze, Sweep", "Push, Arrange, Sweep"], correct: 0},
+                        {question: "What is smothering in fire extinguishing?", options: ["Adding fuel", "Removing fuel", "Using water", "Isolating from oxygen"], correct: 3},
+                        {question: "Correct sequence for fire extinguisher?", options: ["Pull, Aim, Squeeze, Sweep", "Pull, Aim, Sweep, Squeeze", "Push, Arrange, Squeeze, Sweep", "Push, Arrange, Sweep"], correct: 0},
                         {question: "Which hazard causes infection?", options: ["Electrical", "Biological", "Physiological", "Chemical"], correct: 1},
                         {question: "Use of mortise chisel?", options: ["General work", "Rectangular holes", "Paring joints", "Cleaning corners"], correct: 1},
                         {question: "Cold chisel for squaring corners?", options: ["Web chisel", "Cross cut", "Half round", "Diamond point"], correct: 3},
@@ -894,9 +737,9 @@
                 }
             }
         };
-
+        
         let currentTrade, currentYear, currentSubject, currentQuestionIndex = 0, selectedAnswers = {};
-
+        
         function selectSubject() {
             currentTrade = document.getElementById('tradeSelect').value;
             currentYear = document.getElementById('yearSelect').value;
@@ -908,7 +751,7 @@
             document.getElementById('subjectSelection').style.display = 'block';
             document.getElementById('tradeYearDisplay').textContent = currentTrade.charAt(0).toUpperCase() + currentTrade.slice(1) + ' - ' + currentYear;
         }
-
+        
         function startTest(subject) {
             currentSubject = subject;
             currentQuestionIndex = 0;
@@ -923,7 +766,7 @@
             document.getElementById('totalQuestions').textContent = questions.length;
             displayQuestion();
         }
-
+        
         function displayQuestion() {
             const questions = testQuestions[currentTrade][currentYear][currentSubject];
             const question = questions[currentQuestionIndex];
@@ -935,7 +778,7 @@
             question.options.forEach((option, index) => {
                 const isSelected = selectedAnswers[currentQuestionIndex] === index;
                 const optionDiv = document.createElement('div');
-                optionDiv.style.cssText = `padding: 1rem; border: 2px solid ${isSelected ? '#1e40af' : '#ddd'}; border-radius: 4px; cursor: pointer; background: ${isSelected ? '#e0f2fe' : 'white'}; transition: all 0.3s;`;
+                optionDiv.className = 'question-option' + (isSelected ? ' selected' : '');
                 optionDiv.innerHTML = `<input type="radio" name="option" value="${index}" ${isSelected ? 'checked' : ''} style="margin-right: 0.5rem;"><label style="cursor: pointer; margin: 0;">${String.fromCharCode(65 + index)}) ${option}</label>`;
                 optionDiv.onclick = () => selectOption(index);
                 optionsContainer.appendChild(optionDiv);
@@ -944,12 +787,12 @@
             document.getElementById('nextBtn').style.display = currentQuestionIndex < questions.length - 1 ? 'block' : 'none';
             document.getElementById('submitBtn').style.display = currentQuestionIndex === questions.length - 1 ? 'block' : 'none';
         }
-
+        
         function selectOption(index) {
             selectedAnswers[currentQuestionIndex] = index;
             displayQuestion();
         }
-
+        
         function nextQuestion() {
             const questions = testQuestions[currentTrade][currentYear][currentSubject];
             if (currentQuestionIndex < questions.length - 1) {
@@ -957,14 +800,14 @@
                 displayQuestion();
             }
         }
-
+        
         function previousQuestion() {
             if (currentQuestionIndex > 0) {
                 currentQuestionIndex--;
                 displayQuestion();
             }
         }
-
+        
         function submitTest() {
             const questions = testQuestions[currentTrade][currentYear][currentSubject];
             let score = 0;
@@ -977,13 +820,13 @@
             document.getElementById('scoreDisplay').textContent = score + ' / ' + questions.length;
             document.getElementById('scorePercentage').textContent = percentage + '% Score';
         }
-
+        
         function retakeTest() {
             startTest(currentSubject);
             document.getElementById('resultContent').style.display = 'none';
             document.getElementById('testContent').style.display = 'block';
         }
-
+        
         function backToTradeSelection() {
             document.getElementById('subjectSelection').style.display = 'none';
             document.getElementById('testContent').style.display = 'none';
