@@ -57,10 +57,6 @@
         
         .footer { background: #1e40af; color: white; text-align: center; padding: 2rem; margin-top: 3rem; }
         
-        .question-option { padding: 1rem; border: 2px solid #ddd; border-radius: 4px; margin-bottom: 1rem; cursor: pointer; transition: all 0.3s; }
-        .question-option:hover { border-color: #1e40af; background: #f0f9ff; }
-        .question-option.selected { border-color: #1e40af; background: #e0f2fe; }
-
         /* Print Styles */
         @media print {
             body * { visibility: hidden; }
@@ -120,28 +116,6 @@
             <h2 class="section-title">About Us</h2>
             <div class="card">
                 <p>YUWAM Pvt ITI Umaria is a leading industrial training institute located near RC School, Umaria, Madhya Pradesh. We are committed to providing quality education and practical training to develop skilled professionals in various technical trades.</p>
-            </div>
-            
-            <h2 class="section-title">Our Leadership Team</h2>
-            <div class="grid">
-                <div class="card" style="text-align: center;">
-                    <img src="logo.png" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem;">
-                    <h3 style="color: #1e40af;">DIRECTOR</h3>
-                    <p style="font-weight: bold;">ANKUR TIWARI</p>
-                    <p style="color: #666;">B.E (EC), PGDCA</p>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <h3 style="color: #1e40af;">PRINCIPAL</h3>
-                    <p style="font-weight: bold;">ADITYA TIWARI</p>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <h3 style="color: #1e40af;">ELECTRICIAN T.O</h3>
-                    <p style="font-weight: bold;">AVINASH KABEERPANTHI</p>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <h3 style="color: #1e40af;">FITTER T.O</h3>
-                    <p style="font-weight: bold;">RAJESH SAHU</p>
-                </div>
             </div>
         </div>
     </section>
@@ -322,6 +296,10 @@
     </footer>
     
     <script>
+        // Global Data
+        let students = JSON.parse(localStorage.getItem('students')) || [];
+        let payments = JSON.parse(localStorage.getItem('payments')) || [];
+
         // Navigation
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -367,13 +345,15 @@
             document.getElementById('recordPaymentPage').style.display = page === 'record-payment' ? 'block' : 'none';
             document.getElementById('viewStudentsPage').style.display = page === 'view-students' ? 'block' : 'none';
             document.getElementById('dashboardPage').style.display = page === 'dashboard' ? 'block' : 'none';
+            
+            // Refresh data from localStorage every time we switch sub-pages
+            students = JSON.parse(localStorage.getItem('students')) || [];
+            payments = JSON.parse(localStorage.getItem('payments')) || [];
+
             if (page === 'record-payment') populateStudentDropdown();
             if (page === 'view-students') loadStudents();
             if (page === 'dashboard') loadDashboard();
         }
-        
-        let students = JSON.parse(localStorage.getItem('students')) || [];
-        let payments = JSON.parse(localStorage.getItem('payments')) || [];
         
         function addStudent() {
             const name = document.getElementById('studentName').value;
@@ -388,9 +368,12 @@
                 trade: document.getElementById('studentTrade').value,
                 year: document.getElementById('studentYear').value
             };
+            
             students.push(student);
             localStorage.setItem('students', JSON.stringify(students));
             alert('Student added successfully!');
+            
+            // Clear inputs
             document.getElementById('studentName').value = '';
             document.getElementById('rollNumber').value = '';
             document.getElementById('studentPhone').value = '';
@@ -399,12 +382,23 @@
         function populateStudentDropdown() {
             const select = document.getElementById('paymentStudent');
             select.innerHTML = '<option value="">-- Select Student --</option>';
-            students.forEach(s => {
+            
+            // Re-read from localStorage to be absolutely sure
+            const currentStudents = JSON.parse(localStorage.getItem('students')) || [];
+            
+            if (currentStudents.length === 0) {
                 const opt = document.createElement('option');
-                opt.value = s.id;
-                opt.textContent = `${s.name} (${s.roll})`;
+                opt.textContent = "No students found. Please add one first.";
+                opt.disabled = true;
                 select.appendChild(opt);
-            });
+            } else {
+                currentStudents.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s.id;
+                    opt.textContent = `${s.name} (${s.roll})`;
+                    select.appendChild(opt);
+                });
+            }
             document.getElementById('paymentDetails').style.display = 'none';
         }
 
@@ -422,7 +416,9 @@
             
             if(!studentId || !amount) return alert('Please select student and amount!');
             
-            const student = students.find(s => s.id == studentId);
+            const currentStudents = JSON.parse(localStorage.getItem('students')) || [];
+            const student = currentStudents.find(s => s.id == studentId);
+            
             const payment = {
                 id: Date.now(),
                 studentId: studentId,
@@ -455,9 +451,13 @@
         
         function loadStudents() {
             const table = document.getElementById('studentsTable');
+            const currentStudents = JSON.parse(localStorage.getItem('students')) || [];
+            const currentPayments = JSON.parse(localStorage.getItem('payments')) || [];
+            
             table.innerHTML = '<tr><th>Name</th><th>Roll No</th><th>Trade</th><th>Year</th><th>Total Paid</th><th>Action</th></tr>';
-            students.forEach(s => {
-                const studentPayments = payments.filter(p => p.studentId == s.id);
+            
+            currentStudents.forEach(s => {
+                const studentPayments = currentPayments.filter(p => p.studentId == s.id);
                 const totalPaid = studentPayments.reduce((sum, p) => sum + p.amount, 0);
                 const row = table.insertRow();
                 row.innerHTML = `<td>${s.name}</td><td>${s.roll}</td><td>${s.trade}</td><td>${s.year}</td><td>₹${totalPaid}</td><td><button class="btn btn-danger" onclick="deleteStudent(${s.id})">Delete</button></td>`;
@@ -466,17 +466,25 @@
         
         function deleteStudent(id) {
             if(confirm('Are you sure you want to delete this student?')) {
-                students = students.filter(s => s.id !== id);
-                payments = payments.filter(p => p.studentId != id);
-                localStorage.setItem('students', JSON.stringify(students));
-                localStorage.setItem('payments', JSON.stringify(payments));
+                let currentStudents = JSON.parse(localStorage.getItem('students')) || [];
+                let currentPayments = JSON.parse(localStorage.getItem('payments')) || [];
+                
+                currentStudents = currentStudents.filter(s => s.id !== id);
+                currentPayments = currentPayments.filter(p => p.studentId != id);
+                
+                localStorage.setItem('students', JSON.stringify(currentStudents));
+                localStorage.setItem('payments', JSON.stringify(currentPayments));
+                
                 loadStudents();
             }
         }
         
         function loadDashboard() {
-            document.getElementById('totalStudents').textContent = students.length;
-            const totalCollection = payments.reduce((sum, p) => sum + p.amount, 0);
+            const currentStudents = JSON.parse(localStorage.getItem('students')) || [];
+            const currentPayments = JSON.parse(localStorage.getItem('payments')) || [];
+            
+            document.getElementById('totalStudents').textContent = currentStudents.length;
+            const totalCollection = currentPayments.reduce((sum, p) => sum + p.amount, 0);
             document.getElementById('totalCollection').textContent = '₹' + totalCollection;
         }
     </script>
