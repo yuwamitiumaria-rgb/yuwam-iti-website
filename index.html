@@ -23,8 +23,10 @@
         .hero h2 { font-size: 2.5rem; margin-bottom: 1rem; }
         .hero p { font-size: 1.2rem; margin-bottom: 2rem; }
         .btn { padding: 0.8rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: all 0.3s; }
-        .btn-primary { background: #f59e0b; color: white; }
-        .btn-primary:hover { background: #d97706; transform: scale(1.05); }
+        .btn-primary { background: #1e40af; color: white; }
+        .btn-primary:hover { background: #1e3a8a; transform: scale(1.05); }
+        .btn-warning { background: #f59e0b; color: white; }
+        .btn-warning:hover { background: #d97706; transform: scale(1.05); }
         .btn-secondary { background: #6b7280; color: white; }
         .btn-success { background: #10b981; color: white; }
         .btn-danger { background: #ef4444; color: white; }
@@ -58,11 +60,28 @@
         .question-option { padding: 1rem; border: 2px solid #ddd; border-radius: 4px; margin-bottom: 1rem; cursor: pointer; transition: all 0.3s; }
         .question-option:hover { border-color: #1e40af; background: #f0f9ff; }
         .question-option.selected { border-color: #1e40af; background: #e0f2fe; }
+
+        /* Print Styles */
+        @media print {
+            body * { visibility: hidden; }
+            #receipt-print, #receipt-print * { visibility: visible; }
+            #receipt-print { position: absolute; left: 0; top: 0; width: 100%; }
+            .no-print { display: none !important; }
+        }
+
+        #receipt-print {
+            display: none;
+            padding: 20px;
+            border: 2px solid #333;
+            max-width: 500px;
+            margin: 20px auto;
+            background: white;
+        }
     </style>
 </head>
 <body>
     <!-- NAVBAR -->
-    <div class="navbar">
+    <div class="navbar no-print">
         <div class="navbar-content">
             <div class="logo-section">
                 <h1>🏢 YUWAM ITI UMARIA</h1>
@@ -71,7 +90,7 @@
     </div>
     
     <!-- NAVIGATION MENU -->
-    <ul class="nav-menu">
+    <ul class="nav-menu no-print">
         <li><a class="nav-btn active" data-page="home">Home</a></li>
         <li><a class="nav-btn" data-page="courses">Courses</a></li>
         <li><a class="nav-btn" data-page="fees">Fees</a></li>
@@ -84,11 +103,11 @@
     </ul>
     
     <!-- HOME PAGE -->
-    <section class="page-section active" id="home">
+    <section class="page-section active no-print" id="home">
         <div class="hero">
             <h2>Welcome to YUWAM Pvt ITI Umaria</h2>
             <p>Quality Industrial Training Institute for Skilled Development</p>
-            <button class="btn btn-primary" onclick="showPage('courses')">Explore Courses</button>
+            <button class="btn btn-warning" onclick="showPage('courses')">Explore Courses</button>
         </div>
         
         <div class="container">
@@ -124,31 +143,11 @@
                     <p style="font-weight: bold;">RAJESH SAHU</p>
                 </div>
             </div>
-            
-            <h2 class="section-title" style="margin-top: 3rem;">Why Choose YUWAM?</h2>
-            <div class="grid">
-                <div class="card" style="text-align: center;">
-                    <h3 style="color: #f59e0b;">2 Professional Trades</h3>
-                    <p>Electrician & Fitter</p>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <h3 style="color: #f59e0b;">2 Year Duration</h3>
-                    <p>Comprehensive Training</p>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <h3 style="color: #f59e0b;">Free Digital Classes</h3>
-                    <p>Computer & Digital Training</p>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <h3 style="color: #f59e0b;">Daily Practical Training</h3>
-                    <p>Hands-on Experience</p>
-                </div>
-            </div>
         </div>
     </section>
     
     <!-- COURSES PAGE -->
-    <section class="page-section" id="courses">
+    <section class="page-section no-print" id="courses">
         <div class="container">
             <h2 class="section-title">Our Courses</h2>
             <div class="grid">
@@ -156,223 +155,83 @@
                     <h3 style="color: #1e40af;">⚡ Electrician</h3>
                     <p><strong>Duration:</strong> 2 Years</p>
                     <p><strong>Fee per Year:</strong> ₹16,500</p>
-                    <p><strong>Subjects:</strong></p>
-                    <ul style="margin-left: 1.5rem;">
-                        <li>Trade Theory</li>
-                        <li>Workshop Calculation</li>
-                        <li>Engineering Drawing</li>
-                        <li>Employability Skill</li>
-                    </ul>
                 </div>
                 <div class="card">
                     <h3 style="color: #1e40af;">🔧 Fitter</h3>
                     <p><strong>Duration:</strong> 2 Years</p>
                     <p><strong>Fee per Year:</strong> ₹15,000</p>
-                    <p><strong>Subjects:</strong></p>
-                    <ul style="margin-left: 1.5rem;">
-                        <li>Trade Theory</li>
-                        <li>Workshop Calculation</li>
-                        <li>Engineering Drawing</li>
-                        <li>Employability Skill</li>
-                    </ul>
                 </div>
             </div>
         </div>
     </section>
-    
+
     <!-- FEES PAGE -->
-    <section class="page-section" id="fees">
+    <section class="page-section no-print" id="fees">
         <div class="container">
             <h2 class="section-title">Fee Structure</h2>
             <div class="card">
                 <h3 style="color: #1e40af; margin-bottom: 1.5rem;">💰 ELECTRICIAN</h3>
                 <table>
-                    <tr>
-                        <th>Item</th>
-                        <th>Per Year</th>
-                        <th>2 Years</th>
-                    </tr>
-                    <tr>
-                        <td>Tuition Fees</td>
-                        <td>₹10,000</td>
-                        <td>₹20,000</td>
-                    </tr>
-                    <tr>
-                        <td>Practical Fees</td>
-                        <td>₹6,000</td>
-                        <td>₹12,000</td>
-                    </tr>
-                    <tr>
-                        <td>Exam Fees</td>
-                        <td>₹500</td>
-                        <td>₹1,000</td>
-                    </tr>
-                    <tr style="background: #e0f2fe; font-weight: bold;">
-                        <td>TOTAL</td>
-                        <td>₹16,500</td>
-                        <td>₹33,000</td>
-                    </tr>
+                    <tr><th>Item</th><th>Per Year</th><th>2 Years</th></tr>
+                    <tr><td>Tuition Fees</td><td>₹10,000</td><td>₹20,000</td></tr>
+                    <tr><td>Practical Fees</td><td>₹6,000</td><td>₹12,000</td></tr>
+                    <tr><td>Exam Fees</td><td>₹500</td><td>₹1,000</td></tr>
                 </table>
-            </div>
-            
-            <div class="card">
-                <h3 style="color: #1e40af; margin-bottom: 1.5rem;">💰 FITTER</h3>
-                <table>
-                    <tr>
-                        <th>Item</th>
-                        <th>Per Year</th>
-                        <th>2 Years</th>
-                    </tr>
-                    <tr>
-                        <td>Tuition Fees</td>
-                        <td>₹10,000</td>
-                        <td>₹20,000</td>
-                    </tr>
-                    <tr>
-                        <td>Practical Fees</td>
-                        <td>₹5,000</td>
-                        <td>₹10,000</td>
-                    </tr>
-                    <tr>
-                        <td>Exam Fees</td>
-                        <td>₹500</td>
-                        <td>₹1,000</td>
-                    </tr>
-                    <tr style="background: #e0f2fe; font-weight: bold;">
-                        <td>TOTAL</td>
-                        <td>₹15,500</td>
-                        <td>₹31,000</td>
-                    </tr>
-                </table>
-            </div>
-            
-            <div class="card">
-                <h3 style="color: #1e40af;">📌 Additional Information</h3>
-                <p><strong>Library Charge:</strong> ₹1,000 (Optional)</p>
-                <p><strong>Payment:</strong> Can be paid in installments</p>
-                <p><strong>Scholarship:</strong> Available for eligible students</p>
             </div>
         </div>
     </section>
-    
+
     <!-- FACILITIES PAGE -->
-    <section class="page-section" id="facilities">
+    <section class="page-section no-print" id="facilities">
         <div class="container">
             <h2 class="section-title">Our Facilities</h2>
             <div class="grid">
-                <div class="card" style="text-align: center;">
-                    <h3 style="color: #1e40af;">🏭 Modern Workshop</h3>
-                    <p>Fully equipped with latest machinery and tools</p>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <h3 style="color: #1e40af;">💻 Computer Lab</h3>
-                    <p>Digital training and online resources</p>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <h3 style="color: #1e40af;">📚 Library</h3>
-                    <p>Comprehensive collection of technical books</p>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <h3 style="color: #1e40af;">🏠 Hostel</h3>
-                    <p>Comfortable accommodation for students</p>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <h3 style="color: #1e40af;">🍽️ Canteen</h3>
-                    <p>Hygienic food and refreshments</p>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <h3 style="color: #1e40af;">🏥 Medical</h3>
-                    <p>First aid and health support</p>
-                </div>
+                <div class="card" style="text-align: center;"><h3>🏭 Workshop</h3></div>
+                <div class="card" style="text-align: center;"><h3>💻 Computer Lab</h3></div>
+                <div class="card" style="text-align: center;"><h3>📚 Library</h3></div>
             </div>
         </div>
     </section>
-    
+
     <!-- ADMISSION PAGE -->
-    <section class="page-section" id="admission">
+    <section class="page-section no-print" id="admission">
         <div class="container">
             <h2 class="section-title">Admission Form</h2>
             <div class="card" style="max-width: 600px; margin: 0 auto;">
                 <form id="admissionForm">
-                    <div class="form-group">
-                        <label>Full Name *</label>
-                        <input type="text" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Email *</label>
-                        <input type="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Phone Number *</label>
-                        <input type="tel" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Date of Birth *</label>
-                        <input type="date" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Select Trade *</label>
-                        <select required>
-                            <option value="">-- Select --</option>
-                            <option value="electrician">Electrician</option>
-                            <option value="fitter">Fitter</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Address *</label>
-                        <textarea rows="3" required></textarea>
-                    </div>
+                    <div class="form-group"><label>Full Name *</label><input type="text" required></div>
+                    <div class="form-group"><label>Phone Number *</label><input type="tel" required></div>
+                    <div class="form-group"><label>Select Trade *</label><select required><option value="electrician">Electrician</option><option value="fitter">Fitter</option></select></div>
                     <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Application</button>
                 </form>
             </div>
         </div>
     </section>
-    
+
     <!-- GALLERY PAGE -->
-    <section class="page-section" id="gallery">
-        <div class="container">
-            <h2 class="section-title">Gallery</h2>
-            <div class="card" style="text-align: center; padding: 3rem;">
-                <h3 style="color: #999;">Coming Soon...</h3>
-                <p style="color: #999;">Photos and videos will be updated soon</p>
-            </div>
-        </div>
+    <section class="page-section no-print" id="gallery">
+        <div class="container"><h2 class="section-title">Gallery</h2><div class="card" style="text-align: center; padding: 3rem;"><h3>Coming Soon...</h3></div></div>
     </section>
-    
+
     <!-- CONTACT PAGE -->
-    <section class="page-section" id="contact">
+    <section class="page-section no-print" id="contact">
         <div class="container">
             <h2 class="section-title">Contact Us</h2>
             <div class="grid">
-                <div class="card">
-                    <h3 style="color: #1e40af;">📞 Phone</h3>
-                    <p><strong>8319318007</strong></p>
-                </div>
-                <div class="card">
-                    <h3 style="color: #1e40af;">💬 WhatsApp</h3>
-                    <p><strong>8871988777</strong></p>
-                </div>
-                <div class="card">
-                    <h3 style="color: #1e40af;">📧 Email</h3>
-                    <p><strong>yuwamitiumaria@gmail.com</strong></p>
-                </div>
-                <div class="card">
-                    <h3 style="color: #1e40af;">📍 Location</h3>
-                    <p><strong>Near RC School, Peelikothi Road, Umaria, MP</strong></p>
-                </div>
+                <div class="card"><h3>📞 Phone</h3><p>8319318007</p></div>
+                <div class="card"><h3>💬 WhatsApp</h3><p>8871988777</p></div>
+                <div class="card"><h3>📧 Email</h3><p>yuwamitiumaria@gmail.com</p></div>
             </div>
         </div>
     </section>
     
     <!-- STUDENT MANAGEMENT PAGE -->
-    <section class="page-section" id="student-mgmt">
+    <section class="page-section no-print" id="student-mgmt">
         <div class="container">
             <h2 class="section-title">👤 Student Management</h2>
             <div id="passwordPrompt" class="card" style="max-width: 400px; margin: 2rem auto; text-align: center;">
                 <h3 style="color: #1e40af; margin-bottom: 1.5rem;">🔐 Enter Password</h3>
-                <div class="form-group">
-                    <input type="password" id="passwordInput" placeholder="Password" style="font-size: 1.1rem;">
-                </div>
+                <div class="form-group"><input type="password" id="passwordInput" placeholder="Password"></div>
                 <button class="btn btn-primary" onclick="checkPassword()" style="width: 100%;">🔓 Unlock</button>
             </div>
             
@@ -387,34 +246,11 @@
                 <div id="addStudentPage" style="display: none;">
                     <div class="card" style="max-width: 600px;">
                         <h3 style="color: #1e40af; margin-bottom: 1.5rem;">Add New Student</h3>
-                        <div class="form-group">
-                            <label>Student Name *</label>
-                            <input type="text" id="studentName" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Roll Number *</label>
-                            <input type="text" id="rollNumber" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone *</label>
-                            <input type="tel" id="studentPhone" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Trade *</label>
-                            <select id="studentTrade" required>
-                                <option value="">-- Select --</option>
-                                <option value="Electrician">Electrician</option>
-                                <option value="Fitter">Fitter</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Year *</label>
-                            <select id="studentYear" required>
-                                <option value="">-- Select --</option>
-                                <option value="1st Year">1st Year</option>
-                                <option value="2nd Year">2nd Year</option>
-                            </select>
-                        </div>
+                        <div class="form-group"><label>Student Name *</label><input type="text" id="studentName"></div>
+                        <div class="form-group"><label>Roll Number *</label><input type="text" id="rollNumber"></div>
+                        <div class="form-group"><label>Phone *</label><input type="tel" id="studentPhone"></div>
+                        <div class="form-group"><label>Trade *</label><select id="studentTrade"><option value="Electrician">Electrician</option><option value="Fitter">Fitter</option></select></div>
+                        <div class="form-group"><label>Year *</label><select id="studentYear"><option value="1st Year">1st Year</option><option value="2nd Year">2nd Year</option></select></div>
                         <button class="btn btn-primary" onclick="addStudent()" style="width: 100%;">✓ Add Student</button>
                     </div>
                 </div>
@@ -424,156 +260,65 @@
                         <h3 style="color: #1e40af; margin-bottom: 1.5rem;">Record Payment</h3>
                         <div class="form-group">
                             <label>Select Student *</label>
-                            <select id="paymentStudent" required>
-                                <option value="">-- Select Student --</option>
-                            </select>
+                            <select id="paymentStudent" onchange="updatePaymentDetails()"><option value="">-- Select Student --</option></select>
                         </div>
-                        <div class="form-group">
-                            <label>Exam Fees: ₹500</label>
-                            <button class="btn btn-success" onclick="markExamFeesPaid()" style="width: 100%;">✓ Mark as Paid</button>
+                        <div id="paymentDetails" style="display:none;">
+                            <div class="form-group"><label>Amount (₹)</label><input type="number" id="paymentAmount" value="500"></div>
+                            <div class="form-group"><label>Payment For</label><input type="text" id="paymentFor" value="Exam Fees"></div>
+                            <div class="form-group"><label>Payment Date</label><input type="date" id="paymentDate"></div>
+                            <button class="btn btn-success" onclick="recordPayment()" style="width: 100%;">💳 Record & Print Receipt</button>
                         </div>
-                        <div class="form-group">
-                            <label>Payment Date</label>
-                            <input type="date" id="paymentDate">
-                        </div>
-                        <button class="btn btn-primary" onclick="recordPayment()" style="width: 100%;">💳 Record Payment</button>
                     </div>
                 </div>
                 
                 <div id="viewStudentsPage" style="display: none;">
                     <div class="card">
                         <h3 style="color: #1e40af; margin-bottom: 1.5rem;">All Students</h3>
-                        <table id="studentsTable">
-                            <tr>
-                                <th>Name</th>
-                                <th>Roll No</th>
-                                <th>Trade</th>
-                                <th>Year</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </table>
+                        <table id="studentsTable"></table>
                     </div>
                 </div>
                 
                 <div id="dashboardPage" style="display: none;">
                     <div class="grid">
-                        <div class="card" style="text-align: center;">
-                            <h3 style="color: #1e40af;">Total Students</h3>
-                            <p style="font-size: 2rem; color: #f59e0b; font-weight: bold;" id="totalStudents">0</p>
-                        </div>
-                        <div class="card" style="text-align: center;">
-                            <h3 style="color: #1e40af;">Fees Paid</h3>
-                            <p style="font-size: 2rem; color: #10b981; font-weight: bold;" id="feesPaid">0</p>
-                        </div>
-                        <div class="card" style="text-align: center;">
-                            <h3 style="color: #1e40af;">Fees Pending</h3>
-                            <p style="font-size: 2rem; color: #ef4444; font-weight: bold;" id="feesPending">0</p>
-                        </div>
-                        <div class="card" style="text-align: center;">
-                            <h3 style="color: #1e40af;">Total Collection</h3>
-                            <p style="font-size: 2rem; color: #1e40af; font-weight: bold;" id="totalCollection">₹0</p>
-                        </div>
+                        <div class="card" style="text-align: center;"><h3>Total Students</h3><p id="totalStudents">0</p></div>
+                        <div class="card" style="text-align: center;"><h3>Total Collection</h3><p id="totalCollection">₹0</p></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
+
     <!-- MOCK TEST PAGE -->
-    <section class="page-section" id="mock-test">
-        <div class="container">
-            <h2 class="section-title">📝 Mock Test</h2>
-            
-            <div id="testSelection" style="display: block;">
-                <div class="card" style="max-width: 600px; margin: 0 auto;">
-                    <h3 style="color: #1e40af; margin-bottom: 1.5rem;">Select Trade & Year</h3>
-                    <div class="form-group">
-                        <label>Trade *</label>
-                        <select id="tradeSelect" required>
-                            <option value="">-- Select Trade --</option>
-                            <option value="electrician">⚡ Electrician</option>
-                            <option value="fitter">🔧 Fitter</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Year *</label>
-                        <select id="yearSelect" required>
-                            <option value="">-- Select Year --</option>
-                            <option value="1st">1st Year</option>
-                            <option value="2nd">2nd Year</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-primary" onclick="selectSubject()" style="width: 100%;">Next: Select Subject</button>
-                </div>
-            </div>
-            
-            <div id="subjectSelection" style="display: none;">
-                <div class="card" style="max-width: 800px; margin: 0 auto;">
-                    <h3 style="color: #1e40af; margin-bottom: 1.5rem;">Select Subject for <span id="tradeYearDisplay"></span></h3>
-                    <div class="grid">
-                        <button class="btn btn-primary" onclick="startTest('trade-theory')" style="padding: 1.5rem; text-align: left; height: auto;">
-                            <div style="font-weight: bold; font-size: 1.1rem;">📚 Trade Theory</div>
-                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Basic concepts and principles</div>
-                        </button>
-                        <button class="btn btn-primary" onclick="startTest('workshop-calculation')" style="padding: 1.5rem; text-align: left; height: auto;">
-                            <div style="font-weight: bold; font-size: 1.1rem;">🧮 Workshop Calculation</div>
-                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Mathematics and calculations</div>
-                        </button>
-                        <button class="btn btn-primary" onclick="startTest('engineering-drawing')" style="padding: 1.5rem; text-align: left; height: auto;">
-                            <div style="font-weight: bold; font-size: 1.1rem;">📐 Engineering Drawing</div>
-                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Technical drawings</div>
-                        </button>
-                        <button class="btn btn-primary" onclick="startTest('employability-skill')" style="padding: 1.5rem; text-align: left; height: auto;">
-                            <div style="font-weight: bold; font-size: 1.1rem;">💼 Employability Skill</div>
-                            <div style="font-size: 0.9rem; margin-top: 0.5rem;">Professional skills</div>
-                        </button>
-                    </div>
-                    <button class="btn btn-danger" onclick="backToTradeSelection()" style="width: 100%; margin-top: 1rem;">← Back</button>
-                </div>
-            </div>
-            
-            <div id="testContent" style="display: none;">
-                <div class="card" style="max-width: 800px; margin: 0 auto;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                        <h3 id="testTitle" style="color: #1e40af; margin: 0;"></h3>
-                        <div style="background: #1e40af; color: white; padding: 0.5rem 1rem; border-radius: 4px;">
-                            Q <span id="currentQuestion">1</span> / <span id="totalQuestions">10</span>
-                        </div>
-                    </div>
-                    
-                    <div style="background: #f5f7fa; padding: 1.5rem; border-radius: 4px; margin-bottom: 1.5rem;">
-                        <p id="questionText" style="font-size: 1.1rem; color: #333; margin: 0;"></p>
-                    </div>
-                    
-                    <div id="optionsContainer" style="margin-bottom: 2rem;"></div>
-                    
-                    <div style="display: flex; gap: 1rem;">
-                        <button class="btn btn-secondary" onclick="previousQuestion()" id="prevBtn" style="flex: 1; display: none;">← Previous</button>
-                        <button class="btn btn-primary" onclick="nextQuestion()" id="nextBtn" style="flex: 1;">Next →</button>
-                        <button class="btn btn-success" onclick="submitTest()" id="submitBtn" style="flex: 1; display: none;">Submit Test</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="resultContent" style="display: none;">
-                <div class="card" style="max-width: 600px; margin: 0 auto; text-align: center;">
-                    <h2 style="color: #1e40af; margin-bottom: 1rem;">Test Completed!</h2>
-                    <div style="background: #f5f7fa; padding: 2rem; border-radius: 4px; margin-bottom: 2rem;">
-                        <p style="font-size: 1.2rem; color: #666; margin-bottom: 0.5rem;">Your Score</p>
-                        <h1 id="scoreDisplay" style="color: #f59e0b; font-size: 3rem; margin: 0;"></h1>
-                        <p id="scorePercentage" style="font-size: 1.1rem; color: #666; margin-top: 0.5rem;"></p>
-                    </div>
-                    <button class="btn btn-primary" onclick="retakeTest()" style="width: 100%; padding: 1rem; margin-bottom: 1rem;">Retake Test</button>
-                    <button class="btn btn-secondary" onclick="backToTradeSelection()" style="width: 100%; padding: 1rem;">Choose Different Subject</button>
-                </div>
-            </div>
-        </div>
+    <section class="page-section no-print" id="mock-test">
+        <div class="container"><h2 class="section-title">📝 Mock Test</h2><div class="card"><h3>Coming Soon...</h3></div></div>
     </section>
-    
-    <footer class="footer">
+
+    <!-- RECEIPT PRINT AREA -->
+    <div id="receipt-print">
+        <div style="text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 15px;">
+            <h2 style="margin: 0;">YUWAM Pvt ITI UMARIA</h2>
+            <p style="margin: 5px 0;">Near RC School, Umaria (M.P.)</p>
+            <p style="margin: 0; font-weight: bold;">FEES RECEIPT</p>
+        </div>
+        <div style="margin-bottom: 10px;">
+            <p><strong>Receipt No:</strong> <span id="r-no"></span> <span style="float: right;"><strong>Date:</strong> <span id="r-date"></span></span></p>
+            <p><strong>Student Name:</strong> <span id="r-name"></span></p>
+            <p><strong>Roll Number:</strong> <span id="r-roll"></span></p>
+            <p><strong>Trade/Year:</strong> <span id="r-trade"></span> / <span id="r-year"></span></p>
+        </div>
+        <table style="width: 100%; border: 1px solid #333; border-collapse: collapse;">
+            <tr><th style="border: 1px solid #333; padding: 8px;">Description</th><th style="border: 1px solid #333; padding: 8px;">Amount</th></tr>
+            <tr><td style="border: 1px solid #333; padding: 8px;" id="r-desc"></td><td style="border: 1px solid #333; padding: 8px; text-align: right;">₹<span id="r-amount"></span></td></tr>
+            <tr><td style="border: 1px solid #333; padding: 8px; text-align: right; font-weight: bold;">Total Paid</td><td style="border: 1px solid #333; padding: 8px; text-align: right; font-weight: bold;">₹<span id="r-total"></span></td></tr>
+        </table>
+        <div style="margin-top: 30px; display: flex; justify-content: space-between;">
+            <p>Student Signature</p>
+            <p>Authorized Signatory</p>
+        </div>
+    </div>
+
+    <footer class="footer no-print">
         <p>© 2025 YUWAM Pvt ITI Umaria. All rights reserved.</p>
-        <p>Providing Quality Technical Education Since 2013</p>
     </footer>
     
     <script>
@@ -589,7 +334,8 @@
             document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
             document.getElementById(pageName).classList.add('active');
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
+            const activeBtn = document.querySelector(`[data-page="${pageName}"]`);
+            if(activeBtn) activeBtn.classList.add('active');
             
             if (pageName === 'student-mgmt') {
                 const isUnlocked = sessionStorage.getItem('studentMgmtUnlocked');
@@ -621,21 +367,26 @@
             document.getElementById('recordPaymentPage').style.display = page === 'record-payment' ? 'block' : 'none';
             document.getElementById('viewStudentsPage').style.display = page === 'view-students' ? 'block' : 'none';
             document.getElementById('dashboardPage').style.display = page === 'dashboard' ? 'block' : 'none';
+            if (page === 'record-payment') populateStudentDropdown();
             if (page === 'view-students') loadStudents();
             if (page === 'dashboard') loadDashboard();
         }
         
         let students = JSON.parse(localStorage.getItem('students')) || [];
+        let payments = JSON.parse(localStorage.getItem('payments')) || [];
         
         function addStudent() {
+            const name = document.getElementById('studentName').value;
+            const roll = document.getElementById('rollNumber').value;
+            if(!name || !roll) return alert('Name and Roll Number are required!');
+            
             const student = {
                 id: Date.now(),
-                name: document.getElementById('studentName').value,
-                roll: document.getElementById('rollNumber').value,
+                name: name,
+                roll: roll,
                 phone: document.getElementById('studentPhone').value,
                 trade: document.getElementById('studentTrade').value,
-                year: document.getElementById('studentYear').value,
-                feePaid: false
+                year: document.getElementById('studentYear').value
             };
             students.push(student);
             localStorage.setItem('students', JSON.stringify(students));
@@ -644,196 +395,89 @@
             document.getElementById('rollNumber').value = '';
             document.getElementById('studentPhone').value = '';
         }
+
+        function populateStudentDropdown() {
+            const select = document.getElementById('paymentStudent');
+            select.innerHTML = '<option value="">-- Select Student --</option>';
+            students.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s.id;
+                opt.textContent = `${s.name} (${s.roll})`;
+                select.appendChild(opt);
+            });
+            document.getElementById('paymentDetails').style.display = 'none';
+        }
+
+        function updatePaymentDetails() {
+            const studentId = document.getElementById('paymentStudent').value;
+            document.getElementById('paymentDetails').style.display = studentId ? 'block' : 'none';
+            document.getElementById('paymentDate').valueAsDate = new Date();
+        }
+        
+        function recordPayment() {
+            const studentId = document.getElementById('paymentStudent').value;
+            const amount = document.getElementById('paymentAmount').value;
+            const purpose = document.getElementById('paymentFor').value;
+            const date = document.getElementById('paymentDate').value;
+            
+            if(!studentId || !amount) return alert('Please select student and amount!');
+            
+            const student = students.find(s => s.id == studentId);
+            const payment = {
+                id: Date.now(),
+                studentId: studentId,
+                amount: parseFloat(amount),
+                purpose: purpose,
+                date: date
+            };
+            
+            payments.push(payment);
+            localStorage.setItem('payments', JSON.stringify(payments));
+            
+            // Prepare Receipt
+            document.getElementById('r-no').textContent = payment.id;
+            document.getElementById('r-date').textContent = date;
+            document.getElementById('r-name').textContent = student.name;
+            document.getElementById('r-roll').textContent = student.roll;
+            document.getElementById('r-trade').textContent = student.trade;
+            document.getElementById('r-year').textContent = student.year;
+            document.getElementById('r-desc').textContent = purpose;
+            document.getElementById('r-amount').textContent = amount;
+            document.getElementById('r-total').textContent = amount;
+            
+            document.getElementById('receipt-print').style.display = 'block';
+            window.print();
+            document.getElementById('receipt-print').style.display = 'none';
+            
+            alert('Payment recorded successfully!');
+            showStudentPage('dashboard');
+        }
         
         function loadStudents() {
             const table = document.getElementById('studentsTable');
-            table.innerHTML = '<tr><th>Name</th><th>Roll No</th><th>Trade</th><th>Year</th><th>Status</th><th>Action</th></tr>';
+            table.innerHTML = '<tr><th>Name</th><th>Roll No</th><th>Trade</th><th>Year</th><th>Total Paid</th><th>Action</th></tr>';
             students.forEach(s => {
+                const studentPayments = payments.filter(p => p.studentId == s.id);
+                const totalPaid = studentPayments.reduce((sum, p) => sum + p.amount, 0);
                 const row = table.insertRow();
-                row.innerHTML = `<td>${s.name}</td><td>${s.roll}</td><td>${s.trade}</td><td>${s.year}</td><td>${s.feePaid ? '✓ Paid' : '✗ Pending'}</td><td><button class="btn btn-danger" onclick="deleteStudent(${s.id})">Delete</button></td>`;
+                row.innerHTML = `<td>${s.name}</td><td>${s.roll}</td><td>${s.trade}</td><td>${s.year}</td><td>₹${totalPaid}</td><td><button class="btn btn-danger" onclick="deleteStudent(${s.id})">Delete</button></td>`;
             });
         }
         
         function deleteStudent(id) {
-            students = students.filter(s => s.id !== id);
-            localStorage.setItem('students', JSON.stringify(students));
-            loadStudents();
+            if(confirm('Are you sure you want to delete this student?')) {
+                students = students.filter(s => s.id !== id);
+                payments = payments.filter(p => p.studentId != id);
+                localStorage.setItem('students', JSON.stringify(students));
+                localStorage.setItem('payments', JSON.stringify(payments));
+                loadStudents();
+            }
         }
         
         function loadDashboard() {
             document.getElementById('totalStudents').textContent = students.length;
-            const paid = students.filter(s => s.feePaid).length;
-            document.getElementById('feesPaid').textContent = paid;
-            document.getElementById('feesPending').textContent = students.length - paid;
-            document.getElementById('totalCollection').textContent = '₹' + (paid * 500);
-        }
-        
-        function markExamFeesPaid() {
-            const studentId = document.getElementById('paymentStudent').value;
-            const student = students.find(s => s.id == studentId);
-            if (student) {
-                student.feePaid = true;
-                localStorage.setItem('students', JSON.stringify(students));
-                alert('Exam fees marked as paid!');
-            }
-        }
-        
-        function recordPayment() {
-            markExamFeesPaid();
-        }
-        
-        // Mock Test
-        const testQuestions = {
-            "electrician": {
-                "1st": {
-                    "trade-theory": [
-                        {question: "What is smothering in fire extinguishing?", options: ["Adding fuel", "Removing fuel", "Using water", "Isolating from oxygen"], correct: 3},
-                        {question: "Correct sequence for fire extinguisher?", options: ["Pull, Aim, Squeeze, Sweep", "Pull, Aim, Sweep, Squeeze", "Push, Arrange, Squeeze, Sweep", "Push, Arrange, Sweep"], correct: 0},
-                        {question: "Which hazard causes infection?", options: ["Electrical", "Biological", "Physiological", "Chemical"], correct: 1},
-                        {question: "Use of mortise chisel?", options: ["General work", "Rectangular holes", "Paring joints", "Cleaning corners"], correct: 1},
-                        {question: "Cold chisel for squaring corners?", options: ["Web chisel", "Cross cut", "Half round", "Diamond point"], correct: 3},
-                        {question: "Caliper for parallel lines?", options: ["Inside", "Jenny", "Outside", "Spring joint"], correct: 2},
-                        {question: "Timber defect from improper seasoning?", options: ["Knot", "Twisting", "Cracking", "Cupping"], correct: 2},
-                        {question: "Current capacity of 32A cable with fuse?", options: ["13A", "16A", "26A", "39A"], correct: 2},
-                        {question: "Full form of XLPE Cable?", options: ["Cross Line Poly", "X ess Line Phase", "Cross Linked Poly", "Excess Length Paper"], correct: 2},
-                        {question: "Purpose of serving layers in underground cable?", options: ["Moisture protection", "Mechanical injury", "Corrosion protection", "Atmospheric protection"], correct: 2}
-                    ],
-                    "workshop-calculation": [
-                        {question: "Energy consumed by 500W lamp for 5 hours?", options: ["0.5 unit", "1.0 unit", "1.5 unit", "2.5 unit"], correct: 3},
-                        {question: "Change in resistance when diameter is doubled?", options: ["Increases 2x", "Decreases 4x", "Decreases half", "No change"], correct: 2},
-                        {question: "Electrons in valence shell of copper?", options: ["1", "2", "8", "18"], correct: 0},
-                        {question: "Electrons in third cell of copper?", options: ["8", "13", "18", "29"], correct: 0},
-                        {question: "Capacitance for 0.5C at 35V?", options: ["0.014F", "0.025F", "0.14F", "0.25F"], correct: 2},
-                        {question: "3-phase reactive power (4kw, 5KVA)?", options: ["1 KVAR", "2 KVAR", "3 KVAR", "4 KVAR"], correct: 2},
-                        {question: "Line current vs phase current in delta?", options: ["IL=IP", "IL=3IP", "IL=√3IP", "IL=IP/√3"], correct: 2},
-                        {question: "Power factor (R=15Ω, X=20Ω, 240V)?", options: ["0.5", "0.6", "0.8", "0.9"], correct: 1},
-                        {question: "Quantities in Ohm's law?", options: ["Current, resistance, power", "Current, voltage, resistivity", "Current, voltage, resistance", "Voltage, resistance, density"], correct: 2},
-                        {question: "Decrease capacitance?", options: ["Increase plate area", "Increase resistance", "Increase plate distance", "High dielectric"], correct: 2}
-                    ],
-                    "engineering-drawing": [
-                        {question: "Purpose of dimension lines?", options: ["Show outline", "Indicate measurements", "Show hidden edges", "Fill colors"], correct: 1},
-                        {question: "Line for hidden edges?", options: ["Solid", "Dashed", "Dotted", "Wavy"], correct: 1},
-                        {question: "Standard scale in drawings?", options: ["1:1", "1:2", "1:5", "All above"], correct: 3},
-                        {question: "Angle for isometric projection?", options: ["30°", "45°", "60°", "90°"], correct: 0},
-                        {question: "Purpose of orthographic projection?", options: ["3D view", "2D multi-angle", "Perspective", "Artistic"], correct: 1},
-                        {question: "Symbol for center line?", options: ["Solid", "Dash-dot", "Dashed", "Dotted"], correct: 1},
-                        {question: "Purpose of sectional views?", options: ["External features", "Internal features", "Dimensions", "Materials"], correct: 1},
-                        {question: "Projection for architectural?", options: ["Isometric", "Orthographic", "Perspective", "Oblique"], correct: 2},
-                        {question: "Standard paper size?", options: ["A4", "A3", "A2", "All above"], correct: 3},
-                        {question: "Tool for parallel lines?", options: ["Compass", "Set square", "Protractor", "T-square"], correct: 3}
-                    ],
-                    "employability-skill": [
-                        {question: "Importance of communication?", options: ["Impress colleagues", "Convey ideas", "Waste time", "Avoid work"], correct: 1},
-                        {question: "Key component of teamwork?", options: ["Working alone", "Cooperation", "Competition", "Ignore others"], correct: 1},
-                        {question: "What is time management?", options: ["Waste time", "Plan efficiently", "Do nothing", "Sleep at work"], correct: 1},
-                        {question: "Handle difficult customer?", options: ["Ignore", "Listen patiently", "Argue", "Be rude"], correct: 1},
-                        {question: "Importance of punctuality?", options: ["Not important", "Shows professionalism", "Waste time", "Confuse others"], correct: 1},
-                        {question: "Skill for solving problems?", options: ["Ignore", "Critical thinking", "Complain", "Avoid"], correct: 1},
-                        {question: "Role of team leader?", options: ["Blame others", "Guide team", "Do all work", "Create conflict"], correct: 1},
-                        {question: "Respond to feedback?", options: ["Get angry", "Accept and improve", "Ignore", "Blame"], correct: 1},
-                        {question: "Professional ethics?", options: ["Break rules", "Follow principles", "Cheat", "Dishonest"], correct: 1},
-                        {question: "Career development?", options: ["Stay stagnant", "Continuous learning", "Avoid challenges", "Procrastinate"], correct: 1}
-                    ]
-                }
-            }
-        };
-        
-        let currentTrade, currentYear, currentSubject, currentQuestionIndex = 0, selectedAnswers = {};
-        
-        function selectSubject() {
-            currentTrade = document.getElementById('tradeSelect').value;
-            currentYear = document.getElementById('yearSelect').value;
-            if (!currentTrade || !currentYear) {
-                alert('Please select both Trade and Year');
-                return;
-            }
-            document.getElementById('testSelection').style.display = 'none';
-            document.getElementById('subjectSelection').style.display = 'block';
-            document.getElementById('tradeYearDisplay').textContent = currentTrade.charAt(0).toUpperCase() + currentTrade.slice(1) + ' - ' + currentYear;
-        }
-        
-        function startTest(subject) {
-            currentSubject = subject;
-            currentQuestionIndex = 0;
-            selectedAnswers = {};
-            const questions = testQuestions[currentTrade][currentYear][subject];
-            if (!questions) {
-                alert('Questions not available');
-                return;
-            }
-            document.getElementById('subjectSelection').style.display = 'none';
-            document.getElementById('testContent').style.display = 'block';
-            document.getElementById('totalQuestions').textContent = questions.length;
-            displayQuestion();
-        }
-        
-        function displayQuestion() {
-            const questions = testQuestions[currentTrade][currentYear][currentSubject];
-            const question = questions[currentQuestionIndex];
-            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
-            document.getElementById('testTitle').textContent = currentSubject.replace(/-/g, ' ').toUpperCase();
-            document.getElementById('questionText').textContent = question.question;
-            const optionsContainer = document.getElementById('optionsContainer');
-            optionsContainer.innerHTML = '';
-            question.options.forEach((option, index) => {
-                const isSelected = selectedAnswers[currentQuestionIndex] === index;
-                const optionDiv = document.createElement('div');
-                optionDiv.className = 'question-option' + (isSelected ? ' selected' : '');
-                optionDiv.innerHTML = `<input type="radio" name="option" value="${index}" ${isSelected ? 'checked' : ''} style="margin-right: 0.5rem;"><label style="cursor: pointer; margin: 0;">${String.fromCharCode(65 + index)}) ${option}</label>`;
-                optionDiv.onclick = () => selectOption(index);
-                optionsContainer.appendChild(optionDiv);
-            });
-            document.getElementById('prevBtn').style.display = currentQuestionIndex > 0 ? 'block' : 'none';
-            document.getElementById('nextBtn').style.display = currentQuestionIndex < questions.length - 1 ? 'block' : 'none';
-            document.getElementById('submitBtn').style.display = currentQuestionIndex === questions.length - 1 ? 'block' : 'none';
-        }
-        
-        function selectOption(index) {
-            selectedAnswers[currentQuestionIndex] = index;
-            displayQuestion();
-        }
-        
-        function nextQuestion() {
-            const questions = testQuestions[currentTrade][currentYear][currentSubject];
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                displayQuestion();
-            }
-        }
-        
-        function previousQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                displayQuestion();
-            }
-        }
-        
-        function submitTest() {
-            const questions = testQuestions[currentTrade][currentYear][currentSubject];
-            let score = 0;
-            for (let i = 0; i < questions.length; i++) {
-                if (selectedAnswers[i] === questions[i].correct) score++;
-            }
-            const percentage = Math.round((score / questions.length) * 100);
-            document.getElementById('testContent').style.display = 'none';
-            document.getElementById('resultContent').style.display = 'block';
-            document.getElementById('scoreDisplay').textContent = score + ' / ' + questions.length;
-            document.getElementById('scorePercentage').textContent = percentage + '% Score';
-        }
-        
-        function retakeTest() {
-            startTest(currentSubject);
-            document.getElementById('resultContent').style.display = 'none';
-            document.getElementById('testContent').style.display = 'block';
-        }
-        
-        function backToTradeSelection() {
-            document.getElementById('subjectSelection').style.display = 'none';
-            document.getElementById('testContent').style.display = 'none';
-            document.getElementById('resultContent').style.display = 'none';
-            document.getElementById('testSelection').style.display = 'block';
-            document.getElementById('tradeSelect').value = '';
-            document.getElementById('yearSelect').value = '';
+            const totalCollection = payments.reduce((sum, p) => sum + p.amount, 0);
+            document.getElementById('totalCollection').textContent = '₹' + totalCollection;
         }
     </script>
 </body>
