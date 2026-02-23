@@ -64,6 +64,30 @@
         .gallery-item img { width: 100%; height: 250px; object-fit: cover; display: block; }
         .gallery-item .caption { padding: 1rem; background: white; text-align: center; font-weight: bold; color: #1e40af; }
 
+        /* Language Toggle Styles */
+        .language-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .language-toggle button {
+            background: #1e40af;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .language-toggle button.active {
+            background: #f59e0b;
+        }
+        .language-toggle button:hover:not(.active) {
+            background: #1e3a8a;
+        }
+
         /* Mock Test Styles */
         .quiz-container { max-width: 800px; margin: 0 auto; }
         .question-card { display: none; }
@@ -114,6 +138,7 @@
         <li><a class="nav-btn" data-page="contact">Contact</a></li>
         <li><a class="nav-btn" data-page="student-mgmt">👤 Student Mgmt</a></li>
         <li><a class="nav-btn" data-page="mock-test">📝 Mock Test</a></li>
+        <li><a class="nav-btn" data-page="receipt">🧾 Receipt</a></li>
     </ul>
     
     <!-- HOME PAGE -->
@@ -185,6 +210,95 @@
         </div>
     </section>
 
+    <!-- MOCK TEST PAGE -->
+    <section class="page-section no-print" id="mock-test">
+        <div class="container">
+            <h2 class="section-title">📝 Mock Test</h2>
+            <div class="card quiz-container">
+                <div class="language-toggle">
+                    <button id="lang-en" class="active">English</button>
+                    <button id="lang-hi">हिन्दी</button>
+                </div>
+                <div class="form-group">
+                    <label for="trade-select">Select Trade:</label>
+                    <select id="trade-select" class="form-control">
+                        <option value="Electrician">Electrician</option>
+                        <option value="Fitter">Fitter</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="subject-select">Select Subject:</label>
+                    <select id="subject-select" class="form-control">
+                        <option value="Trade Theory">Trade Theory</option>
+                        <option value="Employability Skills">Employability Skills</option>
+                        <option value="Workshop Calculation">Workshop Calculation</option>
+                        <option value="Engineering Drawing">Engineering Drawing</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" id="start-quiz-btn">Start Quiz</button>
+
+                <div id="quiz-area" style="display: none;">
+                    <div class="quiz-header">
+                        <span id="question-counter"></span>
+                        <span id="timer"></span>
+                    </div>
+                    <h3 id="question-text" style="margin-bottom: 1rem; color: #1e40af;"></h3>
+                    <div id="options-container"></div>
+                    <button class="btn btn-secondary" id="next-question-btn" style="margin-top: 1rem;">Next Question</button>
+                </div>
+
+                <div id="quiz-results" style="display: none;">
+                    <h3 class="section-title">Quiz Results</h3>
+                    <p>Total Questions: <span id="total-questions-result"></span></p>
+                    <p>Correct Answers: <span id="correct-answers-result"></span></p>
+                    <p>Percentage: <span id="percentage-result"></span>%</p>
+                    <p id="performance-message"></p>
+                    <button class="btn btn-primary" id="retake-quiz-btn">Retake Quiz</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STUDENT MANAGEMENT PAGE -->
+    <section class="page-section no-print" id="student-mgmt">
+        <div class="container">
+            <h2 class="section-title">👤 Student Management</h2>
+            <div id="login-form" class="card" style="max-width: 400px; margin: 0 auto;">
+                <h3>Admin Login</h3>
+                <div class="form-group">
+                    <label for="admin-password">Password:</label>
+                    <input type="password" id="admin-password" class="form-control">
+                </div>
+                <button class="btn btn-primary" id="login-btn">Login</button>
+                <p id="login-error" style="color: red; display: none;">Incorrect password.</p>
+            </div>
+
+            <div id="student-management-content" style="display: none;">
+                <div class="card" style="max-width: 600px; margin: 0 auto;">
+                    <h3>Add New Student</h3>
+                    <form id="studentForm">
+                        <div class="form-group"><label>Name *</label><input type="text" id="studentName" required></div>
+                        <div class="form-group"><label>Trade *</label><select id="studentTrade" required><option value="Electrician">Electrician</option><option value="Fitter">Fitter</option></select></div>
+                        <div class="form-group"><label>Phone *</label><input type="tel" id="studentPhone" required></div>
+                        <button type="submit" class="btn btn-success">Add Student</button>
+                    </form>
+                </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <h3>Student List</h3>
+                    <table id="studentTable">
+                        <thead>
+                            <tr><th>Name</th><th>Trade</th><th>Phone</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody>
+                            <!-- Student data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ADMISSION PAGE -->
     <section class="page-section no-print" id="admission">
         <div class="container">
@@ -194,8 +308,10 @@
                     <div class="form-group"><label>Full Name *</label><input type="text" required></div>
                     <div class="form-group"><label>Phone Number *</label><input type="tel" required></div>
                     <div class="form-group"><label>Select Trade *</label><select required><option value="electrician">Electrician</option><option value="fitter">Fitter</option></select></div>
-                    <div class="form-group"><label>Address</label><textarea rows="3"></textarea></div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Application</button>
+                    <div class="form-group"><label>Date of Birth *</label><input type="date" required></div>
+                    <div class="form-group"><label>Email Address</label><input type="email"></div>
+                    <div class="form-group"><label>Address *</label><textarea rows="3" required></textarea></div>
+                    <button type="submit" class="btn btn-primary" onclick="submitAdmissionForm()">Submit Application</button>
                 </form>
             </div>
         </div>
@@ -204,23 +320,19 @@
     <!-- GALLERY PAGE -->
     <section class="page-section no-print" id="gallery">
         <div class="container">
-            <h2 class="section-title">Photo Gallery</h2>
+            <h2 class="section-title">Our Gallery</h2>
             <div class="gallery-grid">
                 <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=800&q=80" alt="Workshop">
-                    <div class="caption">Practical Workshop</div>
+                    <img src="https://yuwamitiumaria-rgb.github.io/yuwam-iti-website/assets/director.jpg" alt="Director">
+                    <div class="caption">Director</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80" alt="Classroom">
-                    <div class="caption">Theory Classroom</div>
+                    <img src="https://yuwamitiumaria-rgb.github.io/yuwam-iti-website/assets/independence_day.jpg" alt="Independence Day Celebration">
+                    <div class="caption">Independence Day Celebration</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=800&q=80" alt="Lab">
-                    <div class="caption">Electrical Lab</div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80" alt="Computer Lab">
-                    <div class="caption">Computer Lab</div>
+                    <img src="https://yuwamitiumaria-rgb.github.io/yuwam-iti-website/assets/vishwakarma_pooja.jpg" alt="Vishwakarma Pooja Celebration">
+                    <div class="caption">Vishwakarma Pooja Celebration</div>
                 </div>
             </div>
         </div>
@@ -230,21 +342,11 @@
     <section class="page-section no-print" id="contact">
         <div class="container">
             <h2 class="section-title">Contact Us</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3 style="color: #1e40af; margin-bottom: 1rem;">📍 Address</h3>
-                    <p>Near RC School, Umaria</p>
-                    <p>Madhya Pradesh - 484661</p>
-                </div>
-                <div class="card">
-                    <h3 style="color: #1e40af; margin-bottom: 1rem;">📞 Phone</h3>
-                    <p>+91 91314 15161</p>
-                    <p>+91 94243 45421</p>
-                </div>
-                <div class="card">
-                    <h3 style="color: #1e40af; margin-bottom: 1rem;">✉️ Email</h3>
-                    <p>yuwamiti@gmail.com</p>
-                </div>
+            <div class="card" style="max-width: 600px; margin: 0 auto;">
+                <p><strong>Address:</strong> Near RC School, Umaria, Madhya Pradesh, 484661</p>
+                <p><strong>Phone:</strong> +91 98765 43210</p>
+                <p><strong>Email:</strong> info@yuwamiti.com</p>
+                <p><strong>Website:</strong> www.yuwamiti.com</p>
             </div>
         </div>
     </section>
@@ -255,63 +357,39 @@
             <h2 class="section-title">Student Management</h2>
             
             <div class="grid">
-                <div class="card" style="text-align: center;">
-                    <h4 style="color: #6b7280;">Total Students</h4>
-                    <h2 id="totalStudents" style="font-size: 2.5rem; color: #1e40af;">0</h2>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <h4 style="color: #6b7280;">Total Collection</h4>
-                    <h2 id="totalCollection" style="font-size: 2.5rem; color: #10b981;">₹0</h2>
-                </div>
-            </div>
-
-            <div class="grid" style="margin-top: 2rem;">
-                <!-- Add Student -->
                 <div class="card">
-                    <h3 style="color: #1e40af; margin-bottom: 1.5rem;">➕ Add New Student</h3>
-                    <div class="form-group"><label>Student Name</label><input type="text" id="studentName"></div>
-                    <div class="form-group"><label>Roll Number</label><input type="text" id="rollNumber"></div>
+                    <h3>Add New Student</h3>
+                    <div class="form-group"><label>Name</label><input type="text" id="studentName"></div>
+                    <div class="form-group"><label>Roll No</label><input type="text" id="rollNumber"></div>
                     <div class="form-group"><label>Phone</label><input type="tel" id="studentPhone"></div>
-                    <div class="form-group">
-                        <label>Trade</label>
-                        <select id="studentTrade">
-                            <option value="Electrician">Electrician</option>
-                            <option value="Fitter">Fitter</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Year</label>
-                        <select id="studentYear">
-                            <option value="1st Year">1st Year</option>
-                            <option value="2nd Year">2nd Year</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-primary" onclick="addStudent()" style="width: 100%;">Save Student</button>
+                    <div class="form-group"><label>Trade</label><select id="studentTrade"><option value="electrician">Electrician</option><option value="fitter">Fitter</option></select></div>
+                    <div class="form-group"><label>Year</label><select id="studentYear"><option value="1st Year">1st Year</option><option value="2nd Year">2nd Year</option></select></div>
+                    <button class="btn btn-primary" onclick="addStudent()">Add Student</button>
                 </div>
-
-                <!-- Fee Payment -->
+                
                 <div class="card">
-                    <h3 style="color: #1e40af; margin-bottom: 1.5rem;">💸 Fee Payment</h3>
-                    <div class="form-group">
-                        <label>Select Student</label>
-                        <select id="paymentStudent" onchange="updatePaymentDetails()">
-                            <option value="">-- Select Student --</option>
-                        </select>
-                    </div>
+                    <h3>Record Payment</h3>
+                    <div class="form-group"><label>Select Student</label><select id="paymentStudent" onchange="updatePaymentDetails()"></select></div>
                     <div id="paymentDetails" style="display: none;">
-                        <div class="form-group"><label>Amount (₹)</label><input type="number" id="paymentAmount"></div>
-                        <div class="form-group"><label>Payment For</label><input type="text" id="paymentFor" placeholder="e.g. Tuition Fee"></div>
+                        <div class="form-group"><label>Amount</label><input type="number" id="paymentAmount"></div>
+                        <div class="form-group"><label>For</label><input type="text" id="paymentFor"></div>
                         <div class="form-group"><label>Date</label><input type="date" id="paymentDate"></div>
-                        <button class="btn btn-success" onclick="recordPayment()" style="width: 100%;">Record & Print Receipt</button>
+                        <button class="btn btn-success" onclick="recordPayment()">Record Payment</button>
                     </div>
                 </div>
             </div>
 
-            <div class="card" style="margin-top: 2rem;">
-                <h3 style="color: #1e40af; margin-bottom: 1.5rem;">📋 Student List</h3>
+            <h3 style="margin-top: 2rem; color: #1e40af;">Student List</h3>
+            <div class="card">
                 <table id="studentsTable">
                     <tr><th>Name</th><th>Roll No</th><th>Trade</th><th>Year</th></tr>
                 </table>
+            </div>
+
+            <h3 style="margin-top: 2rem; color: #1e40af;">Dashboard</h3>
+            <div class="card">
+                <p>Total Students: <span id="totalStudents">0</span></p>
+                <p>Total Collection: <span id="totalCollection">₹0</span></p>
             </div>
         </div>
     </section>
@@ -319,112 +397,170 @@
     <!-- MOCK TEST PAGE -->
     <section class="page-section no-print" id="mock-test">
         <div class="container">
-            <h2 class="section-title">Nimmi NCVT Mock Test</h2>
-            <div class="quiz-container card">
-                <div id="tradeSelection">
-                    <h3 style="text-align: center; margin-bottom: 1.5rem;">Select Your Trade & Subject</h3>
-                    <div class="form-group">
-                        <label>Trade</label>
-                        <select id="quizTrade" onchange="updateSubjectOptions()">
-                            <option value="Electrician">Electrician</option>
-                            <option value="Fitter">Fitter</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Subject</label>
-                        <select id="quizSubject">
-                            <option value="Trade Theory">Trade Theory</option>
-                            <option value="Employability Skills">Employability Skills</option>
-                            <option value="Workshop Calculation">Workshop Calculation</option>
-                            <option value="Engineering Drawing">Engineering Drawing</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-primary" onclick="startQuiz()" style="width: 100%;">Start Mock Test</button>
+            <h2 class="section-title">Mock Test</h2>
+            
+            <div id="quizSetup">
+                <div class="form-group">
+                    <label>Select Trade</label>
+                    <select id="quizTrade" onchange="updateSubjectOptions()">
+                        <option value="Electrician">Electrician</option>
+                        <option value="Fitter">Fitter</option>
+                    </select>
                 </div>
+                <div class="form-group">
+                    <label>Select Subject</label>
+                    <select id="quizSubject">
+                        <option value="Trade Theory">Trade Theory</option>
+                        <option value="Employability Skills">Employability Skills</option>
+                        <option value="Workshop Calculation">Workshop Calculation</option>
+                        <option value="Engineering Drawing">Engineering Drawing</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="startQuiz()">Start Quiz</button>
+            </div>
 
-                <div id="quizArea" style="display: none;">
-                    <div class="quiz-header">
-                        <div id="questionNumber" style="font-weight: bold;">Question 1/25</div>
-                        <div class="score-display">Score: <span id="currentScore">0</span></div>
-                    </div>
-                    <div id="questionText" style="font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: bold;"></div>
-                    <div id="optionsArea"></div>
-                    <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
-                        <button class="btn btn-secondary" onclick="resetQuiz()">Exit Test</button>
-                    </div>
+            <div id="quizArea" style="display: none;">
+                <div class="quiz-header">
+                    <div id="questionNumber" style="font-weight: bold;">Question 1/25</div>
+                    <div class="score-display">Score: <span id="currentScore">0</span></div>
                 </div>
+                <div id="questionText" style="font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: bold;"></div>
+                <div id="optionsArea"></div>
+                <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                    <button class="btn btn-secondary" onclick="resetQuiz()">Exit Test</button>
+                </div>
+            </div>
 
-                <div id="resultArea" style="display: none; text-align: center;">
-                    <h2 style="color: #1e40af; margin-bottom: 1rem;">Test Completed!</h2>
-                    <div style="font-size: 3rem; font-weight: 800; color: #10b981; margin-bottom: 1rem;" id="finalScore">0/25</div>
-                    <p id="scoreMessage" style="font-size: 1.2rem; margin-bottom: 2rem;"></p>
-                    <button class="btn btn-primary" onclick="resetQuiz()">Try Again</button>
-                </div>
+            <div id="quizResult" style="display: none; text-align: center;">
+                <h3 style="color: #1e40af;">Quiz Completed!</h3>
+                <p style="font-size: 1.2rem;">Your Score: <span id="finalScore">0</span> / <span id="totalQuestions">0</span></p>
+                <p id="performanceMessage" style="font-size: 1.1rem; font-weight: bold;"></p>
+                <button class="btn btn-primary" onclick="resetQuiz()">Take Another Quiz</button>
             </div>
         </div>
     </section>
 
-    <!-- RECEIPT PRINT TEMPLATE -->
+    <!-- RECEIPT PRINT AREA -->
     <div id="receipt-print">
-        <div style="text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 15px;">
-            <h2 style="margin: 0;">YUWAM Pvt ITI Umaria</h2>
-            <p style="margin: 5px 0;">Near RC School, Umaria (M.P.)</p>
-            <p style="margin: 0;">Phone: 9131415161, 9424345421</p>
-        </div>
-        <h3 style="text-align: center; text-decoration: underline;">FEE RECEIPT</h3>
-        <div style="display: flex; justify-content: space-between; margin: 15px 0;">
-            <span>Receipt No: <strong id="r-no"></strong></span>
-            <span>Date: <strong id="r-date"></strong></span>
-        </div>
-        <p>Student Name: <strong id="r-name"></strong></p>
-        <p>Roll Number: <strong id="r-roll"></strong></p>
-        <p>Trade: <strong id="r-trade"></strong> | Year: <strong id="r-year"></strong></p>
-        <table style="margin-top: 20px; border: 1px solid #333;">
-            <tr style="background: #eee;">
-                <th style="border: 1px solid #333; color: black;">Description</th>
-                <th style="border: 1px solid #333; color: black; text-align: right;">Amount</th>
-            </tr>
-            <tr>
-                <td style="border: 1px solid #333;" id="r-desc"></td>
-                <td style="border: 1px solid #333; text-align: right;">₹<span id="r-amount"></span></td>
-            </tr>
-            <tr style="font-weight: bold;">
-                <td style="border: 1px solid #333; text-align: right;">TOTAL PAID</td>
-                <td style="border: 1px solid #333; text-align: right;">₹<span id="r-total"></span></td>
-            </tr>
-        </table>
-        <div style="margin-top: 40px; display: flex; justify-content: space-between;">
-            <div style="text-align: center;"><p>_________________</p><p>Student Signature</p></div>
-            <div style="text-align: center;"><p>_________________</p><p>Authorized Signatory</p></div>
-        </div>
+        <h2 style="text-align: center; color: #1e40af;">YUWAM ITI UMARIA</h2>
+        <p style="text-align: center;">Near RC School, Umaria, MP</p>
+        <hr style="margin: 10px 0;">
+        <h3 style="text-align: center;">FEE RECEIPT</h3>
+        <p><strong>Receipt No:</strong> <span id="r-no"></span></p>
+        <p><strong>Date:</strong> <span id="r-date"></span></p>
+        <p><strong>Student Name:</strong> <span id="r-name"></span></p>
+        <p><strong>Roll No:</strong> <span id="r-roll"></span></p>
+        <p><strong>Trade:</strong> <span id="r-trade"></span></p>
+        <p><strong>Year:</strong> <span id="r-year"></span></p>
+        <p><strong>Payment For:</strong> <span id="r-desc"></span></p>
+        <p><strong>Amount:</strong> ₹<span id="r-amount"></span></p>
+        <hr style="margin: 10px 0;">
+        <p style="font-weight: bold;">Total Paid: ₹<span id="r-total"></span></p>
+        <p style="margin-top: 20px; text-align: center; font-size: 0.9em;">Thank you for your payment!</p>
     </div>
 
     <div class="footer no-print">
-        <p>&copy; 2024 YUWAM Pvt ITI Umaria. All Rights Reserved.</p>
+        <p>&copy; 2024 YUWAM ITI UMARIA. All rights reserved.</p>
     </div>
 
-    <script>
+        <script>
+            const quizData = 
         // Page Navigation
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const pageId = btn.getAttribute('data-page');
-                showPage(pageId);
+        function showPage(pageId) {
+            document.querySelectorAll(".page-section").forEach(section => {
+                section.classList.remove("active");
             });
+            document.querySelectorAll(".nav-btn").forEach(btn => {
+                btn.classList.remove("active");
+            });
+            document.getElementById(pageId).classList.add("active");
+            document.querySelector(`[data-page="${pageId}"]`).classList.add("active");
+        }
+
+        // Initial page load
+        document.addEventListener("DOMContentLoaded", () => {
+            showPage("home");
         });
 
-        function showPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            
-            document.getElementById(pageId).classList.add('active');
-            document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
-            
-            if(pageId === 'student-mgmt') {
-                populateStudentDropdown();
-                loadStudents();
-                loadDashboard();
-            }
+        // Student Management Functions
+        let students = JSON.parse(localStorage.getItem('students')) || [];
+        let payments = JSON.parse(localStorage.getItem('payments')) || [];
+
+        function addStudent() {
+            const name = document.getElementById('studentName').value;
+            const roll = document.getElementById('rollNumber').value;
+            if(!name || !roll) return alert('Name and Roll Number are required!');
+            const student = { id: Date.now(), name, roll, phone: document.getElementById('studentPhone').value, trade: document.getElementById('studentTrade').value, year: document.getElementById('studentYear').value };
+            students.push(student);
+            localStorage.setItem('students', JSON.stringify(students));
+            alert('Student added successfully!');
+            document.getElementById('studentName').value = '';
+            document.getElementById('rollNumber').value = '';
+            document.getElementById('studentPhone').value = '';
+            loadStudents();
+            loadDashboard();
+            populateStudentDropdown();
         }
+
+        function populateStudentDropdown() {
+            const select = document.getElementById('paymentStudent');
+            select.innerHTML = '<option value="">-- Select Student --</option>';
+            students.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s.id;
+                opt.textContent = `${s.name} (${s.roll})`;
+                select.appendChild(opt);
+            });
+        }
+
+        function updatePaymentDetails() {
+            const studentId = document.getElementById('paymentStudent').value;
+            document.getElementById('paymentDetails').style.display = studentId ? 'block' : 'none';
+            document.getElementById('paymentDate').valueAsDate = new Date();
+        }
+
+        function recordPayment() {
+            const studentId = document.getElementById('paymentStudent').value;
+            const amount = document.getElementById('paymentAmount').value;
+            if(!studentId || !amount) return alert('Please select student and amount!');
+            const student = students.find(s => s.id == studentId);
+            const payment = { id: Date.now(), studentId, amount: parseFloat(amount), purpose: document.getElementById('paymentFor').value, date: document.getElementById('paymentDate').value };
+            payments.push(payment);
+            localStorage.setItem('payments', JSON.stringify(payments));
+            
+            document.getElementById('r-no').textContent = payment.id;
+            document.getElementById('r-date').textContent = payment.date;
+            document.getElementById('r-name').textContent = student.name;
+            document.getElementById('r-roll').textContent = student.roll;
+            document.getElementById('r-trade').textContent = student.trade;
+            document.getElementById('r-year').textContent = student.year;
+            document.getElementById('r-desc').textContent = payment.purpose;
+            document.getElementById('r-amount').textContent = payment.amount;
+            document.getElementById('r-total').textContent = payment.amount;
+            
+            document.getElementById('receipt-print').style.display = 'block';
+            window.print();
+            document.getElementById('receipt-print').style.display = 'none';
+            loadDashboard();
+        }
+
+        function loadStudents() {
+            const table = document.getElementById('studentsTable');
+            table.innerHTML = `<tr><th>Name</th><th>Roll No</th><th>Trade</th><th>Year</th></tr>` + 
+                students.map(s => `<tr><td>${s.name}</td><td>${s.roll}</td><td>${s.trade}</td><td>${s.year}</td></tr>`).join('');
+        }
+
+        function loadDashboard() {
+            document.getElementById('totalStudents').textContent = students.length;
+            document.getElementById('totalCollection').textContent = '₹' + payments.reduce((sum, p) => sum + p.amount, 0);
+        }
+
+        // Initial Load
+        window.onload = () => {
+            loadStudents();
+            loadDashboard();
+            populateStudentDropdown();
+        };
 
         // Mock Test Logic
         const quizData = {
@@ -545,7 +681,7 @@
                     {"question": "Which file is used for heavy reduction of metal?", "options": ["Smooth file", "Bastard file", "Dead smooth file", "Second cut file"], "answer": "B"},
                     {"question": "What is the purpose of a coolant while drilling?", "options": ["To increase speed", "To reduce friction and heat", "To clean the hole", "To sharpen the drill"], "answer": "B"},
                     {"question": "Which hammer is used for riveting?", "options": ["Sledge hammer", "Ball peen hammer", "Claw hammer", "Mallet"], "answer": "B"},
-                    {"question": "What is the least count of a Vernier Caliper?", "options": ["0.1 mm", "0.02 mm", "0.5 mm", "1 mm"], "answer": "B"},
+                    {"question": "What is the least count of a Vernier Caliper?", "options": ["0.02 mm", "0.02 mm", "0.5 mm", "1 mm"], "answer": "B"},
                     {"question": "Which tool is used to cut external threads?", "options": ["Tap", "Die", "Reamer", "Drill"], "answer": "B"},
                     {"question": "What is the material of a cold chisel?", "options": ["Mild steel", "High carbon steel", "Cast iron", "Brass"], "answer": "B"},
                     {"question": "Which vice is used for holding round jobs?", "options": ["Bench vice", "Pipe vice", "Hand vice", "Pin vice"], "answer": "B"},
@@ -655,57 +791,76 @@
         let score = 0;
 
         function updateSubjectOptions() {
+            const quizTrade = document.getElementById('quizTrade').value;
+            const quizSubjectSelect = document.getElementById('quizSubject');
+            quizSubjectSelect.innerHTML = ''; // Clear existing options
+
+            if (quizData[quizTrade]) {
+                for (const subject in quizData[quizTrade]) {
+                    const option = document.createElement('option');
+                    option.value = subject;
+                    option.textContent = subject;
+                    quizSubjectSelect.appendChild(option);
+                }
+            }
             // Currently all trades have the same subjects
         }
 
         function startQuiz() {
             const trade = document.getElementById('quizTrade').value;
             const subject = document.getElementById('quizSubject').value;
-            
-            currentQuestions = quizData[trade][subject];
-            currentQuestionIndex = 0;
-            score = 0;
-            
-            document.getElementById('tradeSelection').style.display = 'none';
-            document.getElementById('quizArea').style.display = 'block';
-            document.getElementById('resultArea').style.display = 'none';
-            
-            showQuestion();
+            if (quizData[trade] && quizData[trade][subject]) {
+                currentQuestions = quizData[trade][subject];
+                currentQuestionIndex = 0;
+                score = 0;
+                document.getElementById('quizSetup').style.display = 'none';
+                document.getElementById('quizArea').style.display = 'block';
+                document.getElementById('quizResult').style.display = 'none';
+                showQuestion();
+            } else {
+                alert('No questions found for the selected trade and subject.');
+            }
         }
 
         function showQuestion() {
             const q = currentQuestions[currentQuestionIndex];
             document.getElementById('questionNumber').textContent = `Question ${currentQuestionIndex + 1}/${currentQuestions.length}`;
             document.getElementById('currentScore').textContent = score;
-            document.getElementById('questionText').textContent = q.question;
+            document.getElementById("questionText").textContent = q.question;
             
-            const optionsArea = document.getElementById('optionsArea');
-            optionsArea.innerHTML = '';
+            const optionsArea = document.getElementById("optionsArea");
+            optionsArea.innerHTML = "";
             
             q.options.forEach((opt, index) => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn';
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
                 btn.textContent = `${String.fromCharCode(65 + index)}. ${opt}`;
                 btn.onclick = () => checkAnswer(index, btn);
                 optionsArea.appendChild(btn);
             });
         }
 
-        function checkAnswer(selectedIndex, btn) {
+        function checkAnswer(selectedIndex, selectedBtn) {
             const q = currentQuestions[currentQuestionIndex];
-            const correctIndex = q.answer.charCodeAt(0) - 65;
+            const optionsArea = document.getElementById("optionsArea");
             
-            const allBtns = document.querySelectorAll('.option-btn');
-            allBtns.forEach(b => b.disabled = true);
-            
-            if (selectedIndex === correctIndex) {
-                btn.classList.add('correct');
-                score++;
-            } else {
-                btn.classList.add('wrong');
-                allBtns[correctIndex].classList.add('correct');
-            }
-            
+            // Disable all buttons after an answer is selected
+            Array.from(optionsArea.children).forEach(btn => {
+                btn.disabled = true;
+                if (btn === selectedBtn) {
+                    if (String.fromCharCode(65 + selectedIndex) === q.answer) {
+                        btn.classList.add('correct');
+                        score++;
+                    } else {
+                        btn.classList.add('wrong');
+                    }
+                }
+                // Highlight the correct answer
+                if (String.fromCharCode(65 + Array.from(optionsArea.children).indexOf(btn)) === q.answer) {
+                    btn.classList.add('correct');
+                }
+            });
+
             setTimeout(() => {
                 currentQuestionIndex++;
                 if (currentQuestionIndex < currentQuestions.length) {
@@ -713,108 +868,273 @@
                 } else {
                     showResult();
                 }
-            }, 1500);
+            }, 1500); // Wait 1.5 seconds before moving to the next question
         }
 
         function showResult() {
             document.getElementById('quizArea').style.display = 'none';
-            document.getElementById('resultArea').style.display = 'block';
-            document.getElementById('finalScore').textContent = `${score}/${currentQuestions.length}`;
-            
+            document.getElementById('quizResult').style.display = 'block';
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('totalQuestions').textContent = currentQuestions.length;
+
+            let message = '';
             const percentage = (score / currentQuestions.length) * 100;
-            let msg = "";
-            if (percentage >= 80) msg = "Excellent! You are well prepared.";
-            else if (percentage >= 50) msg = "Good job! Keep practicing.";
-            else msg = "Need more practice. Try again!";
-            
-            document.getElementById('scoreMessage').textContent = msg;
+            if (percentage >= 80) {
+                message = 'Excellent! Keep up the great work.';
+            } else if (percentage >= 50) {
+                message = 'Good effort! You are on the right track.';
+            } else {
+                message = 'Needs improvement. Review the topics and try again.';
+            }
+            document.getElementById('performanceMessage').textContent = message;
         }
 
         function resetQuiz() {
-            document.getElementById('tradeSelection').style.display = 'block';
+            document.getElementById('quizSetup').style.display = 'block';
             document.getElementById('quizArea').style.display = 'none';
-            document.getElementById('resultArea').style.display = 'none';
+            document.getElementById('quizResult').style.display = 'none';
+            currentQuestionIndex = 0;
+            score = 0;
+            updateSubjectOptions(); // Reset subject options
         }
 
-        // Student Management Functions
-        let students = JSON.parse(localStorage.getItem('students')) || [];
-        let payments = JSON.parse(localStorage.getItem('payments')) || [];
+        // Initial call to set up subject options
+        document.addEventListener('DOMContentLoaded', updateSubjectOptions);
 
-        function addStudent() {
-            const name = document.getElementById('studentName').value;
-            const roll = document.getElementById('rollNumber').value;
-            if(!name || !roll) return alert('Name and Roll Number are required!');
-            const student = { id: Date.now(), name, roll, phone: document.getElementById('studentPhone').value, trade: document.getElementById('studentTrade').value, year: document.getElementById('studentYear').value };
-            students.push(student);
-            localStorage.setItem('students', JSON.stringify(students));
-            alert('Student added successfully!');
-            document.getElementById('studentName').value = '';
-            document.getElementById('rollNumber').value = '';
-            document.getElementById('studentPhone').value = '';
-            loadStudents();
-            loadDashboard();
-            populateStudentDropdown();
-        }
+        </script>
 
-        function populateStudentDropdown() {
-            const select = document.getElementById('paymentStudent');
-            select.innerHTML = '<option value="">-- Select Student --</option>';
-            students.forEach(s => {
-                const opt = document.createElement('option');
-                opt.value = s.id;
-                opt.textContent = `${s.name} (${s.roll})`;
-                select.appendChild(opt);
+        <script>
+            let currentLanguage = 'en';
+            let currentQuizData = {};
+            let currentQuestions = [];
+            let currentQuestionIndex = 0;
+            let score = 0;
+            let timerInterval;
+
+            const langEnBtn = document.getElementById('lang-en');
+            const langHiBtn = document.getElementById('lang-hi');
+            const tradeSelect = document.getElementById('trade-select');
+            const subjectSelect = document.getElementById('subject-select');
+            const startQuizBtn = document.getElementById('start-quiz-btn');
+            const quizArea = document.getElementById('quiz-area');
+            const questionCounter = document.getElementById('question-counter');
+            const timerDisplay = document.getElementById('timer');
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const nextQuestionBtn = document.getElementById('next-question-btn');
+            const quizResults = document.getElementById('quiz-results');
+            const totalQuestionsResult = document.getElementById('total-questions-result');
+            const correctAnswersResult = document.getElementById('correct-answers-result');
+            const percentageResult = document.getElementById('percentage-result');
+            const performanceMessage = document.getElementById('performance-message');
+            const retakeQuizBtn = document.getElementById('retake-quiz-btn');
+
+            // Student Management elements
+            const loginForm = document.getElementById('login-form');
+            const adminPasswordInput = document.getElementById('admin-password');
+            const loginBtn = document.getElementById('login-btn');
+            const loginError = document.getElementById('login-error');
+            const studentManagementContent = document.getElementById('student-management-content');
+            const studentForm = document.getElementById('studentForm');
+            const studentNameInput = document.getElementById('studentName');
+            const studentTradeSelect = document.getElementById('studentTrade');
+            const studentPhoneInput = document.getElementById('studentPhone');
+            const studentTableBody = document.querySelector('#studentTable tbody');
+
+            let students = JSON.parse(localStorage.getItem('students')) || [];
+
+            function saveStudents() {
+                localStorage.setItem('students', JSON.stringify(students));
+            }
+
+            function renderStudents() {
+                studentTableBody.innerHTML = '';
+                students.forEach((student, index) => {
+                    const row = studentTableBody.insertRow();
+                    row.innerHTML = `
+                        <td>${student.name}</td>
+                        <td>${student.trade}</td>
+                        <td>${student.phone}</td>
+                        <td><button class="btn btn-danger btn-sm" onclick="deleteStudent(${index})">Delete</button></td>
+                    `;
+                });
+            }
+
+            function deleteStudent(index) {
+                if (confirm('Are you sure you want to delete this student record?')) {
+                    students.splice(index, 1);
+                    saveStudents();
+                    renderStudents();
+                }
+            }
+
+            studentForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const newStudent = {
+                    name: studentNameInput.value,
+                    trade: studentTradeSelect.value,
+                    phone: studentPhoneInput.value
+                };
+                students.push(newStudent);
+                saveStudents();
+                renderStudents();
+                studentForm.reset();
             });
-        }
 
-        function updatePaymentDetails() {
-            const studentId = document.getElementById('paymentStudent').value;
-            document.getElementById('paymentDetails').style.display = studentId ? 'block' : 'none';
-            document.getElementById('paymentDate').valueAsDate = new Date();
-        }
+            loginBtn.addEventListener('click', function() {
+                const password = adminPasswordInput.value;
+                if (password === 'Yuwam@007') {
+                    loginForm.style.display = 'none';
+                    studentManagementContent.style.display = 'block';
+                    loginError.style.display = 'none';
+                    renderStudents();
+                } else {
+                    loginError.style.display = 'block';
+                }
+            });
 
-        function recordPayment() {
-            const studentId = document.getElementById('paymentStudent').value;
-            const amount = document.getElementById('paymentAmount').value;
-            if(!studentId || !amount) return alert('Please select student and amount!');
-            const student = students.find(s => s.id == studentId);
-            const payment = { id: Date.now(), studentId, amount: parseFloat(amount), purpose: document.getElementById('paymentFor').value, date: document.getElementById('paymentDate').value };
-            payments.push(payment);
-            localStorage.setItem('payments', JSON.stringify(payments));
-            
-            document.getElementById('r-no').textContent = payment.id;
-            document.getElementById('r-date').textContent = payment.date;
-            document.getElementById('r-name').textContent = student.name;
-            document.getElementById('r-roll').textContent = student.roll;
-            document.getElementById('r-trade').textContent = student.trade;
-            document.getElementById('r-year').textContent = student.year;
-            document.getElementById('r-desc').textContent = payment.purpose;
-            document.getElementById('r-amount').textContent = payment.amount;
-            document.getElementById('r-total').textContent = payment.amount;
-            
-            document.getElementById('receipt-print').style.display = 'block';
-            window.print();
-            document.getElementById('receipt-print').style.display = 'none';
-            loadDashboard();
-        }
+            function setLanguage(lang) {
+                currentLanguage = lang;
+                langEnBtn.classList.remove('active');
+                langHiBtn.classList.remove('active');
+                document.getElementById(`lang-${lang}`).classList.add('active');
+                if (quizArea.style.display === 'block') {
+                    displayQuestion();
+                }
+            }
 
-        function loadStudents() {
-            const table = document.getElementById('studentsTable');
-            table.innerHTML = `<tr><th>Name</th><th>Roll No</th><th>Trade</th><th>Year</th></tr>` + 
-                students.map(s => `<tr><td>${s.name}</td><td>${s.roll}</td><td>${s.trade}</td><td>${s.year}</td></tr>`).join('');
-        }
+            langEnBtn.addEventListener('click', () => setLanguage('en'));
+            langHiBtn.addEventListener('click', () => setLanguage('hi'));
 
-        function loadDashboard() {
-            document.getElementById('totalStudents').textContent = students.length;
-            document.getElementById('totalCollection').textContent = '₹' + payments.reduce((sum, p) => sum + p.amount, 0);
-        }
+            startQuizBtn.addEventListener('click', () => {
+                const selectedTrade = tradeSelect.value;
+                const selectedSubject = subjectSelect.value;
+                if (quizData[selectedTrade] && quizData[selectedTrade][selectedSubject]) {
+                    currentQuizData = quizData[selectedTrade][selectedSubject];
+                    currentQuestions = shuffleArray([...currentQuizData]); // Shuffle questions for each quiz
+                    currentQuestionIndex = 0;
+                    score = 0;
+                    quizResults.style.display = 'none';
+                    quizArea.style.display = 'block';
+                    startQuizBtn.style.display = 'none';
+                    tradeSelect.disabled = true;
+                    subjectSelect.disabled = true;
+                    startTimer();
+                    displayQuestion();
+                } else {
+                    alert('No questions available for the selected trade and subject.');
+                }
+            });
 
-        // Initial Load
-        window.onload = () => {
-            loadStudents();
-            loadDashboard();
-            populateStudentDropdown();
-        };
-    </script>
+            nextQuestionBtn.addEventListener('click', () => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < currentQuestions.length) {
+                    displayQuestion();
+                } else {
+                    endQuiz();
+                }
+            });
+
+            retakeQuizBtn.addEventListener('click', () => {
+                quizResults.style.display = 'none';
+                startQuizBtn.style.display = 'block';
+                tradeSelect.disabled = false;
+                subjectSelect.disabled = false;
+                timerDisplay.textContent = '';
+            });
+
+            function displayQuestion() {
+                const question = currentQuestions[currentQuestionIndex];
+                questionCounter.textContent = `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
+                questionText.textContent = currentLanguage === 'en' ? question.question_en : question.question_hi;
+                optionsContainer.innerHTML = '';
+
+                const options = currentLanguage === 'en' ? question.options_en : question.options_hi;
+                options.forEach((option, index) => {
+                    const optionBtn = document.createElement('button');
+                    optionBtn.classList.add('option-btn');
+                    optionBtn.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+                    optionBtn.addEventListener('click', () => checkAnswer(optionBtn, String.fromCharCode(65 + index)));
+                    optionsContainer.appendChild(optionBtn);
+                });
+
+                nextQuestionBtn.style.display = 'none';
+                optionsContainer.querySelectorAll('.option-btn').forEach(btn => btn.disabled = false);
+            }
+
+            function checkAnswer(selectedBtn, selectedAnswer) {
+                const question = currentQuestions[currentQuestionIndex];
+                optionsContainer.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+
+                if (selectedAnswer === question.answer) {
+                    selectedBtn.classList.add('correct');
+                    score++;
+                } else {
+                    selectedBtn.classList.add('wrong');
+                    // Highlight correct answer
+                    optionsContainer.querySelectorAll('.option-btn').forEach(btn => {
+                        if (btn.textContent.startsWith(question.answer)) {
+                            btn.classList.add('correct');
+                        }
+                    });
+                }
+                nextQuestionBtn.style.display = 'block';
+            }
+
+            function startTimer() {
+                let timeLeft = 60 * 10; // 10 minutes
+                timerDisplay.textContent = formatTime(timeLeft);
+                clearInterval(timerInterval);
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    timerDisplay.textContent = formatTime(timeLeft);
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        endQuiz();
+                    }
+                }, 1000);
+            }
+
+            function formatTime(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                return `Time: ${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+            }
+
+            function endQuiz() {
+                clearInterval(timerInterval);
+                quizArea.style.display = 'none';
+                quizResults.style.display = 'block';
+
+                const totalQuestions = currentQuestions.length;
+                const percentage = (score / totalQuestions) * 100;
+
+                totalQuestionsResult.textContent = totalQuestions;
+                correctAnswersResult.textContent = score;
+                percentageResult.textContent = percentage.toFixed(2);
+
+                if (percentage >= 80) {
+                    performanceMessage.textContent = 'Excellent! You have a strong understanding.';
+                    performanceMessage.style.color = '#22c55e';
+                } else if (percentage >= 50) {
+                    performanceMessage.textContent = 'Good effort! Keep practicing to improve.';
+                    performanceMessage.style.color = '#f59e0b';
+                } else {
+                    performanceMessage.textContent = 'Needs more practice. Review the concepts.';
+                    performanceMessage.style.color = '#ef4444';
+                }
+            }
+
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+
+            // Initial render for student management
+            renderStudents();
+        </script>
 </body>
 </html>
