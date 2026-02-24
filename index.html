@@ -531,6 +531,7 @@
         }
 
         // Mock Test Logic
+        let currentLanguage = 'en';
         let currentQuestionIndex = 0;
         let score = 0;
         let currentQuestions = [];
@@ -543,11 +544,11 @@
             const optionsContainer = document.getElementById('options-container');
             const nextQuestionBtn = document.getElementById('next-question-btn');
 
-            questionCounter.textContent = `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
-            questionText.textContent = question.question_en;
+            questionCounter.textContent = currentLanguage === 'en' ? `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}` : `प्रश्न ${currentQuestionIndex + 1} का ${currentQuestions.length}`;
+            questionText.textContent = currentLanguage === 'en' ? question.question_en : question.question_hi;
             optionsContainer.innerHTML = '';
 
-            const options = question.options_en;
+            const options = currentLanguage === 'en' ? question.options_en : question.options_hi;
             options.forEach((option, index) => {
                 const optionBtn = document.createElement('button');
                 optionBtn.classList.add('option-btn');
@@ -653,6 +654,21 @@
             const retakeQuizBtn = document.getElementById('retake-quiz-btn');
             const tradeSelect = document.getElementById('trade-select');
             const subjectSelect = document.getElementById('subject-select');
+            const langEnBtn = document.getElementById('lang-en');
+            const langHiBtn = document.getElementById('lang-hi');
+
+            function setLanguage(lang) {
+                currentLanguage = lang;
+                langEnBtn.classList.remove('active');
+                langHiBtn.classList.remove('active');
+                document.getElementById(`lang-${lang}`).classList.add('active');
+                if (document.getElementById('quiz-area').style.display === 'block') {
+                    displayQuestion();
+                }
+            }
+
+            langEnBtn.addEventListener('click', () => setLanguage('en'));
+            langHiBtn.addEventListener('click', () => setLanguage('hi'));
 
             startQuizBtn.addEventListener('click', () => {
                 const selectedTrade = tradeSelect.value;
