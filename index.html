@@ -531,6 +531,166 @@
         }
 
         // Mock Test Logic
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let currentQuestions = [];
+        let timerInterval;
+
+        function displayQuestion() {
+            const question = currentQuestions[currentQuestionIndex];
+            const questionCounter = document.getElementById('question-counter');
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const nextQuestionBtn = document.getElementById('next-question-btn');
+
+            questionCounter.textContent = `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
+            questionText.textContent = question.question_en;
+            optionsContainer.innerHTML = '';
+
+            const options = question.options_en;
+            options.forEach((option, index) => {
+                const optionBtn = document.createElement('button');
+                optionBtn.classList.add('option-btn');
+                optionBtn.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+                optionBtn.addEventListener('click', () => checkAnswer(optionBtn, String.fromCharCode(65 + index)));
+                optionsContainer.appendChild(optionBtn);
+            });
+
+            nextQuestionBtn.style.display = 'none';
+            optionsContainer.querySelectorAll('.option-btn').forEach(btn => btn.disabled = false);
+        }
+
+        function checkAnswer(selectedBtn, selectedAnswer) {
+            const question = currentQuestions[currentQuestionIndex];
+            const optionsContainer = document.getElementById('options-container');
+            const nextQuestionBtn = document.getElementById('next-question-btn');
+            
+            optionsContainer.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+
+            if (selectedAnswer === question.answer) {
+                selectedBtn.classList.add('correct');
+                score++;
+            } else {
+                selectedBtn.classList.add('wrong');
+                optionsContainer.querySelectorAll('.option-btn').forEach(btn => {
+                    if (btn.textContent.startsWith(question.answer)) {
+                        btn.classList.add('correct');
+                    }
+                });
+            }
+            nextQuestionBtn.style.display = 'block';
+        }
+
+        function endQuiz() {
+            clearInterval(timerInterval);
+            const quizArea = document.getElementById('quiz-area');
+            const quizResults = document.getElementById('quiz-results');
+            const startQuizBtn = document.getElementById('start-quiz-btn');
+            const tradeSelect = document.getElementById('trade-select');
+            const subjectSelect = document.getElementById('subject-select');
+            const timerDisplay = document.getElementById('timer');
+
+            quizArea.style.display = 'none';
+            quizResults.style.display = 'block';
+            startQuizBtn.style.display = 'block';
+            tradeSelect.disabled = false;
+            subjectSelect.disabled = false;
+            timerDisplay.textContent = '';
+
+            const totalQuestions = currentQuestions.length;
+            const percentage = (score / totalQuestions) * 100;
+
+            document.getElementById('total-questions-result').textContent = totalQuestions;
+            document.getElementById('correct-answers-result').textContent = score;
+            document.getElementById('percentage-result').textContent = percentage.toFixed(2);
+
+            const performanceMessage = document.getElementById('performance-message');
+            if (percentage >= 80) {
+                performanceMessage.textContent = 'Excellent! You have a strong understanding.';
+                performanceMessage.style.color = '#22c55e';
+            } else if (percentage >= 50) {
+                performanceMessage.textContent = 'Good effort! Keep practicing to improve.';
+                performanceMessage.style.color = '#f59e0b';
+            } else {
+                performanceMessage.textContent = 'Needs more practice. Review the concepts.';
+                performanceMessage.style.color = '#ef4444';
+            }
+        }
+
+        function startTimer() {
+            let timeLeft = 60 * 10; // 10 minutes
+            const timerDisplay = document.getElementById('timer');
+            timerDisplay.textContent = formatTime(timeLeft);
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = formatTime(timeLeft);
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    endQuiz();
+                }
+            }, 1000);
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `Time: ${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Quiz event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            const startQuizBtn = document.getElementById('start-quiz-btn');
+            const nextQuestionBtn = document.getElementById('next-question-btn');
+            const retakeQuizBtn = document.getElementById('retake-quiz-btn');
+            const tradeSelect = document.getElementById('trade-select');
+            const subjectSelect = document.getElementById('subject-select');
+
+            startQuizBtn.addEventListener('click', () => {
+                const selectedTrade = tradeSelect.value;
+                const selectedSubject = subjectSelect.value;
+                if (quizData[selectedTrade] && quizData[selectedTrade][selectedSubject]) {
+                    currentQuestions = shuffleArray([...quizData[selectedTrade][selectedSubject]]);
+                    currentQuestionIndex = 0;
+                    score = 0;
+                    document.getElementById('quiz-results').style.display = 'none';
+                    document.getElementById('quiz-area').style.display = 'block';
+                    startQuizBtn.style.display = 'none';
+                    tradeSelect.disabled = true;
+                    subjectSelect.disabled = true;
+                    startTimer();
+                    displayQuestion();
+                } else {
+                    alert('No questions available for the selected trade and subject.');
+                }
+            });
+
+            nextQuestionBtn.addEventListener('click', () => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < currentQuestions.length) {
+                    displayQuestion();
+                } else {
+                    endQuiz();
+                }
+            });
+
+            retakeQuizBtn.addEventListener('click', () => {
+                document.getElementById('quiz-results').style.display = 'none';
+                startQuizBtn.style.display = 'block';
+                tradeSelect.disabled = false;
+                subjectSelect.disabled = false;
+                document.getElementById('timer').textContent = '';
+            });
+        });
+
         const quizData = 
 {
     "Electrician": {
