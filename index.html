@@ -554,6 +554,8 @@
                 const activeBtn = document.querySelector(`.nav-btn[data-page="${pageId}"]`);
                 if (activeBtn) activeBtn.classList.add('active');
             }
+            // Scroll to top when page changes
+            window.scrollTo(0, 0);
         }
 
         document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -642,24 +644,29 @@
         }
 
         // Admit Card Logic
-        document.getElementById('admitCardForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Fill preview data
-            document.getElementById('p-admitName').textContent = document.getElementById('admitName').value;
-            document.getElementById('p-admitFather').textContent = document.getElementById('admitFather').value;
-            document.getElementById('p-admitDOB').textContent = document.getElementById('admitDOB').value;
-            document.getElementById('p-admitRoll').textContent = document.getElementById('admitRoll').value;
-            document.getElementById('p-admitTrade').textContent = document.getElementById('admitTrade').value;
-            document.getElementById('p-admitExamDate').textContent = document.getElementById('admitExamDate').value;
-            document.getElementById('p-admitExamTime').textContent = document.getElementById('admitExamTime').value;
-            document.getElementById('p-admitCenter').textContent = document.getElementById('admitCenter').value;
+        const admitCardForm = document.getElementById('admitCardForm');
+        if (admitCardForm) {
+            admitCardForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Fill preview data
+                document.getElementById('p-admitName').textContent = document.getElementById('admitName').value;
+                document.getElementById('p-admitFather').textContent = document.getElementById('admitFather').value;
+                document.getElementById('p-admitDOB').textContent = document.getElementById('admitDOB').value;
+                document.getElementById('p-admitRoll').textContent = document.getElementById('admitRoll').value;
+                document.getElementById('p-admitTrade').textContent = document.getElementById('admitTrade').value;
+                document.getElementById('p-admitExamDate').textContent = document.getElementById('admitExamDate').value;
+                document.getElementById('p-admitExamTime').textContent = document.getElementById('admitExamTime').value;
+                document.getElementById('p-admitCenter').textContent = document.getElementById('admitCenter').value;
 
-            // Show and Print
-            document.getElementById('admit-card-print').style.display = 'block';
-            window.print();
-            document.getElementById('admit-card-print').style.display = 'none';
-        });
+                // Use a small timeout to ensure the DOM updates before printing
+                setTimeout(() => {
+                    document.getElementById('admit-card-print').style.display = 'block';
+                    window.print();
+                    document.getElementById('admit-card-print').style.display = 'none';
+                }, 100);
+            });
+        }
 
         function recordPayment() {
             const studentId = document.getElementById('paymentStudent').value;
