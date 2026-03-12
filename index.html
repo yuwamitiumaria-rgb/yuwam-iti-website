@@ -99,11 +99,29 @@
         .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid #eee; }
         .score-display { font-size: 1.2rem; font-weight: bold; color: #1e40af; }
 
+        /* Admit Card Styles */
+        .admit-card-container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border: 2px solid #333; position: relative; }
+        .admit-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
+        .admit-logo { width: 80px; height: 80px; }
+        .admit-title { text-align: center; flex-grow: 1; }
+        .admit-title h2 { color: #1e40af; font-size: 1.5rem; margin-bottom: 5px; }
+        .admit-details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .admit-field { display: flex; border-bottom: 1px dashed #ccc; padding-bottom: 5px; }
+        .admit-label { font-weight: bold; width: 140px; color: #555; }
+        .admit-value { flex-grow: 1; color: #000; font-weight: 600; }
+        .admit-photo-box { width: 120px; height: 140px; border: 2px solid #333; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.8rem; background: #f9f9f9; }
+        .admit-instructions { margin-top: 20px; border-top: 1px solid #333; padding-top: 10px; }
+        .admit-instructions h4 { margin-bottom: 10px; text-decoration: underline; }
+        .admit-instructions ul { padding-left: 20px; font-size: 0.9rem; }
+        .admit-footer { margin-top: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .signature-box { text-align: center; width: 150px; }
+        .signature-line { border-top: 1px solid #000; margin-top: 40px; padding-top: 5px; font-weight: bold; }
+
         /* Print Styles */
         @media print {
             body * { visibility: hidden; }
-            #receipt-print, #receipt-print * { visibility: visible; }
-            #receipt-print { position: absolute; left: 0; top: 0; width: 100%; }
+            #receipt-print, #receipt-print *, #admit-card-print, #admit-card-print * { visibility: visible; }
+            #receipt-print, #admit-card-print { position: absolute; left: 0; top: 0; width: 100%; }
             .no-print { display: none !important; }
         }
 
@@ -139,6 +157,7 @@
         <li><a class="nav-btn" data-page="student-mgmt">👤 Student Mgmt</a></li>
         <li><a class="nav-btn" data-page="mock-test">📝 Mock Test</a></li>
         <li><a class="nav-btn" data-page="receipt">🧾 Receipt</a></li>
+        <li><a class="nav-btn" data-page="admit-card">🪪 Admit Card</a></li>
     </ul>
     
     <!-- HOME PAGE -->
@@ -418,6 +437,79 @@
         </div>
     </section>
 
+    <!-- ADMIT CARD PAGE -->
+    <section class="page-section no-print" id="admit-card">
+        <div class="container">
+            <h2 class="section-title">Generate Admit Card</h2>
+            <div class="card" style="max-width: 700px; margin: 0 auto;">
+                <form id="admitCardForm">
+                    <div class="grid">
+                        <div class="form-group"><label>Student Name *</label><input type="text" id="admitName" required placeholder="Full Name"></div>
+                        <div class="form-group"><label>Father's Name *</label><input type="text" id="admitFather" required placeholder="Father's Name"></div>
+                        <div class="form-group"><label>Date of Birth *</label><input type="date" id="admitDOB" required></div>
+                        <div class="form-group"><label>Roll Number *</label><input type="text" id="admitRoll" required placeholder="ITIXXXXX"></div>
+                        <div class="form-group"><label>Trade *</label>
+                            <select id="admitTrade" required>
+                                <option value="Electrician">Electrician</option>
+                                <option value="Fitter">Fitter</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label>Exam Date *</label><input type="date" id="admitExamDate" required></div>
+                        <div class="form-group"><label>Exam Time *</label><input type="time" id="admitExamTime" required></div>
+                        <div class="form-group"><label>Exam Center *</label><input type="text" id="admitCenter" required value="YUWAM PVT ITI UMARIA (CBT CENTER)"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Preview & Print Admit Card</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRINTABLE ADMIT CARD -->
+    <div id="admit-card-print" style="display: none; padding: 20px; font-family: 'Segoe UI', Arial, sans-serif;">
+        <div class="admit-card-container">
+            <div class="admit-header">
+                <img src="https://raw.githubusercontent.com/yuwamitiumaria-rgb/yuwam-iti-website/main/assets/logo.png" alt="ITI Logo" class="admit-logo" onerror="this.src='https://via.placeholder.com/80?text=ITI+LOGO'">
+                <div class="admit-title">
+                    <h2>YUWAM PRIVATE ITI UMARIA</h2>
+                    <p>Affiliated to NCVT, Govt. of India</p>
+                    <p style="font-weight: bold; margin-top: 5px; background: #1e40af; color: white; display: inline-block; padding: 2px 10px;">CBT EXAMINATION ADMIT CARD</p>
+                </div>
+                <div class="admit-photo-box">Affix Passport Size Photo</div>
+            </div>
+
+            <div class="admit-details-grid">
+                <div class="admit-field"><span class="admit-label">Student Name:</span><span class="admit-value" id="p-admitName"></span></div>
+                <div class="admit-field"><span class="admit-label">Roll Number:</span><span class="admit-value" id="p-admitRoll"></span></div>
+                <div class="admit-field"><span class="admit-label">Father's Name:</span><span class="admit-value" id="p-admitFather"></span></div>
+                <div class="admit-field"><span class="admit-label">Trade:</span><span class="admit-value" id="p-admitTrade"></span></div>
+                <div class="admit-field"><span class="admit-label">Date of Birth:</span><span class="admit-value" id="p-admitDOB"></span></div>
+                <div class="admit-field"><span class="admit-label">Exam Center:</span><span class="admit-value" id="p-admitCenter"></span></div>
+                <div class="admit-field"><span class="admit-label">Exam Date:</span><span class="admit-value" id="p-admitExamDate"></span></div>
+                <div class="admit-field"><span class="admit-label">Exam Time:</span><span class="admit-value" id="p-admitExamTime"></span></div>
+            </div>
+
+            <div class="admit-instructions">
+                <h4>IMPORTANT INSTRUCTIONS FOR CANDIDATES</h4>
+                <ul>
+                    <li>Candidates must bring this Admit Card and an Original ID Proof (Aadhar Card/Voter ID).</li>
+                    <li>Only **Black Ball Point Pen** is allowed for signing and rough work.</li>
+                    <li>Candidates must report to the exam center at least **15 minutes** before the exam time.</li>
+                    <li>No electronic devices like mobile phones, calculators, or smartwatches are allowed inside the hall.</li>
+                    <li>Maintain silence and discipline during the Computer Based Test (CBT).</li>
+                </ul>
+            </div>
+
+            <div class="admit-footer">
+                <div class="signature-box"><div class="signature-line">Candidate Signature</div></div>
+                <div class="signature-box"><div class="signature-line">Principal Signature</div></div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px; font-size: 0.8rem; color: #777; border-top: 1px solid #eee; padding-top: 5px;">
+                Generated by Yuwam ITI Digital Portal
+            </div>
+        </div>
+    </div>
+
     <!-- PRINTABLE RECEIPT -->
     <div id="receipt-print">
         <div style="text-align:center; border-bottom:2px solid #333; padding-bottom:10px; margin-bottom:20px;">
@@ -548,6 +640,26 @@
             document.getElementById('paymentDetails').style.display = studentId ? 'block' : 'none';
             document.getElementById('paymentDate').valueAsDate = new Date();
         }
+
+        // Admit Card Logic
+        document.getElementById('admitCardForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Fill preview data
+            document.getElementById('p-admitName').textContent = document.getElementById('admitName').value;
+            document.getElementById('p-admitFather').textContent = document.getElementById('admitFather').value;
+            document.getElementById('p-admitDOB').textContent = document.getElementById('admitDOB').value;
+            document.getElementById('p-admitRoll').textContent = document.getElementById('admitRoll').value;
+            document.getElementById('p-admitTrade').textContent = document.getElementById('admitTrade').value;
+            document.getElementById('p-admitExamDate').textContent = document.getElementById('admitExamDate').value;
+            document.getElementById('p-admitExamTime').textContent = document.getElementById('admitExamTime').value;
+            document.getElementById('p-admitCenter').textContent = document.getElementById('admitCenter').value;
+
+            // Show and Print
+            document.getElementById('admit-card-print').style.display = 'block';
+            window.print();
+            document.getElementById('admit-card-print').style.display = 'none';
+        });
 
         function recordPayment() {
             const studentId = document.getElementById('paymentStudent').value;
