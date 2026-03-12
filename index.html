@@ -119,10 +119,22 @@
 
         /* Print Styles */
         @media print {
-            body * { visibility: hidden; }
-            #receipt-print, #receipt-print *, #admit-card-print, #admit-card-print * { visibility: visible; }
-            #receipt-print, #admit-card-print { position: absolute; left: 0; top: 0; width: 100%; }
+            body { background: white !important; margin: 0 !important; padding: 0 !important; }
             .no-print { display: none !important; }
+            #receipt-print, #admit-card-print { 
+                display: block !important; 
+                position: absolute !important; 
+                left: 0 !important; 
+                top: 0 !important; 
+                width: 100% !important; 
+                margin: 0 !important;
+                padding: 0 !important;
+                visibility: visible !important;
+            }
+            #receipt-print *, #admit-card-print * {
+                visibility: visible !important;
+            }
+            .page-section, .navbar, .nav-menu, .footer { display: none !important; }
         }
 
         #receipt-print {
@@ -650,21 +662,27 @@
                 e.preventDefault();
                 
                 // Fill preview data
-                document.getElementById('p-admitName').textContent = document.getElementById('admitName').value;
-                document.getElementById('p-admitFather').textContent = document.getElementById('admitFather').value;
-                document.getElementById('p-admitDOB').textContent = document.getElementById('admitDOB').value;
-                document.getElementById('p-admitRoll').textContent = document.getElementById('admitRoll').value;
-                document.getElementById('p-admitTrade').textContent = document.getElementById('admitTrade').value;
-                document.getElementById('p-admitExamDate').textContent = document.getElementById('admitExamDate').value;
-                document.getElementById('p-admitExamTime').textContent = document.getElementById('admitExamTime').value;
-                document.getElementById('p-admitCenter').textContent = document.getElementById('admitCenter').value;
+                document.getElementById('p-admitName').innerText = document.getElementById('admitName').value;
+                document.getElementById('p-admitFather').innerText = document.getElementById('admitFather').value;
+                document.getElementById('p-admitDOB').innerText = document.getElementById('admitDOB').value;
+                document.getElementById('p-admitRoll').innerText = document.getElementById('admitRoll').value;
+                document.getElementById('p-admitTrade').innerText = document.getElementById('admitTrade').value;
+                document.getElementById('p-admitExamDate').innerText = document.getElementById('admitExamDate').value;
+                document.getElementById('p-admitExamTime').innerText = document.getElementById('admitExamTime').value;
+                document.getElementById('p-admitCenter').innerText = document.getElementById('admitCenter').value;
 
-                // Use a small timeout to ensure the DOM updates before printing
+                // Important: Show the print div before calling print
+                const printDiv = document.getElementById('admit-card-print');
+                printDiv.style.display = 'block';
+                
+                // Use a longer timeout for mobile/slower devices
                 setTimeout(() => {
-                    document.getElementById('admit-card-print').style.display = 'block';
                     window.print();
-                    document.getElementById('admit-card-print').style.display = 'none';
-                }, 100);
+                    // Keep it visible for a moment then hide
+                    setTimeout(() => {
+                        printDiv.style.display = 'none';
+                    }, 500);
+                }, 300);
             });
         }
 
