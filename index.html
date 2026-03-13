@@ -477,7 +477,11 @@
     </section>
 
     <!-- PRINTABLE ADMIT CARD -->
-    <div id="admit-card-print" style="display: none; padding: 20px; font-family: 'Segoe UI', Arial, sans-serif;">
+    <div id="admit-card-print" style="display: none; padding: 20px; font-family: 'Segoe UI', Arial, sans-serif; background: #f4f4f4; min-height: 100vh;">
+        <div class="no-print" style="text-align: center; margin-bottom: 20px;">
+            <button class="btn btn-success" onclick="window.print()" style="margin-right: 10px;">🖨️ Print Now</button>
+            <button class="btn btn-danger" onclick="document.getElementById('admit-card-print').style.display='none'">❌ Close Preview</button>
+        </div>
         <div class="admit-card-container">
             <div class="admit-header">
                 <img src="https://raw.githubusercontent.com/yuwamitiumaria-rgb/yuwam-iti-website/main/assets/logo.png" alt="ITI Logo" class="admit-logo" onerror="this.src='https://via.placeholder.com/80?text=ITI+LOGO'">
@@ -671,18 +675,17 @@
                 document.getElementById('p-admitExamTime').innerText = document.getElementById('admitExamTime').value;
                 document.getElementById('p-admitCenter').innerText = document.getElementById('admitCenter').value;
 
-                // Important: Show the print div before calling print
+                // Show the preview area
                 const printDiv = document.getElementById('admit-card-print');
                 printDiv.style.display = 'block';
                 
-                // Use a longer timeout for mobile/slower devices
+                // Scroll to the preview area
+                printDiv.scrollIntoView({ behavior: 'smooth' });
+
+                // Try to trigger print automatically, but also provide a manual button
                 setTimeout(() => {
                     window.print();
-                    // Keep it visible for a moment then hide
-                    setTimeout(() => {
-                        printDiv.style.display = 'none';
-                    }, 500);
-                }, 300);
+                }, 500);
             });
         }
 
