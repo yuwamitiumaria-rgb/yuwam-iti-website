@@ -121,7 +121,12 @@
         @media print {
             body { background: white !important; margin: 0 !important; padding: 0 !important; }
             .no-print { display: none !important; }
-            #receipt-print, #admit-card-print { 
+            
+            /* Hide both by default during print */
+            #receipt-print, #admit-card-print { display: none !important; visibility: hidden !important; }
+            
+            /* Show ONLY the one that is currently active (display: block) in normal view */
+            #receipt-print.printing, #admit-card-print.printing { 
                 display: block !important; 
                 position: absolute !important; 
                 left: 0 !important; 
@@ -131,7 +136,7 @@
                 padding: 0 !important;
                 visibility: visible !important;
             }
-            #receipt-print *, #admit-card-print * {
+            #receipt-print.printing *, #admit-card-print.printing * {
                 visibility: visible !important;
             }
             .page-section, .navbar, .nav-menu, .footer { display: none !important; }
@@ -679,10 +684,14 @@
                 const printDiv = document.getElementById('admit-card-print');
                 printDiv.style.display = 'block';
                 
+                // Add 'printing' class to only this element
+                document.getElementById('receipt-print').classList.remove('printing');
+                printDiv.classList.add('printing');
+                
                 // Scroll to the preview area
                 printDiv.scrollIntoView({ behavior: 'smooth' });
 
-                // Try to trigger print automatically, but also provide a manual button
+                // Try to trigger print automatically
                 setTimeout(() => {
                     window.print();
                 }, 500);
@@ -708,9 +717,15 @@
             document.getElementById('r-amount').textContent = payment.amount;
             document.getElementById('r-total').textContent = payment.amount;
             
-            document.getElementById('receipt-print').style.display = 'block';
+            // Fix overlapping: mark as printing
+            const rPrint = document.getElementById('receipt-print');
+            document.getElementById('admit-card-print').classList.remove('printing');
+            rPrint.classList.add('printing');
+            
+            rPrint.style.display = 'block';
             window.print();
-            document.getElementById('receipt-print').style.display = 'none';
+            rPrint.style.display = 'none';
+            rPrint.classList.remove('printing');
         }
 
         // Mock Test Logic
