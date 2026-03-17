@@ -99,34 +99,37 @@
         .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid #eee; }
         .score-display { font-size: 1.2rem; font-weight: bold; color: #1e40af; }
 
-        /* Admit Card Styles */
-        .admit-card-container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border: 2px solid #333; position: relative; }
-        .admit-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
-        .admit-logo { width: 80px; height: 80px; }
-        .admit-title { text-align: center; flex-grow: 1; }
-        .admit-title h2 { color: #1e40af; font-size: 1.5rem; margin-bottom: 5px; }
+        /* Admit Card & Job Letter Styles */
+        .admit-card-container, .job-letter-container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0,0,0,0.1); position: relative; color: #000; }
+        .admit-header, .job-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #1e40af; padding-bottom: 15px; margin-bottom: 25px; }
+        .admit-logo, .job-logo { width: 90px; height: 90px; }
+        .admit-title, .job-title { text-align: center; flex-grow: 1; }
+        .admit-title h2, .job-title h2 { color: #1e40af; font-size: 1.8rem; margin-bottom: 5px; text-transform: uppercase; }
         .admit-details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .admit-field { display: flex; border-bottom: 1px dashed #ccc; padding-bottom: 5px; }
-        .admit-label { font-weight: bold; width: 140px; color: #555; }
-        .admit-value { flex-grow: 1; color: #000; font-weight: 600; }
+        .admit-field, .job-field { display: flex; border-bottom: 1px dashed #ccc; padding-bottom: 5px; margin-bottom: 10px; }
+        .admit-label, .job-label { font-weight: bold; width: 150px; color: #333; }
+        .admit-value, .job-value { flex-grow: 1; color: #000; font-weight: 600; }
         .admit-photo-box { width: 120px; height: 140px; border: 2px solid #333; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.8rem; background: #f9f9f9; }
-        .admit-instructions { margin-top: 20px; border-top: 1px solid #333; padding-top: 10px; }
-        .admit-instructions h4 { margin-bottom: 10px; text-decoration: underline; }
-        .admit-instructions ul { padding-left: 20px; font-size: 0.9rem; }
-        .admit-footer { margin-top: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
-        .signature-box { text-align: center; width: 150px; }
-        .signature-line { border-top: 1px solid #000; margin-top: 40px; padding-top: 5px; font-weight: bold; }
+        .admit-instructions, .job-conditions { margin-top: 25px; border-top: 1px solid #eee; padding-top: 15px; }
+        .admit-instructions h4, .job-conditions h4 { margin-bottom: 12px; color: #1e40af; text-transform: uppercase; font-size: 1.1rem; }
+        .admit-instructions ul, .job-conditions ul { padding-left: 20px; font-size: 0.95rem; }
+        .admit-instructions li, .job-conditions li { margin-bottom: 8px; }
+        .admit-footer, .job-footer { margin-top: 50px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .signature-box { text-align: center; width: 180px; }
+        .signature-line { border-top: 1px solid #000; margin-top: 45px; padding-top: 8px; font-weight: bold; font-size: 0.9rem; }
+        .job-letter-content { font-size: 1rem; line-height: 1.8; text-align: justify; margin: 20px 0; }
+        .job-letter-date-ref { display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: bold; }
 
         /* Print Styles */
         @media print {
             body { background: white !important; margin: 0 !important; padding: 0 !important; }
             .no-print { display: none !important; }
             
-            /* Hide both by default during print */
-            #receipt-print, #admit-card-print { display: none !important; visibility: hidden !important; }
+            /* Hide all by default during print */
+            #receipt-print, #admit-card-print, #job-letter-print { display: none !important; visibility: hidden !important; }
             
             /* Show ONLY the one that is currently active (display: block) in normal view */
-            #receipt-print.printing, #admit-card-print.printing { 
+            #receipt-print.printing, #admit-card-print.printing, #job-letter-print.printing { 
                 display: block !important; 
                 position: absolute !important; 
                 left: 0 !important; 
@@ -135,8 +138,11 @@
                 margin: 0 !important;
                 padding: 0 !important;
                 visibility: visible !important;
+                background: white !important;
+                box-shadow: none !important;
+                border: none !important;
             }
-            #receipt-print.printing *, #admit-card-print.printing * {
+            #receipt-print.printing *, #admit-card-print.printing *, #job-letter-print.printing * {
                 visibility: visible !important;
             }
             .page-section, .navbar, .nav-menu, .footer { display: none !important; }
@@ -175,6 +181,7 @@
         <li><a class="nav-btn" data-page="mock-test">📝 Mock Test</a></li>
         <li><a class="nav-btn" data-page="receipt">🧾 Receipt</a></li>
         <li><a class="nav-btn" data-page="admit-card">🪪 Admit Card</a></li>
+        <li><a class="nav-btn" data-page="job-letter">💼 Job Letter</a></li>
     </ul>
     
     <!-- HOME PAGE -->
@@ -531,6 +538,90 @@
         </div>
     </div>
 
+    <!-- JOB LETTER PAGE -->
+    <section class="page-section no-print" id="job-letter">
+        <div class="container">
+            <h2 class="section-title">💼 Job Appointment Letter</h2>
+            <div class="card" style="max-width: 800px; margin: 0 auto;">
+                <form id="jobLetterForm">
+                    <div class="grid">
+                        <div class="form-group"><label>Employee Name *</label><input type="text" id="jobEmpName" required placeholder="e.g. Rahul Kumar"></div>
+                        <div class="form-group"><label>Father's Name *</label><input type="text" id="jobFatherName" required placeholder="e.g. Shri Rajesh Kumar"></div>
+                        <div class="form-group"><label>Designation *</label><input type="text" id="jobDesignation" required placeholder="e.g. Trade Instructor"></div>
+                        <div class="form-group"><label>Qualification *</label><input type="text" id="jobQualification" required placeholder="e.g. Diploma in Electrical"></div>
+                        <div class="form-group"><label>Salary (Monthly) *</label><input type="text" id="jobSalary" required placeholder="e.g. 15,000/-"></div>
+                        <div class="form-group"><label>Joining Date *</label><input type="date" id="jobJoinDate" required></div>
+                        <div class="form-group" style="grid-column: span 2;"><label>Full Address *</label><textarea id="jobAddress" required placeholder="Complete residential address"></textarea></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Generate & Print Job Letter</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRINTABLE JOB LETTER -->
+    <div id="job-letter-print" style="display: none; padding: 20px; font-family: 'Times New Roman', serif; background: #f4f4f4; min-height: 100vh;">
+        <div class="no-print" style="text-align: center; margin-bottom: 20px;">
+            <button class="btn btn-success" onclick="window.print()" style="margin-right: 10px;">🖨️ Print Now</button>
+            <button class="btn btn-danger" onclick="document.getElementById('job-letter-print').style.display='none'">❌ Close Preview</button>
+        </div>
+        <div class="job-letter-container">
+            <div class="job-header">
+                <img src="https://raw.githubusercontent.com/yuwamitiumaria-rgb/yuwam-iti-website/main/assets/logo.png" alt="ITI Logo" class="job-logo" onerror="this.src='https://via.placeholder.com/90?text=ITI+LOGO'">
+                <div class="job-title">
+                    <h2>YUWAM PRIVATE ITI UMARIA</h2>
+                    <p>Near RC School, Umaria, Madhya Pradesh - 484661</p>
+                    <p>Affiliated to NCVT, Govt. of India | MIS Code: PR23000XXX</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h3 style="text-decoration: underline; font-size: 1.4rem;">LETTER OF APPOINTMENT</h3>
+            </div>
+
+            <div class="job-letter-date-ref">
+                <span>Ref No: YITI/APPT/<span id="p-jobYear"></span>/<span id="p-jobRef"></span></span>
+                <span>Date: <span id="p-jobDate"></span></span>
+            </div>
+
+            <div class="job-letter-content">
+                <p>To,<br><b>Mr./Ms. <span id="p-jobEmpName"></span></b><br>
+                S/O / D/O: <span id="p-jobFatherName"></span><br>
+                Address: <span id="p-jobAddress"></span></p>
+
+                <p style="margin-top: 20px;"><b>Subject: Appointment for the post of <span id="p-jobDesignation"></span></b></p>
+
+                <p>Dear <span id="p-jobEmpName1"></span>,</p>
+                <p>With reference to your application and subsequent interview, we are pleased to appoint you as <b><span id="p-jobDesignation1"></span></b> at <b>YUWAM PRIVATE ITI UMARIA</b> under the following terms and conditions:</p>
+            </div>
+
+            <div class="job-conditions">
+                <h4>Terms & Conditions of Employment:</h4>
+                <ul>
+                    <li><b>Position:</b> You will be designated as <span id="p-jobDesignation2"></span>.</li>
+                    <li><b>Remuneration:</b> Your consolidated monthly salary will be <b>₹<span id="p-jobSalary"></span></b>.</li>
+                    <li><b>Joining Date:</b> You are required to join your duties on or before <b><span id="p-jobJoinDate"></span></b>.</li>
+                    <li><b>Probation:</b> You will be on a probation period of 6 months.</li>
+                    <li><b>Duties:</b> You shall perform your duties with full dedication and maintain the academic standards of the institute.</li>
+                    <li><b>Termination:</b> Either party can terminate this agreement by giving one month's notice or one month's salary in lieu thereof.</li>
+                    <li><b>Confidentiality:</b> You shall maintain strict confidentiality regarding institute data and student records.</li>
+                </ul>
+            </div>
+
+            <p style="margin-top: 30px;">We welcome you to the Yuwam ITI family and wish you a successful career with us.</p>
+
+            <div class="job-footer">
+                <div class="signature-box">
+                    <div class="signature-line">Employee Signature</div>
+                </div>
+                <div class="signature-box">
+                    <p>For, <b>Yuwam Pvt ITI Umaria</b></p>
+                    <div class="signature-line">Authorized Signatory / Director</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- PRINTABLE RECEIPT -->
     <div id="receipt-print">
         <div style="text-align:center; border-bottom:2px solid #333; padding-bottom:10px; margin-bottom:20px;">
@@ -669,8 +760,6 @@
         if (admitCardForm) {
             admitCardForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                
-                // Fill preview data
                 document.getElementById('p-admitName').innerText = document.getElementById('admitName').value;
                 document.getElementById('p-admitFather').innerText = document.getElementById('admitFather').value;
                 document.getElementById('p-admitDOB').innerText = document.getElementById('admitDOB').value;
@@ -680,21 +769,53 @@
                 document.getElementById('p-admitExamTime').innerText = document.getElementById('admitExamTime').value;
                 document.getElementById('p-admitCenter').innerText = document.getElementById('admitCenter').value;
 
-                // Show the preview area
                 const printDiv = document.getElementById('admit-card-print');
                 printDiv.style.display = 'block';
                 
-                // Add 'printing' class to only this element
+                // Remove printing class from others
                 document.getElementById('receipt-print').classList.remove('printing');
+                document.getElementById('job-letter-print').classList.remove('printing');
                 printDiv.classList.add('printing');
                 
-                // Scroll to the preview area
                 printDiv.scrollIntoView({ behavior: 'smooth' });
+                setTimeout(() => { window.print(); }, 500);
+            });
+        }
 
-                // Try to trigger print automatically
-                setTimeout(() => {
-                    window.print();
-                }, 500);
+        // Job Letter Logic
+        const jobLetterForm = document.getElementById('jobLetterForm');
+        if (jobLetterForm) {
+            jobLetterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const empName = document.getElementById('jobEmpName').value;
+                const designation = document.getElementById('jobDesignation').value;
+                const today = new Date();
+                
+                document.getElementById('p-jobEmpName').innerText = empName;
+                document.getElementById('p-jobEmpName1').innerText = empName;
+                document.getElementById('p-jobFatherName').innerText = document.getElementById('jobFatherName').value;
+                document.getElementById('p-jobDesignation').innerText = designation;
+                document.getElementById('p-jobDesignation1').innerText = designation;
+                document.getElementById('p-jobDesignation2').innerText = designation;
+                document.getElementById('p-jobSalary').innerText = document.getElementById('jobSalary').value;
+                document.getElementById('p-jobJoinDate').innerText = document.getElementById('jobJoinDate').value;
+                document.getElementById('p-jobAddress').innerText = document.getElementById('jobAddress').value;
+                
+                document.getElementById('p-jobDate').innerText = today.toLocaleDateString('en-GB');
+                document.getElementById('p-jobYear').innerText = today.getFullYear();
+                document.getElementById('p-jobRef').innerText = Math.floor(1000 + Math.random() * 9000);
+
+                const printDiv = document.getElementById('job-letter-print');
+                printDiv.style.display = 'block';
+                
+                // Remove printing class from others
+                document.getElementById('receipt-print').classList.remove('printing');
+                document.getElementById('admit-card-print').classList.remove('printing');
+                printDiv.classList.add('printing');
+                
+                printDiv.scrollIntoView({ behavior: 'smooth' });
+                setTimeout(() => { window.print(); }, 500);
             });
         }
 
@@ -720,6 +841,7 @@
             // Fix overlapping: mark as printing
             const rPrint = document.getElementById('receipt-print');
             document.getElementById('admit-card-print').classList.remove('printing');
+            document.getElementById('job-letter-print').classList.remove('printing');
             rPrint.classList.add('printing');
             
             rPrint.style.display = 'block';
