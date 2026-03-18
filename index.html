@@ -156,6 +156,69 @@
             margin: 20px auto;
             background: white;
         }
+
+        /* Music Player Styles */
+        .music-player-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            border-radius: 50px;
+            padding: 12px 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .music-player-widget:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.4);
+        }
+        .music-player-widget button {
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: transform 0.2s;
+        }
+        .music-player-widget button:hover {
+            transform: scale(1.1);
+        }
+        .music-player-widget .song-title {
+            font-weight: bold;
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .music-player-widget .song-artist {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        @media (max-width: 768px) {
+            .music-player-widget {
+                bottom: 10px;
+                right: 10px;
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+            .music-player-widget button {
+                width: 32px;
+                height: 32px;
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -167,6 +230,20 @@
             </div>
         </div>
     </div>
+
+    <!-- MUSIC PLAYER WIDGET -->
+    <div class="music-player-widget no-print" id="musicPlayer">
+        <div>
+            <div class="song-title">🇮🇳 Vande Matram</div>
+            <div class="song-artist">Patriotic Music</div>
+        </div>
+        <button id="musicPlayBtn" onclick="toggleMusic()">▶️</button>
+    </div>
+
+    <!-- HIDDEN AUDIO ELEMENT -->
+    <audio id="patrioticAudio" style="display: none;">
+        <source src="https://cdn.pixabay.com/audio/2024/11/25/audio_ab33286c1c.mp3" type="audio/mpeg">
+    </audio>
     
     <!-- NAVIGATION MENU -->
     <ul class="nav-menu no-print">
@@ -688,6 +765,39 @@
                 showPage(pageId);
             });
         });
+
+        // Music Player Logic
+        let isPlaying = false;
+        const audio = document.getElementById('patrioticAudio');
+        const playBtn = document.getElementById('musicPlayBtn');
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                playBtn.textContent = '▶️';
+                isPlaying = false;
+            } else {
+                audio.play().catch(e => console.log('Autoplay blocked:', e));
+                playBtn.textContent = '⏸️';
+                isPlaying = true;
+            }
+        }
+
+        // Update button when audio ends
+        audio.addEventListener('ended', function() {
+            playBtn.textContent = '▶️';
+            isPlaying = false;
+        });
+
+        // Auto-play on first user interaction (click anywhere on page)
+        document.addEventListener('click', function autoPlayOnce() {
+            if (!isPlaying) {
+                audio.play().catch(e => console.log('Autoplay blocked:', e));
+                playBtn.textContent = '⏸️';
+                isPlaying = true;
+                document.removeEventListener('click', autoPlayOnce);
+            }
+        }, { once: true });
 
         // Student Management
         let students = JSON.parse(localStorage.getItem('students')) || [];
