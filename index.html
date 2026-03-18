@@ -234,15 +234,16 @@
     <!-- MUSIC PLAYER WIDGET -->
     <div class="music-player-widget no-print" id="musicPlayer">
         <div>
-            <div class="song-title">🇮🇳 Vande Matram</div>
-            <div class="song-artist">Patriotic Music</div>
+            <div class="song-title">🇮🇳 National Anthem</div>
+            <div class="song-artist">Jana Gana Mana</div>
         </div>
         <button id="musicPlayBtn" onclick="toggleMusic()">▶️</button>
     </div>
 
     <!-- HIDDEN AUDIO ELEMENT -->
-    <audio id="patrioticAudio" style="display: none;">
-        <source src="https://cdn.pixabay.com/audio/2024/11/25/audio_ab33286c1c.mp3" type="audio/mpeg">
+    <audio id="patrioticAudio" style="display: none;" preload="auto">
+        <source src="https://upload.wikimedia.org/wikipedia/commons/9/94/Jana_Gana_Mana_instrumental.ogg" type="audio/ogg">
+        <source src="https://www.navyband.navy.mil/music/anthems/india.mp3" type="audio/mpeg">
     </audio>
     
     <!-- NAVIGATION MENU -->
@@ -777,9 +778,15 @@
                 playBtn.textContent = '▶️';
                 isPlaying = false;
             } else {
-                audio.play().catch(e => console.log('Autoplay blocked:', e));
-                playBtn.textContent = '⏸️';
-                isPlaying = true;
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        playBtn.textContent = '⏸️';
+                        isPlaying = true;
+                    }).catch(error => {
+                        console.log('Playback failed:', error);
+                    });
+                }
             }
         }
 
@@ -789,15 +796,26 @@
             isPlaying = false;
         });
 
-        // Auto-play on first user interaction (click anywhere on page)
-        document.addEventListener('click', function autoPlayOnce() {
+        // Auto-play on first user interaction (click or scroll)
+        const startAudio = () => {
             if (!isPlaying) {
-                audio.play().catch(e => console.log('Autoplay blocked:', e));
-                playBtn.textContent = '⏸️';
-                isPlaying = true;
-                document.removeEventListener('click', autoPlayOnce);
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        playBtn.textContent = '⏸️';
+                        isPlaying = true;
+                        // Remove listeners after success
+                        window.removeEventListener('click', startAudio);
+                        window.removeEventListener('touchstart', startAudio);
+                        window.removeEventListener('scroll', startAudio);
+                    }).catch(e => console.log('Autoplay blocked, waiting for more interaction.'));
+                }
             }
-        }, { once: true });
+        };
+
+        window.addEventListener('click', startAudio);
+        window.addEventListener('touchstart', startAudio);
+        window.addEventListener('scroll', startAudio, { once: true });
 
         // Student Management
         let students = JSON.parse(localStorage.getItem('students')) || [];
